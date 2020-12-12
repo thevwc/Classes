@@ -61,10 +61,12 @@ hr {
 .parent {
     display:grid;
     width:100%;
-    grid-template-rows: 30px 40px 200px 40px 200px 200px;
+    grid-template-rows: 30px 40px 30px 40px 150px 40px 150px 150px 150px;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:"titleArea              versionArea"
                         "selectMemberArea       selectMemberArea"
+                        "memberNameIDArea       memberNameIDArea"
+                        "courseTermArea         courseTermArea"
                         "coursesTakenArea       coursesTakenArea"
                         "courseListArea         courseListArea"
                         "courseOfferingsArea    courseOfferingsArea" 
@@ -108,8 +110,18 @@ hr {
     grid-area: selectMemberArea;
     background-color: beige;
 }
+.memberNameAndID {
+    grid-area: memberNameIDArea;
+    background-color: brown;
+    color:white;
+}
 .hdgLinks {
     margin:0 auto;
+}
+.courseTerms {
+    grid-area: courseTermArea;
+    width:100%;
+    background-color: navajowhite;
 }
 .coursesTaken {
     grid-area: coursesTakenArea;

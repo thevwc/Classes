@@ -178,7 +178,13 @@ class CourseEnrollee(db.Model):
     Prerequisite_Met_By = db.Column(db.String(50))
     Registered_By = db.Column(db.String(6))
 
-  
+class Term(db.Model):
+    __tablename__ = 'tblValid_Course_Terms'
+    __table_args__ = {"schema": "dbo"}
+    Course_Term = db.Column(db.String(30),primary_key=True)
+    Order_Of_Terms = db.Column(db.Integer)
+    Allow_Enrollment = db.Column(db.Boolean)
+
 class ShopName(db.Model):
     __tablename__ = 'tblShop_Names'
     __table_args__ = {"schema": "dbo"}
