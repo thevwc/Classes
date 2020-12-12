@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}CLASSES{% endblock title %}
+{% block styles %}
+    {{super()}}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/classes.css') }}">
+   
+{% endblock %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">   
+
+{% block app_content %}
+<!-- <form id=waitListFormID method='POST' action="/updateWaitList">  -->
+<div class="parent">
+
+    <div class="title">
+        <h4>CLASSES</h4>
+    </div> 
+    <div class="version">
+        <h5>ver. Dec 12, 2020</h5> 
+    </div>    
+
+    <div class="selectMember">
+        <select id="selectpicker" class='selectpicker' title='Find a member ...' data-live-search=true data-live-search-style="contains" data-width='auto'>
+            {% for nme in memberArray %}
+                <option  class="optName" value='{{nme}}'>{{ nme }}</option>
+            {% endfor %}
+        </select>
+    </div> 
+        
+    <div class="coursesTaken">
+        COURSES TAKEN
+    </div>
+
+    <div class="selectCourse">
+        <select id="selectCourse" class='selectpicker' title='Find a course ...' data-live-search=true data-live-search-style="contains" data-width='auto'>
+            {% for course in courseArray %}
+                <option  class="optName" value='{{course}}'>{{ course }}</option>
+            {% endfor %}
+        </select>
+    </div> 
+   
+    <div class="courseOfferings">
+        COURSE OFFERINGS
+    </div>
+
+    <div class="enroll">
+        ENROLL
+    </div>
+
+    <div class="fees">
+        FEES
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {{super()}}
+    <script src="{{ url_for('static', filename='js/classes.js') }}"> </script>
+    <!-- <script type="text/javascript">
+        $(document).ready(function(){
+        $('.selectpicker').selectpicker('refresh');
+       });
+    </script> -->
+{% endblock %}
+        

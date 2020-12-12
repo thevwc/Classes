@@ -25,8 +25,12 @@ cancelBtn.style.display='none'
 saveBtn.style.display='none'
 
 // DEFINE EVENT LISTENERS
-document.getElementById("selectpicker").addEventListener("change",memberSelectedRtn)
-document.getElementById("selectpicker").addEventListener("click",memberSelectedRtn)
+document.getElementById("selectMember").addEventListener("change",memberSelectedRtn)
+document.getElementById("selectMember").addEventListener("click",memberSelectedRtn)
+document.getElementById("selectCourse").addEventListener("change",courseSelectedRtn)
+document.getElementById("selectCourse").addEventListener("click",courseSelectedRtn)
+
+
 applicant.addEventListener("change",applicantDataChanged)
 applicationStatus.addEventListener("change",applicantStatusDataChanged)
 

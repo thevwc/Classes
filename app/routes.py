@@ -3,9 +3,9 @@ from flask import session, render_template, flash, redirect, url_for, request, j
 from flask_wtf import FlaskForm
 from flask_bootstrap import Bootstrap
 from werkzeug.urls import url_parse
-from app.models import ShopName, Member, MemberActivity, MonitorSchedule, MonitorScheduleTransaction,\
-MonitorWeekNote, CoordinatorsSchedule, ControlVariables, NotesToMembers, MemberTransactions,\
-DuesPaidYears, WaitList, KeysTable
+from app.models import ShopName, Member, Course,CourseOffering,CourseEnrollee,\
+ControlVariables, MemberTransactions
+
 from app import app
 from app import db
 from sqlalchemy import func, case, desc, extract, select, update, text
@@ -42,65 +42,81 @@ def logChange(staffID,colName,memberID,newData,origData):
 @app.route('/', defaults={'villageID':None})
 @app.route('/index/', defaults={'villageID':None})
 @app.route('/index/<villageID>/')
-@app.route("/waitlist",defaults={'villageID':None})
-@app.route("/waitlist/<villageID>")
-def waitlist(villageID):
-    # GATHER DATA FOR NEW WAIT LIST APPLICATION FORM
+@app.route("/classes",defaults={'villageID':None})
+@app.route("/classes/<villageID>")
+def index(villageID):
+    # GET TODAY'S DATE
     todays_date = date.today()
     todaySTR = todays_date.strftime('%m-%d-%Y')
+
     # PREPARE LIST OF MEMBER NAMES AND VILLAGE IDs
     # BUILD ARRAY OF NAMES FOR DROPDOWN LIST OF MEMBERS
-    applicantArray=[]
-    sqlSelect = "SELECT LastName, FirstName, MemberID FROM tblMembershipWaitingList "
-    sqlSelect += "ORDER BY LastName, FirstName "
+    memberArray=[]
+    sqlSelect = "SELECT Last_Name, First_Name, Nickname, Member_ID FROM tblMember_Data "
+    sqlSelect += "ORDER BY Last_Name, First_Name "
     try:
         nameList = db.engine.execute(sqlSelect)
     except Exception as e:
         flash("Could not retrieve member list.","danger")
-        return 'ERROR in wait list function.'
+        return 'ERROR in member list function.'
     position = 0
     if nameList == None:
-        flash('There is no one on the waiting list.','info')
-        return render_template("waitlist.html",applicant="",applicantArray="")
+        flash('There is no one in the member table.','danger')
+        return render_template("classes.html",members="",memberArray="")
 
     # NEED TO PLACE NAME IN AN ARRAY BECAUSE OF NEED TO CONCATENATE 
     for n in nameList:
         position += 1
-        if n.FirstName == None:
-            lastFirst = n.LastName
-        else:
-            lastFirst = n.LastName + ', ' + n.FirstName + ' (' + n.MemberID + ')'
-        applicantArray.append(lastFirst)
+        name = n.Last_Name + ', ' + n.First_Name
+        if n.Nickname != None:
+            name += ' (' + n.Nickname + ')'
+        name += ' [' + n.Member_ID + ']'
         
-    # IF A VILLAGE ID WAS NOT PASSED IN, DISPLAY THE waitlist.html FORM WITHOUT DATA
+        memberArray.append(name)
+        
+    # BUILD COURSE LIST
+    courseArray = []
+    courses = db.session.query(Course).order_by(Course.Course_Number).all()
+    if courses == None:
+        flash('There are no courses to list.','danger')
+        return render_template("classes.html",memberID="",memberArray=memberArray,courseArray='')
+    
+    for c in courses:
+        #print(c.Course_Number,c.Course_Title)
+        courseLine = c.Course_Number + ' - ' + c.Course_Title
+        print(courseLine)
+        courseArray.append(courseLine)
+
+    # IF A VILLAGE ID WAS NOT PASSED IN, DISPLAY THE classes.html FORM WITHOUT DATA
     if villageID == None:
-        return render_template("waitlist.html",applicant="",applicantArray=applicantArray)
+         return render_template("classes.html",memberID="",memberArray=memberArray,courseArray=courseArray)
     
     # IF A VILLAGE ID WAS PASSED IN ...
-    # DISPLAY THE CORRESPONDING WAITLIST DATA FOR THAT VILLAGE ID
-    applicant = db.session.query(WaitList).filter(WaitList.MemberID == villageID).first()
+    # DISPLAY THE CORRESPONDING MEMBER DATA FOR THAT VILLAGE ID
+    # applicant = db.session.query(classes).filter(classes.MemberID == villageID).first()
     
-    if (applicant == None):
-        msg = "No record for applicant with village ID " + villageID
-        flash(msg,"info")
-        return render_template("waitlist.html",applicant='',applicantArray=applicantArray,todaySTR=todaySTR)
-    else:
+    # if (applicant == None):
+    #     msg = "No record for applicant with village ID " + villageID
+    #     flash(msg,"info")
+    #     return render_template("classes.html",applicant='',memberArray=memberArray,todaySTR=todaySTR)
+    # else:
         # DETERMINE APPLICANTS PLACE ON WAITING LIST
         # RETURN COUNT OF # OF RECORDS BEFORE THEIR ID WHEN ORDERED BY ID AND FILTERED BY PlannedCertificationDate is null and NoLongerInterested isnull 
-        placeOnList = 0 
-        placeOnList = db.session.query(func.count(WaitList.MemberID)).filter(WaitList.PlannedCertificationDate == None) \
-            .filter(WaitList.NoLongerInterested == None) \
-            .filter(WaitList.id < applicant.id) \
-            .scalar() 
-        return render_template("waitlist.html",applicant=applicant,applicantArray=applicantArray,todaySTR=todaySTR,placeOnList=placeOnList)
-    
+        # placeOnList = 0 
+        # placeOnList = db.session.query(func.count(classes.MemberID)).filter(classes.PlannedCertificationDate == None) \
+        #     .filter(classes.NoLongerInterested == None) \
+        #     .filter(classes.id < applicant.id) \
+        #     .scalar() 
+    return render_template("classes.html",memberID=memberID,memberArray=memberArray,\
+    todaySTR=todaySTR,courseArray=courseArray)
 
-@app.route("/updateWaitList", methods=('GET','POST'))
-def updateWaitList():
+
+@app.route("/updateclasses", methods=('GET','POST'))
+def updateclasses():
     # POST REQUEST; PROCESS WAIT LIST APPLICATION, ADD TO MEMBER_DATA, INSERT TRANSACTION ('ADD')
     memberID = request.form.get('memberID')
-    if request.form.get('waitlist') == 'CANCEL':
-        return redirect(url_for('waitlist',villageID=memberID))
+    if request.form.get('classes') == 'CANCEL':
+        return redirect(url_for('classes',villageID=memberID))
 
    # RETRIEVE FORM VALUES
     expireDate = request.form.get('expireDate')
@@ -188,15 +204,15 @@ def updateWaitList():
     todays_date = datetime.today()
     todaySTR = todays_date.strftime('%m-%d-%Y')
 
-    # IS THIS PERSON ALREADY ON THE WAITLIST?
-    waitListRecord = db.session.query(WaitList).filter(WaitList.MemberID == memberID).first()
-    if (waitListRecord == None):
+    # IS THIS PERSON ALREADY ON THE classes?
+    classesRecord = db.session.query(classes).filter(classes.MemberID == memberID).first()
+    if (classesRecord == None):
         # ADD NEW RECORD TO tblMembershipWaitingList
         if plannedCertificationDate == '':
             plannedCertificationDate = None
         
         try:
-            newWaitListRecord = WaitList( 
+            newclassesRecord = classes( 
                 MemberID = memberID,
                 VillageIDexpirationDate = expireDate,
                 FirstName = firstName,
@@ -226,7 +242,7 @@ def updateWaitList():
                 DateTimeEntered = todaySTR
             ) 
         
-            db.session.add(newWaitListRecord)
+            db.session.add(newclassesRecord)
             db.session.commit()
 
         except SQLAlchemyError as e:
@@ -234,74 +250,74 @@ def updateWaitList():
             flash('ERROR - Record not added.'+error,'danger')
             db.session.rollback()
         
-        return redirect(url_for('waitlist'))
+        return redirect(url_for('classes'))
     
     # PROCESS UPDATE OF EXISTING WAIT LIST RECORD
-    if waitListRecord.FirstName != firstName :
-        waitListRecord.FirstName = firstName
-    if waitListRecord.LastName != lastName :
-        waitListRecord.LastName = lastName
-    if waitListRecord.HomePhone != homePhone :
-        waitListRecord.HomePhone = homePhone
-    if waitListRecord.CellPhone != cellPhone :
-        waitListRecord.CellPhone = cellPhone
+    if classesRecord.FirstName != firstName :
+        classesRecord.FirstName = firstName
+    if classesRecord.LastName != lastName :
+        classesRecord.LastName = lastName
+    if classesRecord.HomePhone != homePhone :
+        classesRecord.HomePhone = homePhone
+    if classesRecord.CellPhone != cellPhone :
+        classesRecord.CellPhone = cellPhone
        
-    if waitListRecord.StreetAddress != street :
-        waitListRecord.StreetAddress = street
+    if classesRecord.StreetAddress != street :
+        classesRecord.StreetAddress = street
     
-    if waitListRecord.City != city :
-        waitListRecord.City = city
-    if waitListRecord.State != state :
-        waitListRecord.State = state
-    if waitListRecord.Zipcode != zip :
-        waitListRecord.Zipcode = zip
-    if waitListRecord.Email != eMail :
-        waitListRecord.Email = eMail
+    if classesRecord.City != city :
+        classesRecord.City = city
+    if classesRecord.State != state :
+        classesRecord.State = state
+    if classesRecord.Zipcode != zip :
+        classesRecord.Zipcode = zip
+    if classesRecord.Email != eMail :
+        classesRecord.Email = eMail
 
-    if waitListRecord.Notes != notes :
-        waitListRecord.Notes = notes
+    if classesRecord.Notes != notes :
+        classesRecord.Notes = notes
     
-    if waitListRecord.ApprovedToJoin != approvedToJoin :
-        waitListRecord.ApprovedToJoin = approvedToJoin
-    if waitListRecord.Notified != notified :
-        waitListRecord.Notified = notified
+    if classesRecord.ApprovedToJoin != approvedToJoin :
+        classesRecord.ApprovedToJoin = approvedToJoin
+    if classesRecord.Notified != notified :
+        classesRecord.Notified = notified
     
     
 
 
-    if waitListRecord.Jan != jan:
-        waitListRecord.Jan = jan
-    if waitListRecord.Feb != feb :
-        waitListRecord.Feb = feb
-    if waitListRecord.Mar != mar:
-        waitListRecord.Mar = mar
-    if waitListRecord.Apr != apr:
-        waitListRecord.Apr = apr
-    if waitListRecord.May != may:
-        waitListRecord.May = may
-    if waitListRecord.Jun != jun:
-        waitListRecord.Jun = jun
-    if waitListRecord.Jul != jul:
-        waitListRecord.Jul = jul
-    if waitListRecord.Aug != aug:
-        waitListRecord.Aug = aug
-    if waitListRecord.Sep != sep:
-        waitListRecord.Sep = sep
-    if waitListRecord.Oct != oct:
-        waitListRecord.Oct = oct
-    if waitListRecord.Nov != nov:
-        waitListRecord.Nov = nov
-    if waitListRecord.Dec != dec:
-        waitListRecord.Dec = dec
+    if classesRecord.Jan != jan:
+        classesRecord.Jan = jan
+    if classesRecord.Feb != feb :
+        classesRecord.Feb = feb
+    if classesRecord.Mar != mar:
+        classesRecord.Mar = mar
+    if classesRecord.Apr != apr:
+        classesRecord.Apr = apr
+    if classesRecord.May != may:
+        classesRecord.May = may
+    if classesRecord.Jun != jun:
+        classesRecord.Jun = jun
+    if classesRecord.Jul != jul:
+        classesRecord.Jul = jul
+    if classesRecord.Aug != aug:
+        classesRecord.Aug = aug
+    if classesRecord.Sep != sep:
+        classesRecord.Sep = sep
+    if classesRecord.Oct != oct:
+        classesRecord.Oct = oct
+    if classesRecord.Nov != nov:
+        classesRecord.Nov = nov
+    if classesRecord.Dec != dec:
+        classesRecord.Dec = dec
     
-    if waitListRecord.ApplicantAccepts != applicantAccepts :
-        waitListRecord.ApplicantAccepts = applicantAccepts
-    if waitListRecord.ApplicantDeclines != applicantDeclines :
-        waitListRecord.ApplicantDeclines = applicantDeclines
-    if waitListRecord.NoLongerInterested != noLongerInterested :
-        waitListRecord.NoLongerInterested = noLongerInterested
-    if waitListRecord.PlannedCertificationDate != plannedCertificationDate :
-        waitListRecord.PlannedCertificationDate = plannedCertificationDate
+    if classesRecord.ApplicantAccepts != applicantAccepts :
+        classesRecord.ApplicantAccepts = applicantAccepts
+    if classesRecord.ApplicantDeclines != applicantDeclines :
+        classesRecord.ApplicantDeclines = applicantDeclines
+    if classesRecord.NoLongerInterested != noLongerInterested :
+        classesRecord.NoLongerInterested = noLongerInterested
+    if classesRecord.PlannedCertificationDate != plannedCertificationDate :
+        classesRecord.PlannedCertificationDate = plannedCertificationDate
     
     try:
         db.session.commit()
@@ -311,12 +327,12 @@ def updateWaitList():
         db.session.rollback()
 
     
-    return redirect(url_for('waitlist',villageID=memberID,todaysDate=todaySTR))
+    return redirect(url_for('classes',villageID=memberID,todaysDate=todaySTR))
 
 @app.route("/printConfirmation/<memberID>")
 def printConfirmation(memberID):
     # GET MEMBER NAME
-    applicant = db.session.query(WaitList).filter(WaitList.MemberID == memberID).first()
+    applicant = db.session.query(classes).filter(classes.MemberID == memberID).first()
     if applicant == None:
         flash ("Error in printing confirmation letter.",'danger')
         return
@@ -325,6 +341,6 @@ def printConfirmation(memberID):
     todays_date = date.today()
     todays_dateSTR = todays_date.strftime('%m-%d-%Y')
     applicationDate = applicant.DateTimeEntered.strftime('%A, %B %-d, %Y')
-    # Using include statement in html file for included text 'WaitListConfirmation.html' in Template folder
+    # Using include statement in html file for included text 'classesConfirmation.html' in Template folder
     return render_template("rptAppConfirm.html",displayName=displayName,applicant=applicant,
     applicationDate=applicationDate,todays_date=todays_dateSTR)

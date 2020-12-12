@@ -60,14 +60,16 @@ hr {
 /* Layout for iPhone (small devices) */
 .parent {
     display:grid;
-    max-width: 600px;
     width:100%;
-    grid-template-rows: 110px auto 100px;
-    grid-template-columns: 1fr;
-    grid-template-areas:"hdgBandArea"
-                        "applicantArea"
-                        "statusArea"
-                        "footerArea"; 
+    grid-template-rows: 30px 40px 200px 40px 200px 200px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:"titleArea              versionArea"
+                        "selectMemberArea       selectMemberArea"
+                        "coursesTakenArea       coursesTakenArea"
+                        "courseListArea         courseListArea"
+                        "courseOfferingsArea    courseOfferingsArea" 
+                        "enrollArea             enrollArea"
+                        "feesArea               feesArea";
     border: 2px solid navy;
     margin: 0 auto;
     background-color: lightgray;
@@ -87,17 +89,50 @@ hr {
     margin-top:10px;
 }
 .title {
-    margin-left:20px;
+    grid-area: titleArea;
+    width:100%;
+    padding-left:10px;
+    background-color: navy;
+    color:white;
 }
 .version {
-    margin-right:40px;
+    grid-area: versionArea;
+    width:100%;
+    text-align:right;
+    padding-top:3px;
+    padding-right:10px;
+    background-color: navy;
+    color:white;
 }
-.selectApplicant {
-    margin:0 auto;
+.selectMember {
+    grid-area: selectMemberArea;
+    background-color: beige;
 }
 .hdgLinks {
     margin:0 auto;
 }
+.coursesTaken {
+    grid-area: coursesTakenArea;
+    background-color: lightblue;
+}
+.selectCourse {
+    grid-area:courseListArea;
+    background-color: lightgoldenrodyellow;
+}
+.courseOfferings {
+    grid-area:courseOfferingsArea;
+    background-color: lightgreen;
+}
+.enroll {
+    grid-area: enrollArea;
+    background-color: lightsalmon;
+}
+
+.fees {
+    grid-area: feesArea;
+    background-color: pink;
+}
+
 .applicant {
     width:100%;
     grid-area:applicantArea;
