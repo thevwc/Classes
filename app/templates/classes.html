@@ -10,62 +10,89 @@
 {% block app_content %}
 <!-- <form id=waitListFormID method='POST' action="/updateWaitList">  -->
 <div class="parent">
-
+    
     <div class="title">
-        <h4>CLASSES</h4>
-    </div> 
-    <div class="version">
-        <h5>ver. Dec 12, 2020</h5> 
-    </div>    
-
-    <div class="selectMember">
-        <select id="selectMember" class='selectpicker' title='Find a member ...' data-live-search=true data-live-search-style="contains" data-width='auto'>
+        <span>CLASSES</span>
+    </div>
+    <div class="termSection"> 
+        <div class="selectTerm">
+            <select id="selectTermID" class='selectpicker form-control form-control-sm' title='Select a term ...' data-live-search=true data-live-search-style="contains" data-width='auto'>
+                {% for term in termArray %}
+                    <option  class="optName" value='{{term.termName}}'>{{ term.termName }}</option>
+                {% endfor %}
+            </select> 
+        </div>
+    </div>
+    
+    <div class="selectMemberSection">
+        <select id="selectMemberID" class='selectpicker form-control form-control-sm' data-width=300px title='Select a member ...' data-live-search=true data-live-search-style="contains" data-width='auto'>
             {% for nme in memberArray %}
                 <option  class="optName" value='{{nme}}'>{{ nme }}</option>
             {% endfor %}
         </select>
     </div> 
+
+    <div class="version">
+        <h6>ver. Jan 2, 2021</h6> 
+    </div>    
+<!-- 
+    <div class="memberNameAndIDSection">
+        <h3>{{memberName}}</h3>  
+    </div> -->
+   
+    <div class="coursesTakenSection">
+        <div>
+            <span>COURSES TAKEN</span>
+        </div>
+
+        <table class="schedule table table-sm">
+            <thead>
+                <tr>
+                    <th>Term</th>
+                    <th>Crse#</th>
+                    <th>Title</th>
+                    <th>Dates</th>
+                    <th>Instructor</th>
+                    <th>Recpt#</th>
+                    <th>Sets</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sItem in scheduleDict %}
+                <tr>
+                    <td>{{sItem.term}}</td>
+                    <td>{{sItem.courseNum}}</td>
+                    <td>{{sItem.title}}</td>
+                    <td>{{sItem.dates}}</td>
+                    <td>{{sItem.instructor}}</td>
+                    <td>{{sItem.receipt}}</td>
+                    <td>{{sItem.sets}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     
-    <div class="memberNameAndID">
-        <div class="memberName">
-            {{memberName}}
-        </div>
-        <div id="memberID">
-            {{memberID}}
-        </div>
-    </div>
-
-    <div class="coursesTaken">
-        COURSES TAKEN
-    </div>
-
-    <div class="courseTerms">
-        <select id="selectTerm" class='selectpicker' title='Find a term ...' data-live-search=true data-live-search-style="contains" data-width='auto'>
-            {% for term in termArray %}
-                <option  class="optName" value='{{term.allow}}'>{{ term.termName }}</option>
-            {% endfor %}
-        </select> 
-    </div>
-
-    <div class="selectCourse">
-        <select id="selectCourse" class='selectpicker' title='Find a course ...' data-live-search=true data-live-search-style="contains" data-width='auto'>
+    <!--
+    <div class="selectCourseSection">
+        <select id="selectCourseID" class='selectpicker' title='Select a course ...' data-live-search=true data-live-search-style="contains" data-width='auto'>
             {% for course in courseArray %}
                 <option  class="optName" value='{{course}}'>{{ course }}</option>
             {% endfor %}
         </select>
     </div> 
    
-    <div class="courseOfferings">
+    <div class="courseOfferingsSection">
         COURSE OFFERINGS
     </div>
 
-    <div class="enroll">
+    <div class="enrollSection">
         ENROLL
     </div>
 
-    <div class="fees">
+    <div class="feesSection">
         FEES
-    </div>
+    </div> -->
 </div>
 {% endblock %}
 

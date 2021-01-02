@@ -60,356 +60,210 @@ hr {
 /* Layout for iPhone (small devices) */
 .parent {
     display:grid;
-    width:100%;
-    grid-template-rows: 30px 40px 30px 40px 150px 40px 150px 150px 150px;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:"titleArea              versionArea"
-                        "selectMemberArea       selectMemberArea"
-                        "memberNameIDArea       memberNameIDArea"
-                        "courseTermArea         courseTermArea"
-                        "coursesTakenArea       coursesTakenArea"
-                        "courseListArea         courseListArea"
-                        "courseOfferingsArea    courseOfferingsArea" 
-                        "enrollArea             enrollArea"
-                        "feesArea               feesArea";
+    width:90%;
+    grid-template-rows: 40px 40px 40px 300px;   /* 350px 40px 150px 150px 150px 150px 150px; */
+    grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+    grid-template-areas:"titleArea  versionArea"
+                        "termArea termArea"
+                        "selectMemberArea selectMemberArea"
+                        /*
+                        "memberNameIDArea" */
+                        "coursesTakenArea coursesTakenArea";
+                        /*"courseListArea"
+                        "offeringsArea" 
+                        "enrollArea
+                        "feesArea"; */
     border: 2px solid navy;
     margin: 0 auto;
+    padding:1em;
     background-color: lightgray;
     
 } 
-
-.hdgBand {
-    grid-area:hdgBandArea;
-    width:75%;
-    background-color:navy;
-    color:white;
-    border:1px solid white;
-    padding:0px;
-    margin:0px;
-}
-.hdgRow {
-    margin-top:10px;
-}
 .title {
     grid-area: titleArea;
     width:100%;
-    padding-left:10px;
+    padding-left:1em;
+    padding-top:.5em;
     background-color: navy;
     color:white;
 }
+.termSection {
+    grid-area: termArea;
+    width:100%;
+    padding-top:.25em;
+    padding-right:0;
+    text-align: center;
+    background-color: blue;
+    color:white;
+    
+}
+
 .version {
     grid-area: versionArea;
-    width:100%;
+    max-width:100%;
     text-align:right;
-    padding-top:3px;
-    padding-right:10px;
+    padding-top:.75em;
+    padding-right:1em;
     background-color: navy;
+    font-size:1rem;
     color:white;
 }
-.selectMember {
+.selectMemberSection {
     grid-area: selectMemberArea;
-    background-color: beige;
-}
-.memberNameAndID {
-    grid-area: memberNameIDArea;
-    background-color: brown;
+    max-width:100%;
+    padding-top:.3em;
+    text-align:center;
+    background-color:maroon;
     color:white;
 }
-.hdgLinks {
+/* 
+.memberNameAndIDSection {
+    grid-area: memberNameIDArea;
+    text-align:center;
+    padding-top:4em;
+    background-color: white;
+    color:brown;
+} */
+
+/* .hdgLinks {
     margin:0 auto;
-}
-.courseTerms {
-    grid-area: courseTermArea;
-    width:100%;
-    background-color: navajowhite;
-}
-.coursesTaken {
+} */
+
+.coursesTakenSection {
     grid-area: coursesTakenArea;
+    max-width: 100%;
+    overflow-x:scroll;
+    padding-left:0em;
+    padding-right:0em;
     background-color: lightblue;
+    color:black;
+    border:2px solid red;
 }
-.selectCourse {
+.schedule {
+    font-size:.5rem;
+}
+.selectCourseSection {
     grid-area:courseListArea;
+    width:90%;
+    font-size: .75rem;
     background-color: lightgoldenrodyellow;
 }
-.courseOfferings {
-    grid-area:courseOfferingsArea;
+.courseOfferingsSection {
+    grid-area:offeringsArea;
     background-color: lightgreen;
 }
-.enroll {
+.enrollSection {
     grid-area: enrollArea;
     background-color: lightsalmon;
 }
 
-.fees {
+.feesSection {
     grid-area: feesArea;
     background-color: pink;
 }
 
-.applicant {
-    width:100%;
-    grid-area:applicantArea;
-    padding-left:20px;
-    min-width:630px;
-}
-.monthsInTheVillages {
-    justify-content: center;
-    width:55%;
-}
-.monthNames {
-    padding-left:0px;
-}
-.monthCheckboxes {
-    padding-left:100px;
-}
-.footerBtns {
-    width:100%;
-    grid-area:footerArea;
-}
-.applicationStatus {
-    grid-area:statusArea;
-    margin-left:0px;
-    margin-top:5px;
-} 
-.placeOnWaitList {
-    width:60%;
-    text-align: center;
-}
-.statusLabel {
-    margin-left:35px;
-}
-/* DROPDOWN MENU CSS FOLLOWS */
-.dropbtn {
-    background-color: gray;
-    color: white;
-    padding: 0px;
-    font-size: 14px;
-    border: none;
-    height:30px;
-    margin-top:0px;
-    cursor: pointer;
-    float: right;
-  }
-  
-.dropbtn:hover, .dropbtn:focus {
-    background-color: lightslategrey;
-  }
-  
-.dropdown {
-    position: relative;
-    display: inline-block;
-  }
-.dropdown:disabled {
-      color:blue ;
-  }
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    /* overflow: auto; */
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-  
-.dropdown a:hover {background-color: #ddd;}
 
-.dropdown-item {
-    color:green;
-}
-.cancelSave {
-    text-align:center;
-    margin-bottom: 20px;
-}
-.monthsInTheVillages {
-    margin-left:20px;
-    width:60%;
-    border:1px solid black;
-    line-height:1 !important;
-  }
-.monthsInTheVillages h3 {
-      font-size:0.5rem;
-      text-align: center;
-  }
-.monthNames {
-      margin-left:0px;
-      text-align: center;
-      margin-top:0px;
-      margin-bottom:0px;
-  }
-
-
-.monthNames li {
-    display:inline;
-    text-decoration: none;
-    font-size:.5rem;
-    margin-right:1em;
-}
-.monthCheckboxes {
-    padding-left:0px;
-    margin-left:5px;
-    text-align:center;
-    margin-top:0px;
-    margin-bottom:0px;
-}
-.monthCheckboxes li {
-    display:inline;
-    text-decoration: none;
-    font-size:.5rem;
-    margin-right:1em;
-}
-
-.show {display: block;}
-
-.placeOnWaitList {
-    font-size:2rem;
-    color:navy;
-    text-align:center;
-}
-.waitListStatus {
-    font: size 1.5rem;
-    text-align:center;
-}
-
-/* SPECIFICATIONS FOR iPad SCREENS */
+/* SPECIFICATIONS FOR iPad PORTRAIT SCREENS */
 @media (min-width: 768px) {
-.parent {
-    display:grid;
-    width:100%;
-    grid-template-rows: 100px 1fr 100px;
-    grid-template-columns: 1fr 2fr;
-    grid-template-areas:    "hdgBandArea    hdgBandArea"
-                            "applicantArea  statusArea"
-                            "footerArea     footerArea";
-                           
-    max-width:920px;
-    font-size:1rem;
-    background-color:yellow;
+    .parent {
+        display:grid;
+        width:95%;
+        grid-template-rows: 40px 30px 150px 40px 100px 150px 150px;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-areas:"titleArea          termArea            selectMemberArea        versionArea"
+                            "memberNameIDArea   memberNameIDArea    memberNameIDArea        memberNameIDArea "
+                            "coursesTakenArea   coursesTakenArea    coursesTakenArea        coursesTakenArea "
+                            "courseListArea     courseListArea      courseListArea . "
+                            "offeringsArea      offeringsArea       offeringsArea . " 
+                            "enrollArea         enrollArea          enrollArea . "
+                            "feesArea           feesArea            feesArea . ";
+        font-size:1rem;
+        background-color:ivory;
+    }
+
+
+    .coursesTakenSection {
+        grid-area: coursesTakenArea;
+        max-width: 100%;
+        overflow-x:scroll;
+        padding-left:0em;
+        padding-right:0em;
+        background-color: ivory;
+        font-size:1rem;
+        color:black;
+        border:2px solid gold;
+    }
+    table th, td {
+        font-size:1rem;
+    }
+
 }
 
-.hdgBand {
-    grid-area:hdgBandArea;
-    width:100%;
-    background-color:blue;
-    color:white;
-    border:1px solid white;
-    padding:0px;
-    margin:0px;
-}
-.applicant {
-    grid-area:applicantArea;
-    margin-top:20px;
-    background-color:violet;
-}
-.applicationStatus {
-    grid-area:statusArea;
-    margin-top:20px;
-    background-color:lightcoral
-}
-.monthsInTheVillages {
-    margin-left:0px;
-    width:80%;
-    border:1px solid black;
-  }
-.footerBtns {
-    width:100%;
-    grid-area:footerArea;
-    background-color:lightblue;
-}
-
-body {font-size:1rem}
-
-input {
-    font-size:1rem;
-}
-label {
-    font-size:1rem;
-}   
-}
-   
+/* SPECIFICATIONS FOR iPad LANDSCAPE SCREENS */
+@media (min-width: 1024px) {
+    .parent {
+        display:grid;
+        width:95%;
+        grid-template-rows: 40px 40px 150px 40px 150px 150px;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-areas:"titleArea          termArea    selectMemberArea       versionArea"
+                            "memberNameIDArea   memberNameIDArea    memberNameIDArea . "
+                            "coursesTakenArea   coursesTakenArea    coursesTakenArea . "
+                            "courseListArea     courseListArea      courseListArea . "
+                            "offeringsArea      offeringsArea       offeringsArea . " 
+                            "enrollArea         enrollArea          enrollArea . "
+                            "feesArea           feesArea            feesArea . ";
+        border: 2px solid navy;
+        margin: 0 auto;
+        background-color: blue
+        
+    } 
     
+    
+}
 
-@media (min-width: 992px) {
+/* SPECIFICATIONS FOR LAPTOP WITH MDP SCREENS */
+@media (min-width: 1280px) {
+    .parent {
+        display:grid;
+        width:95%;
+        grid-template-rows: 40px 40px 150px 150px 40px 150px 150px;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-areas:"titleArea          termArea      selectMemberArea     versionArea"
+                            "memberNameIDArea   memberNameIDArea    memberNameIDArea . "
+                            "coursesTakenArea   coursesTakenArea    coursesTakenArea . "
+                            "courseListArea     courseListArea      courseListArea . "
+                            "offeringsArea      offeringsArea       offeringsArea . " 
+                            "enrollArea         enrollArea          enrollArea . "
+                            "feesArea           feesArea            feesArea . ";
+        border: 2px solid navy;
+        margin: 0 auto;
+        background-color: green;
+        
+    } 
+    
+}
+
+
+/* SPECIFICATIONS FOR MONITOR  */
+@media (min-width: 1440px) {
     .parent {
         display:grid;
         width:100%;
-        grid-template-rows: 50px auto 50px;
-        grid-template-columns:  1fr 1fr;
-        grid-template-areas:    "hdgBandArea    hdgBandArea"
-                                "applicantArea  statusArea"
-                                "footerArea     footerArea";
-        max-width:1200px;
-        font-size:1rem;
-        background-color:lightgray;
-    }
-    .hdgBand {
-        grid-area:hdgBandArea;
-        width:100%;
-        background-color:navy;
-        color:white;
-        border:1px solid white;
-        padding:0px;
-        margin:0px;
-    }
-    .version {
-        font-size: small;
-        margin-right:20px;
-    }
-    .applicant {
-        grid-area:applicantArea;
-        margin-top:20px;
-        background-color:lightgray;
-        border:1px solid black;
-    }
-    .applicationStatus {
-        width:100%;
-        grid-area:statusArea;
-        margin-top:20px;
-        justify-content: space-evenly;
-        background-color:lightgrey;
-        border:1px solid black;
-    }
-    /* .statusLabel {
-
-    } */
+        grid-template-rows: 40px 40px 150px 150px 40px 150px 150px;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-areas:"titleArea          termArea    selectMemberArea        versionArea"
+                            "memberNameIDArea   memberNameIDArea    memberNameIDArea . "
+                            "coursesTakenArea   coursesTakenArea    coursesTakenArea . "
+                            "courseListArea     courseListArea      courseListArea . "
+                            "offeringsArea      offeringsArea       offeringsArea . " 
+                            "enrollArea         enrollArea          enrollArea . "
+                            "feesArea           feesArea            feesArea . ";
+        border: 2px solid navy;
+        gap:0;
+        margin: 0 auto;
+        background-color:red;
         
-    .footerBtns {
-        width:100%;
-        grid-area:footerArea;
-        background-color:gray;
-    }
-    body {font-size:1rem}
-  
-
-    .monthsInTheVillages h3 {
-      font-size:1rem;
-    }
-    .monthNames {
-      text-align:center;
-    }
-
-    .monthNames li {
-      font-size:.75rem;
-    }
-  
-    .monthCheckboxes {
-      text-align: center;
-      margin-left:9px;
-    }
-
-    .monthCheckboxes li {
-      font-size:.75rem;
-      margin-right:1.15rem;
-    }
+    } 
+       
 }
-/* .container {
-      font-size:1rem;
-  } */
-
-

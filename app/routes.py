@@ -45,7 +45,9 @@ def logChange(staffID,colName,memberID,newData,origData):
 @app.route("/classes",defaults={'villageID':None})
 @app.route("/classes/<villageID>")
 def index(villageID):
-    print('villageID - ',villageID)
+    
+    #print('villageID - ',villageID)
+
     # GET TODAY'S DATE
     todays_date = date.today()
     todaySTR = todays_date.strftime('%m-%d-%Y')
@@ -106,32 +108,109 @@ def index(villageID):
          termArray=termArray,courseArray=courseArray)
     
     # IF A VILLAGE ID WAS PASSED IN ...
-    member = db.session.query(Member).filter_by(Member.Member_ID == villageID).first()
-    print('Name - ',member.Last_Name)
+    member = db.session.query(Member).filter(Member.Member_ID == villageID).first()
+    #print('Name - ',member.Last_Name)
     if member == None:
         memberName = ''
     else:
         memberName = member.First_Name
-        if memberName != None:
+        if member.Nickname != None and member.Nickname != '':
             memberName += ' (' + member.Nickname + ')'
-        memberName += member.Last_Name
+        memberName += ' ' + member.Last_Name
 
     # DISPLAY THE COURSES TAKEN DATA FOR THAT VILLAGE ID
-    sqlCoursesTaken = "SELECT "
-    # if (applicant == None):
-    #     msg = "No record for applicant with village ID " + villageID
-    #     flash(msg,"info")
-    #     return render_template("classes.html",applicant='',memberArray=memberArray,todaySTR=todaySTR)
-    # else:
-        # DETERMINE APPLICANTS PLACE ON WAITING LIST
-        # RETURN COUNT OF # OF RECORDS BEFORE THEIR ID WHEN ORDERED BY ID AND FILTERED BY PlannedCertificationDate is null and NoLongerInterested isnull 
-        # placeOnList = 0 
-        # placeOnList = db.session.query(func.count(classes.MemberID)).filter(classes.PlannedCertificationDate == None) \
-        #     .filter(classes.NoLongerInterested == None) \
-        #     .filter(classes.id < applicant.id) \
-        #     .scalar() 
-    return render_template("classes.html",memberID=memberID,memberArray=memberArray,\
+    # SQL APPROACH
+    sql = "SELECT tblCourse_Enrollees.ID AS Enrollee_Record_ID, tblCourse_Enrollees.Course_Term AS Course_Term, "
+    sql += "tblCourse_Enrollees.Course_Number AS Course_Number, "
+    sql += "tblCourse_Enrollees.Section_ID, tblCourse_Enrollees.Supply_Sets, tblCourses.Course_Title AS Course_Title, "
+    sql += "tblCourse_Enrollees.Member_ID AS Student_ID, tblMember_Data.Last_Name AS Student_Last_Name, "
+    sql += "tblMember_Data.First_Name AS Student_First_Name, tblMember_Data.NickName as Student_NickName, "
+    sql += "tblCourse_Offerings.Section_Dates as Section_Dates, tblCourse_Offerings.Section_Dates_Note as Section_Note, "
+    sql += "tblMember_Data_1.Last_Name AS Instructor_Last_Name, "
+    sql += "tblMember_Data_1.First_Name AS Instructor_First_Name, tblMember_Data_1.NickName AS Instructor_NickName, "
+    sql += "tblCourse_Enrollees.Date_Enrolled AS Date_Enrolled, tblCourse_Enrollees.Receipt_Number AS Receipt_Number, "
+    sql += "tblCourse_Offerings.Section_ID AS Section_ID, tblCourse_Offerings.Section_Dates_Note AS Section_Notes "
+    sql += "FROM tblCourses INNER JOIN (((tblCourse_Enrollees INNER JOIN tblCourse_Offerings "
+    sql += "ON (tblCourse_Offerings.Course_Number = tblCourse_Enrollees.Course_Number) "
+    sql += "AND (tblCourse_Offerings.Course_Term = tblCourse_Enrollees.Course_Term) "
+    sql += "AND (tblCourse_Enrollees.Section_ID = tblCourse_Offerings.Section_ID)) "
+    sql += "LEFT JOIN tblMember_Data ON tblCourse_Enrollees.Member_ID = tblMember_Data.Member_ID) "
+    sql += "LEFT JOIN tblMember_Data AS tblMember_Data_1 ON tblCourse_Offerings.Instructor_ID = tblMember_Data_1.Member_ID) "
+    sql += "ON tblCourses.Course_Number = tblCourse_Offerings.Course_Number "
+    sql += "WHERE tblCourse_Enrollees.Member_ID = '" + villageID + "' "
+    sql += "ORDER BY Course_Term desc, tblCourse_Enrollees.Course_Number, tblCourse_Enrollees.Section_ID"
+    coursesTaken = db.session.execute(sql)
+    
+    coursesTakenDict = []
+    coursesTakenItem = []
+
+    for c in coursesTaken:
+        if c.Instructor_Last_Name == None or c.Instructor_Last_Name == '':
+            instructor = ''
+        else:
+            instructor = c.Instructor_Last_Name + ', ' + c.Instructor_First_Name
+            if c.Instructor_NickName != None and c.Instructor_NickName != '':
+                instructor += " (" + c.Instructor_NickName + ")"
+        if c.Section_Dates == None:
+            sectionDates = ''
+        else:
+            sectionDates = c.Section_Dates
+        if c.Supply_Sets == None:
+            supplySets = ''
+        else:
+            supplySets = c.Supply_Sets
+
+        #print(c.Course_Term, c.Course_Number, c.Course_Title, sectionDates, c.Section_Note, instructor, c.Receipt_Number,supplySets)
+
+        coursesTakenItem = {
+            'term':c.Course_Term,
+            'courseNum':c.Course_Number + c.Section_ID,
+            'title':c.Course_Title,
+            'dates':sectionDates,
+            'times':c.Section_Note,
+            'instructor':instructor,
+            'receipt':c.Receipt_Number,
+            'sets':supplySets
+        }
+        coursesTakenDict.append(coursesTakenItem)
+
+    # SQLALCHEMY APPROACH
+    # scheduleDict = []
+    # scheduleItem = []
+    # coursesTaken = db.session.query(CourseEnrollee)\
+    #     .filter(CourseEnrollee.Member_ID == villageID)\
+    #     .order_by(CourseEnrollee.Course_Term,CourseEnrollee.Course_Number).all()
+    # if coursesTaken != None:
+    #     for t in coursesTaken:
+    #         title = db.session.query(Course.Course_Title).filter(Course.Course_Number == t.Course_Number).scalar()
+    #         section = db.session.query(CourseOffering)\
+    #             .filter(CourseOffering.Course_Number == t.Course_Number)\
+    #             .filter(CourseOffering.Section_ID == t.Section_ID)\
+    #             .filter(CourseOffering.Course_Term == t.Course_Term).first()
+    #         instructor = db.session.query(Member).filter(Member.Member_ID == section.Instructor_ID).first()
+    #         if instructor == None:
+    #             instructorName = ''
+    #         else:
+    #             instructorName = instructor.Last_Name + ', ' + instructor.First_Name
+    #         scheduleItem = {
+    #             'term':t.Course_Term,
+    #             'courseNum':t.Course_Number,
+    #             'title':title,
+    #             'dates':section.Section_Dates,
+    #             'instructor':instructorName,
+    #             'receipt':t.Receipt_Number,
+    #             'sets':t.Supply_Sets
+    #         }
+    #         scheduleDict.append(scheduleItem)
+    #     else:
+    #         scheduleItem = {
+    #             'title':'No classes taken.'
+    #         }
+    #         scheduleDict.append(scheduleItem)
+  
+    #print ('name - ', memberName)
+    return render_template("classes.html",memberID=villageID,memberArray=memberArray,\
     todaySTR=todaySTR,termArray=termArray,courseArray=courseArray,\
-    memberName=memberName)
+    memberName=memberName,scheduleDict=coursesTakenDict)
 
 
