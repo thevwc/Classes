@@ -61,13 +61,12 @@ hr {
 .parent {
     display:grid;
     width:90%;
-    grid-template-rows: 40px 40px 40px 300px;   /* 350px 40px 150px 150px 150px 150px 150px; */
+    grid-template-rows: 40px 40px 40px 40px fit-content(200px);   /* 350px 40px 150px 150px 150px 150px 150px; */
     grid-template-columns: minmax(0,1fr) minmax(0,1fr);
     grid-template-areas:"titleArea  versionArea"
                         "termArea termArea"
                         "selectMemberArea selectMemberArea"
-                        /*
-                        "memberNameIDArea" */
+                        "memberNameArea     memberNameArea" 
                         "coursesTakenArea coursesTakenArea";
                         /*"courseListArea"
                         "offeringsArea" 
@@ -93,9 +92,9 @@ hr {
     padding-top:.25em;
     padding-right:0;
     text-align: center;
-    background-color: blue;
+    background-color:navy;
     color:white;
-    
+    border-top:1px solid white;
 }
 
 .version {
@@ -113,17 +112,16 @@ hr {
     max-width:100%;
     padding-top:.3em;
     text-align:center;
-    background-color:maroon;
+    background-color:navy;
+    border-top:1px solid white;
     color:white;
 }
-/* 
-.memberNameAndIDSection {
-    grid-area: memberNameIDArea;
+.memberNameSection {
+    grid-area:memberNameArea;
     text-align:center;
-    padding-top:4em;
     background-color: white;
-    color:brown;
-} */
+    color:navy;
+}
 
 /* .hdgLinks {
     margin:0 auto;
@@ -135,13 +133,13 @@ hr {
     overflow-x:scroll;
     padding-left:0em;
     padding-right:0em;
-    background-color: lightblue;
-    color:black;
-    border:2px solid red;
+    background-color: navajowhite;
+    color:maroon;
 }
+
 .schedule {
     font-size:.5rem;
-}
+} 
 .selectCourseSection {
     grid-area:courseListArea;
     width:90%;
@@ -167,86 +165,146 @@ hr {
 @media (min-width: 768px) {
     .parent {
         display:grid;
-        width:95%;
-        grid-template-rows: 40px 30px 150px 40px 100px 150px 150px;
+        width:100%;
+        grid-template-rows: 40px 40px 40px fit-content(250px);  /* 40px 100px 150px 150px; */
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-areas:"titleArea          termArea            selectMemberArea        versionArea"
-                            "memberNameIDArea   memberNameIDArea    memberNameIDArea        memberNameIDArea "
-                            "coursesTakenArea   coursesTakenArea    coursesTakenArea        coursesTakenArea "
-                            "courseListArea     courseListArea      courseListArea . "
+        grid-template-areas:"titleArea          titleArea           versionArea         versionArea"          
+                            "termArea           termArea            selectMemberArea    selectMemberArea" 
+                            "memberNameArea     memberNameArea      memberNameArea      memberNameArea"                   
+                            "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea ";
+                            /* "courseListArea     courseListArea      courseListArea . "
                             "offeringsArea      offeringsArea       offeringsArea . " 
                             "enrollArea         enrollArea          enrollArea . "
-                            "feesArea           feesArea            feesArea . ";
+                            "feesArea           feesArea            feesArea . "; */
         font-size:1rem;
-        background-color:ivory;
+        background-color:lightgreen;
     }
 
-
+    .termSection {
+        grid-area: termArea;
+        width:100%;
+        padding-top:.25em;
+        padding-left:1em;
+        border-top:1px solid white;
+        text-align: left;
+        background-color:navy;
+        color:black;
+        
+    }
+    .selectMemberSection {
+        grid-area: selectMemberArea;
+        max-width:100%;
+        padding-top:.3em;
+        padding-right:1em;
+        border-top:1px solid white;
+        text-align:right;
+        background-color:navy;
+        color:white;
+    }
+    .memberNameSection {
+        grid-area:memberNameArea;
+        text-align:center;
+        padding-top:.3em;
+        background-color: white;
+        color:navy;
+    }
     .coursesTakenSection {
         grid-area: coursesTakenArea;
         max-width: 100%;
         overflow-x:scroll;
         padding-left:0em;
         padding-right:0em;
-        background-color: ivory;
-        font-size:1rem;
-        color:black;
-        border:2px solid gold;
+        background-color: maroon;
+        font-size:.75rem;
+        color:navajowhite;
+        border:2px solid maroon;
+    }
+    
+    .coursesTakenSection table {
+        background-color: navajowhite;
+        color:maroon;
     }
     table th, td {
-        font-size:1rem;
+        color:maroon;
+    }
+    .schedule{
+        font-size:.75rem;
     }
 
 }
 
 /* SPECIFICATIONS FOR iPad LANDSCAPE SCREENS */
-@media (min-width: 1024px) {
-    .parent {
-        display:grid;
-        width:95%;
-        grid-template-rows: 40px 40px 150px 40px 150px 150px;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-areas:"titleArea          termArea    selectMemberArea       versionArea"
-                            "memberNameIDArea   memberNameIDArea    memberNameIDArea . "
-                            "coursesTakenArea   coursesTakenArea    coursesTakenArea . "
-                            "courseListArea     courseListArea      courseListArea . "
-                            "offeringsArea      offeringsArea       offeringsArea . " 
-                            "enrollArea         enrollArea          enrollArea . "
-                            "feesArea           feesArea            feesArea . ";
-        border: 2px solid navy;
-        margin: 0 auto;
-        background-color: blue
-        
-    } 
-    
-    
-}
+
 
 /* SPECIFICATIONS FOR LAPTOP WITH MDP SCREENS */
 @media (min-width: 1280px) {
     .parent {
         display:grid;
         width:95%;
-        grid-template-rows: 40px 40px 150px 150px 40px 150px 150px;
+        grid-template-rows: 40px fit-content(300px) 150px 40px 150px;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-areas:"titleArea          termArea      selectMemberArea     versionArea"
-                            "memberNameIDArea   memberNameIDArea    memberNameIDArea . "
-                            "coursesTakenArea   coursesTakenArea    coursesTakenArea . "
-                            "courseListArea     courseListArea      courseListArea . "
+                            "memberNameArea     memberNameArea      memberNameArea      memberNameArea"                   
+                            "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea ";
+                            /* "courseListArea     courseListArea      courseListArea . "
                             "offeringsArea      offeringsArea       offeringsArea . " 
                             "enrollArea         enrollArea          enrollArea . "
-                            "feesArea           feesArea            feesArea . ";
+                            "feesArea           feesArea            feesArea . "; */
         border: 2px solid navy;
         margin: 0 auto;
-        background-color: green;
+        background-color: lightgray;
         
     } 
+    .termSection {
+        grid-area: termArea;
+        width:100%;
+        padding-top:.25em;
+        padding-left:1em;
+        text-align: left;
+        background-color:navy;
+        color:black;
+        
+    }
+    .selectMemberSection {
+        grid-area: selectMemberArea;
+        max-width:100%;
+        padding-top:.3em;
+        padding-right:1em;
+        text-align:right;
+        background-color:navy;
+        color:white;
+    }
+    .coursesTakenSection {
+        grid-area: coursesTakenArea;
+        max-width: 100%;
+        overflow-x:scroll;
+        padding-top:1px;
+        padding-left:0em;
+        padding-right:0em;
+        background-color: maroon;
+        font-size:.75rem;
+        color:navajowhite;
+        border:2px solid maroon;
+    }
     
+    .coursesTakenSection table {
+        background-color: navajowhite;
+        color:maroon;
+    }
+    table th, td {
+        color:maroon;
+    }
+    .schedule{
+        font-size:1rem;
+    }
+    #selectMemberID {
+        color:navy;
+    }
 }
 
 
 /* SPECIFICATIONS FOR MONITOR  */
-@media (min-width: 1440px) {
+/* @media (min-width: 1440px) {
     .parent {
         display:grid;
         width:100%;
@@ -264,6 +322,6 @@ hr {
         margin: 0 auto;
         background-color:red;
         
-    } 
+    }  
        
-}
+}*/

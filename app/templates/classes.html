@@ -16,7 +16,7 @@
     </div>
     <div class="termSection"> 
         <div class="selectTerm">
-            <select id="selectTermID" class='selectpicker form-control form-control-sm' title='Select a term ...' data-live-search=true data-live-search-style="contains" data-width='auto'>
+            <select id="selectTermID" class='selectpicker form-control form-control-sm' data-width=150px title='Select a term ...' data-live-search=true data-live-search-style="contains" data-width='auto'>
                 {% for term in termArray %}
                     <option  class="optName" value='{{term.termName}}'>{{ term.termName }}</option>
                 {% endfor %}
@@ -35,17 +35,17 @@
     <div class="version">
         <h6>ver. Jan 2, 2021</h6> 
     </div>    
-<!-- 
-    <div class="memberNameAndIDSection">
+     
+    <div class="memberNameSection">
         <h3>{{memberName}}</h3>  
-    </div> -->
+    </div>
    
     <div class="coursesTakenSection">
         <div>
             <span>COURSES TAKEN</span>
         </div>
 
-        <table class="schedule table table-sm">
+        <table class="schedule table table-sm table-striped">
             <thead>
                 <tr>
                     <th>Term</th>

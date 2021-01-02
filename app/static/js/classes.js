@@ -28,12 +28,12 @@ else{
 selectedCourse = ''
 
 // DEFINE EVENT LISTENERS
+document.getElementById("selectTermID").addEventListener("change",termSelectedRtn)
+document.getElementById("selectTermID").addEventListener("click",termSelectedRtn)
 document.getElementById("selectMemberID").addEventListener("change",memberSelectedRtn)
 document.getElementById("selectMemberID").addEventListener("click",memberSelectedRtn)
 document.getElementById("selectCourseID").addEventListener("change",courseSelectedRtn)
 document.getElementById("selectCourseID").addEventListener("click",courseSelectedRtn)
-document.getElementById("selectTermID").addEventListener("change",termSelectedRtn)
-document.getElementById("selectTermID").addEventListener("click",termSelectedRtn)
 
 // FUNCTIONS 
 function memberSelectedRtn() {
