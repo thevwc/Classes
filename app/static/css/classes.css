@@ -61,16 +61,18 @@ hr {
 .parent {
     display:grid;
     width:90%;
-    grid-template-rows: 40px 40px 40px 40px fit-content(200px);   /* 350px 40px 150px 150px 150px 150px 150px; */
+    grid-template-rows: 40px 40px 40px 40px fit-content(200px) 40px 40px 40px fit-content(300px) ;   /* 350px 40px 150px 150px 150px 150px 150px; */
     grid-template-columns: minmax(0,1fr) minmax(0,1fr);
     grid-template-areas:"titleArea  versionArea"
                         "termArea termArea"
                         "selectMemberArea selectMemberArea"
                         "memberNameArea     memberNameArea" 
-                        "coursesTakenArea coursesTakenArea";
-                        /*"courseListArea"
-                        "offeringsArea" 
-                        "enrollArea
+                        "coursesTakenArea coursesTakenArea"
+                        "filter1Area   filter1Area"
+                        "filter2Area   filter2Area"
+                        "filter3Area    filter3Area"
+                        "offeringsArea      offeringsArea"; 
+                        /*"enrollArea
                         "feesArea"; */
     border: 2px solid navy;
     margin: 0 auto;
@@ -133,6 +135,7 @@ hr {
     overflow-x:scroll;
     padding-left:0em;
     padding-right:0em;
+    padding-bottom:3em;
     background-color: navajowhite;
     color:maroon;
 }
@@ -140,11 +143,32 @@ hr {
 .schedule {
     font-size:.5rem;
 } 
-.selectCourseSection {
-    grid-area:courseListArea;
-    width:90%;
-    font-size: .75rem;
-    background-color: lightgoldenrodyellow;
+.filter1Section {
+    grid-area:filter1Area;
+    max-width:100%;
+    padding-top:.3em;
+    text-align:left;
+    background-color:navy;
+    border-top:1px solid white;
+    color:white;
+}
+.filter2Section {
+    grid-area:filter2Area;
+    max-width:100%;
+    padding-top:.3em;
+    text-align:left;
+    background-color:navy;
+    border-top:1px solid white;
+    color:white;
+}
+.filter3Section {
+    grid-area:filter3Area;
+    max-width:100%;
+    padding-top:.3em;
+    text-align:left;
+    background-color:navy;
+    border-top:1px solid white;
+    color:white;
 }
 .courseOfferingsSection {
     grid-area:offeringsArea;
@@ -166,15 +190,15 @@ hr {
     .parent {
         display:grid;
         width:100%;
-        grid-template-rows: 40px 40px 40px fit-content(250px);  /* 40px 100px 150px 150px; */
+        grid-template-rows: 40px 40px 40px fit-content(250px) 40px fit-content(300px);  /* 40px 100px 150px 150px; */
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-areas:"titleArea          titleArea           versionArea         versionArea"          
                             "termArea           termArea            selectMemberArea    selectMemberArea" 
                             "memberNameArea     memberNameArea      memberNameArea      memberNameArea"                   
-                            "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea ";
-                            /* "courseListArea     courseListArea      courseListArea . "
-                            "offeringsArea      offeringsArea       offeringsArea . " 
-                            "enrollArea         enrollArea          enrollArea . "
+                            "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea "
+                            "filter1Area        filter2Area         filter2Area         filter3Area"
+                            "offeringsArea      offeringsArea       offeringsArea       offeringsArea";
+                            /*"enrollArea         enrollArea          enrollArea . "
                             "feesArea           feesArea            feesArea . "; */
         font-size:1rem;
         background-color:lightgreen;
@@ -230,7 +254,7 @@ hr {
     .schedule{
         font-size:.75rem;
     }
-
+    
 }
 
 /* SPECIFICATIONS FOR iPad LANDSCAPE SCREENS */
@@ -241,14 +265,14 @@ hr {
     .parent {
         display:grid;
         width:95%;
-        grid-template-rows: 40px fit-content(300px) 150px 40px 150px;
+        grid-template-rows: 40px fit-content(300px) 40px fit-content(300px);
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-areas:"titleArea          termArea      selectMemberArea     versionArea"
                             "memberNameArea     memberNameArea      memberNameArea      memberNameArea"                   
-                            "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea ";
-                            /* "courseListArea     courseListArea      courseListArea . "
-                            "offeringsArea      offeringsArea       offeringsArea . " 
-                            "enrollArea         enrollArea          enrollArea . "
+                            "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea "
+                            "filter1Area        filter2Area         filter2Area         filter3Area"
+                            "offeringsArea      offeringsArea       offeringsArea       offeringsArea"; 
+                           /* "enrollArea         enrollArea          enrollArea . "
                             "feesArea           feesArea            feesArea . "; */
         border: 2px solid navy;
         margin: 0 auto;
@@ -297,6 +321,8 @@ hr {
     .schedule{
         font-size:1rem;
     }
+
+    
     #selectMemberID {
         color:navy;
     }

@@ -20,6 +20,7 @@ class ControlVariables(db.Model):
     Date_To_Accept_New_Members = db.Column(db.Date)
     Last_Acceptable_Monitor_Training_Date = db.Column(db.Date)
     AcceptingNewMembers = db.Column(db.Boolean)
+    Current_Course_Term = db.Column(db.String(15))
     Dues_Account = db.Column(db.String(10))
     Initiation_Fee_Account = db.Column(db.String(10))
     WaitingListApplicantNote = db.Column(db.String(255))

@@ -15,8 +15,10 @@
         <span>CLASSES</span>
     </div>
     <div class="termSection"> 
+        <input type="text" id="termID" value={{term}}>
         <div class="selectTerm">
             <select id="selectTermID" class='selectpicker form-control form-control-sm' data-width=150px title='Select a term ...' data-live-search=true data-live-search-style="contains" data-width='auto'>
+                    <option value="">Select a term ...</option>
                 {% for term in termArray %}
                     <option  class="optName" value='{{term.termName}}'>{{ term.termName }}</option>
                 {% endfor %}
@@ -26,6 +28,7 @@
     
     <div class="selectMemberSection">
         <select id="selectMemberID" class='selectpicker form-control form-control-sm' data-width=300px title='Select a member ...' data-live-search=true data-live-search-style="contains" data-width='auto'>
+            <option value="">Select a member ...</option>
             {% for nme in memberArray %}
                 <option  class="optName" value='{{nme}}'>{{ nme }}</option>
             {% endfor %}
@@ -33,7 +36,7 @@
     </div> 
 
     <div class="version">
-        <h6>ver. Jan 2, 2021</h6> 
+        <h6>ver. Jan 3, 2021</h6> 
     </div>    
      
     <div class="memberNameSection">
@@ -73,19 +76,78 @@
         </table>
     </div>
     
-    <!--
-    <div class="selectCourseSection">
+    <div class="filter1Section">
+        <form action="">
+            <input type="radio" id="openClasses" name="openClasses" value="OPEN" checked>
+            <label for="openClasses" style=color:white>Show open classes only</label><br>
+            <input type="radio" id="allClasses" name="allClasses" value="ALL">
+            <label for="allClasses" style=color:white>Show all classes</label><br>
+        </form>
+    </div>
+    
+
+    <div class="filter2Section">    
+        <input id= 'myInput' class='form-control form-control-sm' type="text" style=width:200px placeholder="Enter any characters to filter ...">
+    </div>
+
+    <div class="filter3Section">   
         <select id="selectCourseID" class='selectpicker' title='Select a course ...' data-live-search=true data-live-search-style="contains" data-width='auto'>
             {% for course in courseArray %}
                 <option  class="optName" value='{{course}}'>{{ course }}</option>
             {% endfor %}
-        </select>
-    </div> 
+        </select> 
+    </div>
    
     <div class="courseOfferingsSection">
-        COURSE OFFERINGS
-    </div>
+        <div>
+            <span>CURRENT OFFERINGS</span>
+        </div>
 
+        <table class="offerings table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th>Section</th>
+                    <th>Title</th>
+                    <th>Instructor</th>
+                    <th>Dates</th>
+                    <th>Cap</th>
+                    <th>Taken</th>
+                    <th>Avail</th>
+                    <th>Fee</th>
+                    <th>Supplies</th>
+                    <th>Supply Fee</th>
+                    <th>full</th>
+                    <th>closed</th>
+                </tr>
+            </thead>
+            <tbody id='myTable'>
+                {% for offering in offeringDict %}
+                <tr>
+                    <td>{{offering.sectionName}}</td>
+                    <td>{{offering.title}}</td>
+                    <td>{{offering.instructorName}}</td>
+                    <td>{{offering.dates}}</td>
+                    <td>{{offering.capacity}}</td>
+                    <td>{{offering.seatsTaken}}</td>
+                    <td>{{offering.seatsAvailable}}</td>
+                    <td>{{offering.fee}}</td>
+                    <td>{{offering.supplies}}</td>
+                    <td>{{offering.suppliesFee}}</td>
+                    <td style=color:red>{{offering.fullMsg}}</td>
+                    <td style=color:red>{{offering.closedMsg}}</td>
+                </tr>
+                <tr>
+                    <td>{{offering.prereqMsg}}</td>
+                    <td>{{offering.note}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    
+    </div>
+    <!--
     <div class="enrollSection">
         ENROLL
     </div>

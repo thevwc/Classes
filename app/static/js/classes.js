@@ -2,15 +2,32 @@
 //console.log('page load')
 // SET INTIAL VALUES 
 
-// GET LAST USED TERM VALUE IF AVAILABLE
-selectedTerm = localStorage.getItem('term')
-if (selectedTerm != null & selectedTerm != '') {
-    // SET LIST OF TERMS TO LAST USED TERM
-    document.getElementById('selectTermID').title = selectedTerm
+// was term passed in?
+termID = document.getElementById('termID')
+if (termID == None) {
+    term = ''
 }
-else{
-    // CLEAR TERM VALUE''
-    selectedTerm = ''
+else {
+    term = termID.value
+}
+
+//console.log('term from page - ' + term)
+if (term == ''){
+    // GET LAST USED TERM VALUE IF AVAILABLE
+    storedTerm = localStorage.getItem('term')
+    if (storedTerm != null & storedTerm != '') {
+        // SET LIST OF TERMS TO LAST USED TERM
+        document.getElementById('selectTermID').title = storedTerm
+        term = storedTerm
+    }
+    else{
+        // CLEAR TERM VALUE''
+        term = ''
+        document.getElementById('selectTermID').title = ''
+    }
+}
+else {
+    document.getElementById('selectTermID').title = term
 }
 
 // GET LAST USED MEMBER VALUE IF AVAILABLE
@@ -32,8 +49,8 @@ document.getElementById("selectTermID").addEventListener("change",termSelectedRt
 document.getElementById("selectTermID").addEventListener("click",termSelectedRtn)
 document.getElementById("selectMemberID").addEventListener("change",memberSelectedRtn)
 document.getElementById("selectMemberID").addEventListener("click",memberSelectedRtn)
-document.getElementById("selectCourseID").addEventListener("change",courseSelectedRtn)
-document.getElementById("selectCourseID").addEventListener("click",courseSelectedRtn)
+//document.getElementById("selectCourseID").addEventListener("change",courseSelectedRtn)
+//document.getElementById("selectCourseID").addEventListener("click",courseSelectedRtn)
 
 // FUNCTIONS 
 function memberSelectedRtn() {
@@ -54,18 +71,31 @@ function courseSelectedRtn() {
     courseData = this.value
     selectedCourse = courseData.slice(0,4)
     console.log('Course selected - '+ selectedCourse)
-    
+    termSelected = localStorage.getItem('term',this.value)
+    if (termSelected == None | termSelected == '') {
+        alert('Please select a term.')
+        return
+    }
+    // filter course offerings
 
-    // Use ajax to get data for course offering table
-
-    //document.getElementById('selectpicker').value=''
-
-    // GET MEMBER NAME AND COURSES TAKEN 
-    //window.location.href = '/classes?villageID=' + selectedMember 
 }
 
 function termSelectedRtn() {
     localStorage.setItem('term',this.value) 
-    //document.getElementById('termSelected').value = this.value
+    termSelected = this.value
+    console.log('term selected - ',this.value)
+    link = '/classes//'+ termSelected
+    console.log('link - '+link)
+    window.location.href = link
 }
-  
+
+$(document).ready(function(){
+      $("#myInput").on("keyup", function() {
+        console.log('Input - ' + this.value)
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+    
