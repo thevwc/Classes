@@ -1,17 +1,9 @@
-// ON PAGE LOAD ...
-//console.log('page load')
 // SET INTIAL VALUES 
 
 // was term passed in?
-termID = document.getElementById('termID')
-if (termID == None) {
-    term = ''
-}
-else {
-    term = termID.value
-}
+term = document.getElementById('termID').innerHTML
+console.log('term from page - ' + term)
 
-//console.log('term from page - ' + term)
 if (term == ''){
     // GET LAST USED TERM VALUE IF AVAILABLE
     storedTerm = localStorage.getItem('term')
@@ -27,6 +19,7 @@ if (term == ''){
     }
 }
 else {
+    console.log('set title ...')
     document.getElementById('selectTermID').title = term
 }
 
@@ -41,6 +34,8 @@ else{
     selectedMember = ''
 }
 
+// SHOW ALL CLASSES
+
 // SET selectedCourse TO BLANK
 selectedCourse = ''
 
@@ -49,8 +44,15 @@ document.getElementById("selectTermID").addEventListener("change",termSelectedRt
 document.getElementById("selectTermID").addEventListener("click",termSelectedRtn)
 document.getElementById("selectMemberID").addEventListener("change",memberSelectedRtn)
 document.getElementById("selectMemberID").addEventListener("click",memberSelectedRtn)
-//document.getElementById("selectCourseID").addEventListener("change",courseSelectedRtn)
-//document.getElementById("selectCourseID").addEventListener("click",courseSelectedRtn)
+
+$("#selectCourseID").on("change", function() {
+    courseData = this.value
+    selectedCourse = courseData.slice(0,4)
+    $("#myTable tr").filter(function() {
+        $(this).toggle($(this).text().indexOf(selectedCourse) > -1)
+    })
+ });
+ 
 
 // FUNCTIONS 
 function memberSelectedRtn() {
@@ -66,25 +68,43 @@ function memberSelectedRtn() {
 
 }
 
-function courseSelectedRtn() {
-    console.log('courseSelectedRtn - '+ this.value)
-    courseData = this.value
-    selectedCourse = courseData.slice(0,4)
-    console.log('Course selected - '+ selectedCourse)
-    termSelected = localStorage.getItem('term',this.value)
-    if (termSelected == None | termSelected == '') {
-        alert('Please select a term.')
-        return
-    }
-    // filter course offerings
-
+function showOpenOnly() {
+   console.log('openFilterRtn')
+    $("#myTable tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf('full') <= -1)
+        $(this).toggle($(this).text().toLowerCase().indexOf('closed') <= -1)
+    })
 }
+function showAllClasses() {
+    console.log('showAllClasses')
+     $("#myTable tr").filter(function() {
+         // $(this).toggle($(this).text().toLowerCase().indexOf('full') <= -1)
+         $(this).toggle()
+     })
+ }    
+
+
+// function courseSelectedRtn() {
+//     console.log('courseSelectedRtn - '+ this.value)
+//     courseData = this.value
+//     selectedCourse = courseData.slice(0,4)
+//     console.log('Course selected - '+ selectedCourse)
+//     termSelected = localStorage.getItem('term',this.value)
+//     if (termSelected == None | termSelected == '') {
+//         alert('Please select a term.')
+//         return
+//     }
+//     // filter course offerings by course
+//     $(this).toggle($(this).text().toLowerCase().indexOf(selectedCourse) <= -1)
+//     // apply all or open filter
+
+// }
 
 function termSelectedRtn() {
     localStorage.setItem('term',this.value) 
     termSelected = this.value
     console.log('term selected - ',this.value)
-    link = '/classes//'+ termSelected
+    link = '/classes/ /'+ termSelected
     console.log('link - '+link)
     window.location.href = link
 }

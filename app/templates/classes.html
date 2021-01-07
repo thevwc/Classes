@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}CLASSES{% endblock title %}
+{% block title %}CLASS SIGNUP{% endblock title %}
 {% block styles %}
     {{super()}}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/classes.css') }}">
@@ -12,10 +12,17 @@
 <div class="parent">
     
     <div class="title">
-        <span>CLASSES</span>
+        <h4>CLASS SIGNUP</h4>
     </div>
+
+    <div class="version">
+        <h6>ver. Jan 7, 2021</h6> 
+    </div> 
+
     <div class="termSection"> 
-        <input type="text" id="termID" value={{term}}>
+        <!-- <input type="text" id="termID" value={{term}}> -->
+        <div id="termID" style=display:none>{{term}}</div>
+        <!-- <span class="spanTerm">{{term}}</span> -->
         <div class="selectTerm">
             <select id="selectTermID" class='selectpicker form-control form-control-sm' data-width=150px title='Select a term ...' data-live-search=true data-live-search-style="contains" data-width='auto'>
                     <option value="">Select a term ...</option>
@@ -33,10 +40,6 @@
                 <option  class="optName" value='{{nme}}'>{{ nme }}</option>
             {% endfor %}
         </select>
-    </div> 
-
-    <div class="version">
-        <h6>ver. Jan 3, 2021</h6> 
     </div>    
      
     <div class="memberNameSection">
@@ -76,34 +79,36 @@
         </table>
     </div>
     
-    <div class="filter1Section">
-        <form action="">
-            <input type="radio" id="openClasses" name="openClasses" value="OPEN" checked>
-            <label for="openClasses" style=color:white>Show open classes only</label><br>
-            <input type="radio" id="allClasses" name="allClasses" value="ALL">
-            <label for="allClasses" style=color:white>Show all classes</label><br>
-        </form>
-    </div>
-    
+    <div class="filterSection">
+        <div class="filter1Section">
+            <div class="showOptions btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-outline-primary btn-sm active" style=height:30px; onclick=showAllClasses()>
+                    <input type="radio" name="showOptions" autocomplete="off">SHOW ALL CLASSES
+                </label>
+                <label class="btn btn-outline-primary btn-sm" onclick=showOpenOnly() style=margin-left:20px>
+                    <input type="radio" name="showOptions" autocomplete="off">OPEN CLASSES ONLY
+                </label>
+            </div>
+        </div>   
 
-    <div class="filter2Section">    
-        <input id= 'myInput' class='form-control form-control-sm' type="text" style=width:200px placeholder="Enter any characters to filter ...">
-    </div>
+        <div class="filter2Section">    
+            <input id= 'myInput' class='form-control form-control-md' type="text" style=height:30px;width:200px placeholder="Enter keywords ...">
+        </div>
 
-    <div class="filter3Section">   
-        <select id="selectCourseID" class='selectpicker' title='Select a course ...' data-live-search=true data-live-search-style="contains" data-width='auto'>
-            {% for course in courseArray %}
-                <option  class="optName" value='{{course}}'>{{ course }}</option>
-            {% endfor %}
-        </select> 
+        <div class="filter3Section">   
+            <select id="selectCourseID" class='selectpicker form-control form-control-sm' title='Select a course ...' data-live-search=true data-live-search-style="contains" data-width='300px'>
+                {% for course in courseArray %}
+                    <option  class="optName" value='{{course}}'>{{ course }}</option>
+                {% endfor %}
+            </select> 
+        </div>
     </div>
-   
     <div class="courseOfferingsSection">
         <div>
             <span>CURRENT OFFERINGS</span>
         </div>
 
-        <table class="offerings table table-sm table-striped">
+        <table class="offerings table table-sm">
             <thead>
                 <tr>
                     <th>Section</th>

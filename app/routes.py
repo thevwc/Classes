@@ -46,9 +46,10 @@ def logChange(staffID,colName,memberID,newData,origData):
 @app.route("/classes/<villageID>",defaults={'term':None})
 @app.route("/classes/<villageID>/<term>")
 def index(villageID,term):
+    #print('1. villageID - ',villageID, '\nterm - ',term)
     if (term == None):
         term = db.session.query(ControlVariables.Current_Course_Term).filter(ControlVariables.Shop_Number == 1).scalar()
-    print('villageID - ',villageID, '\nterm - ',term)
+    #print('2. villageID - ',villageID, '\nterm - ',term)
 
     # GET TODAY'S DATE
     todays_date = date.today()
@@ -183,7 +184,7 @@ def index(villageID,term):
     # END OF ROUTINE TO RETRIEVE COURSES TAKEN BY AN INDIVIDUAL
 
     # BUILD COURSE OFFERING ARRAY FOR A SPECIFIC TERM
-    print('begin build course offering ...')
+    #print('begin build course offering ...')
     if (term != None):
         offeringDict = []
         offeringItems = []
@@ -194,15 +195,15 @@ def index(villageID,term):
         sqlOfferings += "o.Prerequisite_Course, "
         sqlOfferings += "o.Section_Supplies, o.Section_Supplies_Fee, "
         sqlOfferings += "o.Section_Closed_Date, o.Section_Start_Date, "
-        sqlOfferings += "c.Course_Title as title, "
-        sqlOfferings += "m.First_Name + ' ' + m.Last_Name as instructor "
+        sqlOfferings += "c.Course_Title as title, c.Course_Fee as courseFee, "
+        sqlOfferings += "m.First_Name + ' ' + m.Last_Name as instructorName "
         sqlOfferings += "FROM tblCourse_Offerings o "
         sqlOfferings += "LEFT JOIN tblCourses c ON c.Course_Number = o.Course_Number "
         sqlOfferings += "LEFT JOIN tblMember_Data m ON m.Member_ID = o.Instructor_ID "
         sqlOfferings += "WHERE o.Course_Term = '" + term + "' "
         sqlOfferings += "ORDER BY o.Course_Number, o.Section_ID"
         
-        print(sqlOfferings)
+        #print(sqlOfferings)
 
         try:
             offerings = db.engine.execute(sqlOfferings)
@@ -212,8 +213,8 @@ def index(villageID,term):
             flash(errorMsg,'danger')
             return 'ERROR in offering list build.'
 
-        for o in offerings:
-            print (o.term, o.courseNumber, o.title, o.instructor)
+        #for o in offerings:
+        #    print (o.term, o.courseNumber, o.title, o.instructor)
 
         # END OF SQL STATEMENTS approach 
 
@@ -223,11 +224,11 @@ def index(villageID,term):
         #     .filter(CourseOffering.Course_Term == term)\
         #     .order_by(CourseOffering.Course_Number, CourseOffering.Section_ID)\
         #     .limit(10)
-        # if offerings == None:
-        #     flash('There are no courses offerings for this term.','info')
-        # else: 
-        #     print('there are some offerings ...')   
-        #     for offering in offerings:
+        if offerings == None:
+            flash('There are no courses offerings for this term.','info')
+        else: 
+            #print('there are some offerings ...')   
+            for offering in offerings:
                 
         #         # GET COURSE TITLE
         #         courseRecord = db.session.query(Course).filter(Course.Course_Number == offering.Course_Number).first()
@@ -240,51 +241,52 @@ def index(villageID,term):
         #             instructorName = instructor.First_Name + ' ' + instructor.Last_Name
         #         else:
         #             instructorName = ''
+        # END OF SQLAlchemy approach
 
-        #         # GET CLASS SIZE LIMIT
-        #         capacity = offering.Section_Size
+                 # GET CLASS SIZE LIMIT
+                capacity = offering.Section_Size
 
-        #         # GET COUNT OF SEATS TAKEN
-        #         seatsTaken = db.session.query(func.count(CourseEnrollee.Member_ID))\
-        #             .filter(CourseEnrollee.Course_Term == term)\
-        #             .filter(CourseEnrollee.Course_Number == offering.Course_Number)\
-        #             .filter(CourseEnrollee.Section_ID == offering.Section_ID)\
-        #             .scalar()
+                # GET COUNT OF SEATS TAKEN
+                seatsTaken = db.session.query(func.count(CourseEnrollee.Member_ID))\
+                    .filter(CourseEnrollee.Course_Term == term)\
+                    .filter(CourseEnrollee.Course_Number == offering.courseNumber)\
+                    .filter(CourseEnrollee.Section_ID == offering.sectionID)\
+                    .scalar()
                 
-        #         seatsAvailable = capacity - seatsTaken
-        #         if (offering.Section_Closed_Date):
-        #             statusClosed = 'CLOSED'
-        #         else:
-        #             statusClosed = ''
+                seatsAvailable = capacity - seatsTaken
+                if (offering.Section_Closed_Date):
+                    statusClosed = 'CLOSED'
+                else:
+                    statusClosed = ''
 
                 
-        #         seatsAvailable = capacity - seatsTaken
-        #         if (seatsAvailable > 0):
-        #             statusFull = ''
-        #         else:
-        #             statusFull = 'FULL'
+                seatsAvailable = capacity - seatsTaken
+                if (seatsAvailable > 0):
+                    statusFull = ''
+                else:
+                    statusFull = 'FULL'
 
-        #         offeringItems = {
-        #             'sectionName':offering.Course_Number + '-' + offering.Section_ID,
-        #             'term':term,
-        #             'courseNumber':offering.Course_Number,
-        #             'title':courseTitle,
-        #             'instructorName':instructorName,
-        #             'dates':offering.Section_Dates,
-        #             'notes':offering.Section_Dates_Note,
-        #             'capacity':capacity,
-        #             'seatsTaken':seatsTaken,
-        #             'seatsAvailable':seatsAvailable,
-        #             'fee':courseFee,
-        #             'supplies':offering.Section_Supplies,
-        #             'suppliesFee':offering.Section_Supplies_Fee,
-        #             'fullMsg':statusFull,
-        #             'closedMsg':statusClosed
-        #         }
-        #         offeringDict.append(offeringItems)
-        #     # END OF SQLAlchemy approach
+                offeringItems = {
+                    'sectionName':offering.courseNumber + '-' + offering.sectionID,
+                    'term':term,
+                    'courseNumber':offering.courseNumber,
+                    'title':offering.title,
+                    'instructorName':offering.instructorName,
+                    'dates':offering.Section_Dates,
+                    'notes':offering.Section_Dates_Note,
+                    'capacity':capacity,
+                    'seatsTaken':seatsTaken,
+                    'seatsAvailable':seatsAvailable,
+                    'fee':offering.courseFee,
+                    'supplies':offering.Section_Supplies,
+                    'suppliesFee':offering.Section_Supplies_Fee,
+                    'fullMsg':statusFull,
+                    'closedMsg':statusClosed
+                }
+                offeringDict.append(offeringItems)
+            
 
-    print('term sent to browser - ',term)
+    #print('term sent to browser - ',term)
     return render_template("classes.html",memberID=villageID,memberArray=memberArray,\
     todaySTR=todaySTR,termArray=termArray,courseArray=courseArray,memberName=memberName,\
     scheduleDict=coursesTakenDict, offeringDict=offeringDict,term=term)
