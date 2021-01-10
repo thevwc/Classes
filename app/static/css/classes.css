@@ -57,11 +57,15 @@ hr {
     border:1px solid black;
 }
 
+/* button {
+    width:80px;
+} */
+
 /* Layout for iPhone (small devices) */
 .parent {
     display:grid;
     width:100%;
-    grid-template-rows: 40px 40px 40px 40px 40px 40px fit-content(200px) 40px 40px 40px 40px;   
+    grid-template-rows: 40px 40px 40px 40px 40px 140px 40px 40px 40px 200px 200px; 
     grid-template-columns: minmax(0,1fr) minmax(0,1fr);
     grid-template-areas:"titleArea          titleArea"
                         "versionArea        versionArea"
@@ -71,10 +75,10 @@ hr {
                         "coursesTakenArea   coursesTakenArea"
                         "filterArea         filterArea"
                         "filterArea         filterArea"
-                        "filterArea         filterArea";
-                       /* "offeringsArea      offeringsArea";  */
-                        /*"enrollArea
-                        "feesArea"; */
+                        "filterArea         filterArea"
+                        "offeringsArea      offeringsArea"
+                        "enrollArea         enrollArea";
+        
     border: 2px solid navy;
     margin: 0 auto;
     padding:0em;
@@ -160,19 +164,25 @@ hr {
 .filter1Section {
     grid-area:filter1Area;
     max-width:100%;
-    padding-top:.3em;
-    padding-left:6em;
+    padding-top:.5em;
+    padding-left:0em;
     text-align:left;
     background-color:navy;
     border-top:1px solid white;
     color:white;
 }
+
+.showOptions label {
+    height:25px;
+    margin-top:.3em;
+    
+}
 .filter2Section {
     grid-area:filter2Area;
     max-width:100%;
-    padding-top:.5em;
+    padding-top:.3em;
     padding-left:5.3em;
-    background-color:blue;
+    background-color:navy;
     border-top:1px solid white;
     color:white;
 }
@@ -187,13 +197,25 @@ hr {
 }
 .courseOfferingsSection {
     grid-area:offeringsArea;
+    overflow-x:scroll;
     background-color: lightgray;
-}
-.enrollSection {
-    grid-area: enrollArea;
-    background-color: lightsalmon;
+    font-size:.5rem;
 }
 
+.enrollSection {
+    grid-area: enrollArea;
+    overflow-x:scroll;
+    background-color: lightsalmon;
+    font-size:.5rem;
+}
+
+.setsQty {
+    width:40px;
+    height:20px;
+    font-size:large;
+    text-align:center;
+    
+}
 .feesSection {
     grid-area: feesArea;
     background-color: pink;
@@ -205,16 +227,15 @@ hr {
     .parent {
         display:grid;
         width:100%;
-        grid-template-rows: 40px 40px fit-content(300px) fit-content(100px) fit-content(300px) fit-content(300px) 50px;
+        grid-template-rows: 40px 40px 40px 200px 40px 150px 150px;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-areas:"titleArea          titleArea           versionArea         versionArea"          
                             "termArea           termArea            selectMemberArea    selectMemberArea" 
                             "memberNameArea     memberNameArea      memberNameArea      memberNameArea"                   
                             "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea "
                             "filterArea         filterArea          filterArea          filterArea"
-                             "offeringsArea      offeringsArea       offeringsArea       offeringsArea";
-                            /*"enrollArea         enrollArea          enrollArea . "
-                            "feesArea           feesArea            feesArea . "; */
+                            "offeringsArea      offeringsArea       offeringsArea       offeringsArea"
+                            "enrollArea         enrollArea          enrollArea          enrollArea";
         font-size:1rem;
         background-color:lightgreen;
     }
@@ -284,38 +305,45 @@ hr {
     .filter1Section {
         grid-area:filter1Area;
         max-width:100%;
-        padding-top:.3em;
+        padding-top:0em;
         padding-left:0em;
-        text-align:left;
         background-color:navy;
         border-top:1px solid white;
         color:white;
-        font-size:.75rem;
-        border:1px solid yellow;
+        font-size:.5rem;
     }
     .filter2Section {
         grid-area:filter2Area;
         max-width:100%;
-        padding-top:.5em;
-        padding-left:5em;
-        text-align:center;
+        padding-top:0em;
+        padding-left:0em;
         background-color:navy;
         border-top:1px solid white;
         color:white;
-        border:1px solid yellow;
     }
     .filter3Section {
         grid-area:filter3Area;
         max-width:100%;
-        padding-top:.5em;
-        padding-left:1em;
+        padding-top:0em;
+        padding-right:.5em;
         text-align:center;
         background-color:navy;
         border-top:1px solid white;
         color:white;
-        border:1px solid yellow;
+    }
+    .courseOfferingsSection {
+        grid-area:offeringsArea;
+        overflow:auto;
+        background-color: lightgray;
+        font-size:.75rem;
     }
     
+    .enrollSection {
+        grid-area: enrollArea;
+        overflow:scroll;
+        background-color: lightsalmon;
+        font-size:.75rem;
+    }
 }
 
 /* SPECIFICATIONS FOR iPad LANDSCAPE SCREENS */
@@ -326,15 +354,15 @@ hr {
     .parent {
         display:grid;
         width:95%;
-        grid-template-rows: 40px 40px fit-content(300px) 50px fit-content(200px) fit-content(300px) 40px;
+        grid-template-rows: 40px 40px fit-content(200px) 40px fit-content(400px) 150px;
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-areas:"titleArea          termArea      selectMemberArea     versionArea"
+        grid-template-areas:"titleArea          termArea            selectMemberArea    versionArea"
                             "memberNameArea     memberNameArea      memberNameArea      memberNameArea"                   
                             "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea "
-                            "filterArea        filterArea         filterArea         filterArea"
-                            "offeringsArea      offeringsArea       offeringsArea       offeringsArea"; 
-                           /* "enrollArea         enrollArea          enrollArea . "
-                            "feesArea           feesArea            feesArea . "; */
+                            "filterArea         filterArea          filterArea          filterArea"
+                            "offeringsArea      offeringsArea       offeringsArea       offeringsArea"
+                            "enrollArea         enrollArea          enrollArea          enrollArea";
+                        
         border: 2px solid navy;
         margin: 0 auto;
         background-color: lightgray;
@@ -348,6 +376,7 @@ hr {
         text-align: left;
         background-color:navy;
         color:black;
+        border:none;
         
     }
     .selectMemberSection {
@@ -358,12 +387,19 @@ hr {
         text-align:right;
         background-color:navy;
         color:white;
+        border:none;
+    }
+    .memberNameSection {
+        grid-area:memberNameArea;
+        text-align:center;
+        padding-top:.75em;
+        background-color: lightgray;
+        color:navy;
     }
     .coursesTakenSection {
         grid-area: coursesTakenArea;
         max-width: 100%;
         overflow-x:scroll;
-        padding-top:1px;
         padding-left:0em;
         padding-right:0em;
         background-color: maroon;
@@ -380,14 +416,8 @@ hr {
         color:maroon;
     }
     .schedule{
-        font-size:1rem;
+        font-size:.75rem;
     }
-
-    
-    #selectMemberID {
-        color:navy;
-    }
-
     .filterSection {
         grid-area:filterArea;
         display:grid;
@@ -397,21 +427,22 @@ hr {
     .filter1Section {
         grid-area:filter1Area;
         max-width:100%;
-        height:50px;
-        padding-top:.75em;
+        padding-top:0em;
         padding-left:0em;
-        text-align:center;
         background-color:navy;
         border-top:1px solid white;
         color:white;
+        font-size:.5rem;
     }
-    .filter1Section .btn:active {background : red}
-    
+    /* #showAll:active {
+        background-color: yellow;
+        color:red;
+    } */
     .filter2Section {
         grid-area:filter2Area;
         max-width:100%;
-        padding-top:.5em;
-        padding-left:12em;
+        padding-top:0em;
+        padding-left:0em;
         background-color:navy;
         border-top:1px solid white;
         color:white;
@@ -419,35 +450,26 @@ hr {
     .filter3Section {
         grid-area:filter3Area;
         max-width:100%;
-        padding-top:.5em;
-        padding-right:0em;
+        padding-top:0em;
+        padding-right:.5em;
         text-align:center;
         background-color:navy;
         border-top:1px solid white;
         color:white;
     }
-
-    .courseOfferingSection {
-        grid-area: courseOfferingArea;
-        max-width: 100%;
-        overflow-x:scroll;
-        padding-top:1px;
-        padding-left:0em;
-        padding-right:0em;
+    .courseOfferingsSection {
+        grid-area:offeringsArea;
+        overflow:auto;
         background-color: lightgray;
         font-size:.75rem;
-        color:navajowhite;
-        border:2px solid navy;
     }
     
-    .courseOfferingSection table {
-        background-color: lightgray;
-        color:navy;
+    .enrollSection {
+        grid-area: enrollArea;
+        overflow:scroll;
+        background-color: lightsalmon;
+        font-size:.75rem;
     }
-    table th, td {
-        color:navy;
-    }
-    
 }
 
 

@@ -190,7 +190,7 @@ def index(villageID,term):
         offeringItems = []
 
         # SQL STATEMENTS approach
-        sqlOfferings = "SELECT o.Course_Term as term,o.Course_Number as courseNumber,o.Section_ID as sectionID, "
+        sqlOfferings = "SELECT top 20 o.Course_Term as term,o.Course_Number as courseNumber,o.Section_ID as sectionID, "
         sqlOfferings += "o.Section_Dates, o.Section_Dates_Note, o.Section_Size, "
         sqlOfferings += "o.Prerequisite_Course, "
         sqlOfferings += "o.Section_Supplies, o.Section_Supplies_Fee, "
@@ -266,6 +266,9 @@ def index(villageID,term):
                 else:
                     statusFull = 'FULL'
 
+                fee = offering.courseFee
+                #feeValue = decimal.Decimal(offering.courseFee)
+                #fee = f"{feeValue:5.2}"
                 offeringItems = {
                     'sectionName':offering.courseNumber + '-' + offering.sectionID,
                     'term':term,
@@ -277,7 +280,7 @@ def index(villageID,term):
                     'capacity':capacity,
                     'seatsTaken':seatsTaken,
                     'seatsAvailable':seatsAvailable,
-                    'fee':offering.courseFee,
+                    'fee':fee,
                     'supplies':offering.Section_Supplies,
                     'suppliesFee':offering.Section_Supplies_Fee,
                     'fullMsg':statusFull,
