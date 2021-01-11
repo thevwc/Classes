@@ -65,7 +65,7 @@ hr {
 .parent {
     display:grid;
     width:100%;
-    grid-template-rows: 40px 40px 40px 40px 40px 140px 40px 40px 40px 200px 200px; 
+    grid-template-rows: 40px 40px 40px 40px 40px 140px 40px 40px 40px 200px 200px 40px; 
     grid-template-columns: minmax(0,1fr) minmax(0,1fr);
     grid-template-areas:"titleArea          titleArea"
                         "versionArea        versionArea"
@@ -77,7 +77,8 @@ hr {
                         "filterArea         filterArea"
                         "filterArea         filterArea"
                         "offeringsArea      offeringsArea"
-                        "enrollArea         enrollArea";
+                        "enrollArea         enrollArea"
+                        "processArea        processArea";
         
     border: 2px solid navy;
     margin: 0 auto;
@@ -205,22 +206,30 @@ hr {
 .enrollSection {
     grid-area: enrollArea;
     overflow-x:scroll;
-    background-color: lightsalmon;
-    font-size:.5rem;
+    font-size:1rem;
 }
-
+.enrollHeading {
+    background-color:navy;
+    color:white;
+}
+.enrollColHdgs {
+    background-color: navy;
+    color:white;
+    border-bottom: 1px solid white;
+}
+.enrollment {
+    background-color:lightblue;
+    color:navy;
+}
 .setsQty {
-    width:40px;
-    height:20px;
-    font-size:large;
-    text-align:center;
-    
-}
-.feesSection {
-    grid-area: feesArea;
-    background-color: pink;
+    max-width: 45px;
+    height:30px;
+
 }
 
+.processSection {
+    grid-area: processArea;
+}
 
 /* SPECIFICATIONS FOR iPad PORTRAIT SCREENS */
 @media (min-width: 768px) {
@@ -341,8 +350,7 @@ hr {
     .enrollSection {
         grid-area: enrollArea;
         overflow:scroll;
-        background-color: lightsalmon;
-        font-size:.75rem;
+        font-size:1rem;
     }
 }
 
@@ -354,14 +362,15 @@ hr {
     .parent {
         display:grid;
         width:95%;
-        grid-template-rows: 40px 40px fit-content(200px) 40px fit-content(400px) 150px;
+        grid-template-rows: 40px 40px fit-content(200px) 40px fit-content(200px) 150px 40px;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-areas:"titleArea          termArea            selectMemberArea    versionArea"
                             "memberNameArea     memberNameArea      memberNameArea      memberNameArea"                   
                             "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea "
                             "filterArea         filterArea          filterArea          filterArea"
                             "offeringsArea      offeringsArea       offeringsArea       offeringsArea"
-                            "enrollArea         enrollArea          enrollArea          enrollArea";
+                            "enrollArea         enrollArea          enrollArea          enrollArea"
+                            "processArea        processArea         processArea         processArea";
                         
         border: 2px solid navy;
         margin: 0 auto;
@@ -403,7 +412,7 @@ hr {
         padding-left:0em;
         padding-right:0em;
         background-color: maroon;
-        font-size:.75rem;
+        font-size:1rem;
         color:navajowhite;
         border:2px solid maroon;
     }
@@ -416,7 +425,7 @@ hr {
         color:maroon;
     }
     .schedule{
-        font-size:.75rem;
+        font-size:1rem;
     }
     .filterSection {
         grid-area:filterArea;
@@ -461,14 +470,13 @@ hr {
         grid-area:offeringsArea;
         overflow:auto;
         background-color: lightgray;
-        font-size:.75rem;
+        font-size:1rem;
     }
     
     .enrollSection {
         grid-area: enrollArea;
         overflow:scroll;
-        background-color: lightsalmon;
-        font-size:.75rem;
+        font-size:1rem;
     }
 }
 

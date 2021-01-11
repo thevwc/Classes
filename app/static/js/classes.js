@@ -95,6 +95,10 @@ function showAllClasses() {
     fee = tds[7].innerHTML
     suppliesFee = tds[9].innerHTML
 
+    feeAmt = parseFloat(fee.substring(fee.indexOf('$') + 1))
+    suppliesFeeAmt = parseFloat(suppliesFee.substring(suppliesFee.indexOf('$') + 1))
+    totalFee = feeAmt + suppliesFeeAmt
+    
     // BUILD ROW IN ENROLL TABLE
     enrollDetail = document.getElementById('enrollmentDetail')
     enrollRow = document.createElement('div')
@@ -127,24 +131,30 @@ function showAllClasses() {
     suppliesFeeCol.innerHTML = suppliesFee
     enrollRow.appendChild(suppliesFeeCol)
 
-    setsCol = document.createElement('input')
+    setsCol = document.createElement('div')
     setsCol.className = 'col-1'
-    //setsCol.innerHTML = setsQty
-    setsCol.setAttribute("type","number")
-    setsCol.setAttribute("width",'20px')
-    setsCol.setAttribute("value",1)
     enrollRow.appendChild(setsCol)
+    setsInput = document.createElement('input')
+    setsInput.className = 'col-1 form-control form-control-sm setsQty'
+    //setsInput.innerHTML = setsQty
+    setsInput.setAttribute("type","number")
+    setsInput.setAttribute("value",1)
+    setsCol.appendChild(setsInput)
 
     extPriceCol = document.createElement('div')
     extPriceCol.className = 'col-1'
-    extPriceCol.innerHTML = ''
+    extPriceCol.innerHTML = "$ " + totalFee.toFixed(2)
     enrollRow.appendChild(extPriceCol)
+
+    deleteCol = document.createElement('div')
+    deleteCol.className = 'col-1'
+    enrollRow.appendChild(deleteCol)
 
     deleteBtn = document.createElement('button')
     deleteBtn.setAttribute('id','btn'+sectionNumber)
     deleteBtn.className = 'btn btn-secondary removeBtn'
     deleteBtn.innerHTML = "REMOVE"
-    enrollRow.appendChild(deleteBtn)
+    deleteCol.appendChild(deleteBtn)
 
     //enrollRow.setAttribute('id',sectionNumber)
     // APPEND ROW TO END OF ENROLL TABLE
@@ -237,10 +247,31 @@ $(document).ready(function(){
 // }
 
 function removeLineRtn(e) {
-    sectionNumber = e.target.id.slice(3,9)
-    console.log('sectionNumber - ',sectionNumber)
-    divToDelete = document.getElementById(sectionNumber)
-    divToDelete.remove()
+    if (e.target.type == 'submit'){
+        sectionNumber = e.target.id.slice(3,9)
+        console.log('sectionNumber - ',sectionNumber)
+        divToDelete = document.getElementById(sectionNumber)
+        divToDelete.remove()
+    }
+    if (e.target.type == 'number') {
+        console.log('input field clicked')
+        courseFee = e.target.previousSibling.previousSibling.innerHTML
+        suppliesFee = e.target.previousSibling.innerHTML
+        setsQty = e.target.value
+        console.log('courseFee - ',courseFee)
+        console.log('suppliesFee - ',suppliesFee)
+        courseFeeAmt = parseFloat(courseFee.substring(courseFee.indexOf('$') + 1))
+        suppliesFeeAmt = parseFloat(suppliesFee.substring(suppliesFee.indexOf('$') + 1))
+        totalFee = feeAmt + (suppliesFeeAmt * setsQty)
+        console.log('totalFee - ',totalFee)
+        displayAmt = "$ " + totalFee.toFixed(2)
+        console.log('displayAmt - ',displayAmt)
+        totalCol = e.target.nextSibling
+        totalCol.innerHTML = displayAmt
+        // multiply supplies fee by setsQty + course fee
+        // set ext price to ...
+    }
+    
 }    
     
 //function removeEnrollmentRow(e) {
