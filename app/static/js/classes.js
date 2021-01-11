@@ -44,7 +44,7 @@ document.getElementById("selectTermID").addEventListener("change",termSelectedRt
 document.getElementById("selectTermID").addEventListener("click",termSelectedRtn)
 document.getElementById("selectMemberID").addEventListener("change",memberSelectedRtn)
 document.getElementById("selectMemberID").addEventListener("click",memberSelectedRtn)
-
+document.getElementById('enrollmentDetail').addEventListener('click',removeLineRtn)
 $("#selectCourseID").on("change", function() {
     courseData = this.value
     selectedCourse = courseData.slice(0,4)
@@ -96,54 +96,102 @@ function showAllClasses() {
     suppliesFee = tds[9].innerHTML
 
     // BUILD ROW IN ENROLL TABLE
-    enrollTable = document.getElementById('myEnrollmentTable')
-    enrollRow = document.createElement('tr')
-    enrollRow.setAttribute('id',sectionNumber)
+    enrollDetail = document.getElementById('enrollmentDetail')
+    enrollRow = document.createElement('div')
+    enrollRow.id = sectionNumber
+    enrollRow.className = 'row'
+    enrollDetail.appendChild(enrollRow)
+
+    sectionCol = document.createElement('div')
+    sectionCol.className = 'col-1'
+    sectionCol.innerHTML = sectionNumber
+    enrollRow.appendChild(sectionCol)
+
+    titleCol = document.createElement('div')
+    titleCol.className = 'col-2'
+    titleCol.innerHTML = title
+    enrollRow.appendChild(titleCol)
+
+    instructorCol = document.createElement('div')
+    instructorCol.className = 'col-2'
+    instructorCol.innerHTML = instructor
+    enrollRow.appendChild(instructorCol)
+
+    feeCol = document.createElement('div')
+    feeCol.className = 'col-1'
+    feeCol.innerHTML = fee
+    enrollRow.appendChild(feeCol)
+
+    suppliesFeeCol = document.createElement('div')
+    suppliesFeeCol.className = 'col-1'
+    suppliesFeeCol.innerHTML = suppliesFee
+    enrollRow.appendChild(suppliesFeeCol)
+
+    setsCol = document.createElement('input')
+    setsCol.className = 'col-1'
+    //setsCol.innerHTML = setsQty
+    setsCol.setAttribute("type","number")
+    setsCol.setAttribute("width",'20px')
+    setsCol.setAttribute("value",1)
+    enrollRow.appendChild(setsCol)
+
+    extPriceCol = document.createElement('div')
+    extPriceCol.className = 'col-1'
+    extPriceCol.innerHTML = ''
+    enrollRow.appendChild(extPriceCol)
+
+    deleteBtn = document.createElement('button')
+    deleteBtn.setAttribute('id','btn'+sectionNumber)
+    deleteBtn.className = 'btn btn-secondary removeBtn'
+    deleteBtn.innerHTML = "REMOVE"
+    enrollRow.appendChild(deleteBtn)
+
+    //enrollRow.setAttribute('id',sectionNumber)
     // APPEND ROW TO END OF ENROLL TABLE
-    enrollTable.appendChild(enrollRow)
+    //enrollTable.appendChild(enrollRow)
     
     // CREATE TD FOR SECTION NUMBER
-    sectionTD = document.createElement('td')
-    sectionTD.appendChild(document.createTextNode(sectionNumber))
-    enrollTable.appendChild(sectionTD)
+    // sectionTD = document.createElement('td')
+    // sectionTD.appendChild(document.createTextNode(sectionNumber))
+    // enrollTable.appendChild(sectionTD)
 
-    titleTD = document.createElement('td')
-    titleTD.appendChild(document.createTextNode(title))
-    enrollTable.appendChild(titleTD)
+    // titleTD = document.createElement('td')
+    // titleTD.appendChild(document.createTextNode(title))
+    // enrollTable.appendChild(titleTD)
 
-    instructorTD = document.createElement('td')
-    instructorTD.appendChild(document.createTextNode(instructor))
-    enrollTable.appendChild(instructorTD)
+    // instructorTD = document.createElement('td')
+    // instructorTD.appendChild(document.createTextNode(instructor))
+    // enrollTable.appendChild(instructorTD)
 
-    feeTD = document.createElement('td')
-    feeTD.appendChild(document.createTextNode(fee))
-    enrollTable.appendChild(feeTD)
+    // feeTD = document.createElement('td')
+    // feeTD.appendChild(document.createTextNode(fee))
+    // enrollTable.appendChild(feeTD)
 
-    suppliesfeeTD = document.createElement('td')
-    suppliesfeeTD.appendChild(document.createTextNode(suppliesFee))
-    enrollTable.appendChild(suppliesfeeTD)
+    // suppliesfeeTD = document.createElement('td')
+    // suppliesfeeTD.appendChild(document.createTextNode(suppliesFee))
+    // enrollTable.appendChild(suppliesfeeTD)
   
-    setsTD = document.createElement('td')
-    enrollTable.appendChild(setsTD)
-    qtyInput = document.createElement('input')
-    qtyInput.className = 'setsQty'
-    qtyInput.setAttribute("type","number")
-    qtyInput.setAttribute("width",'20px')
-    qtyInput.setAttribute("value",1)
-    setsTD.appendChild(qtyInput)
+    // setsTD = document.createElement('td')
+    // enrollTable.appendChild(setsTD)
+    // qtyInput = document.createElement('input')
+    // qtyInput.className = 'setsQty'
+    // qtyInput.setAttribute("type","number")
+    // qtyInput.setAttribute("width",'20px')
+    // qtyInput.setAttribute("value",1)
+    // setsTD.appendChild(qtyInput)
  
-    extPriceTD = document.createElement('td')
-    extPriceTD.appendChild(document.createTextNode(' '))
-    enrollTable.appendChild(extPriceTD)
+    // extPriceTD = document.createElement('td')
+    // extPriceTD.appendChild(document.createTextNode(' '))
+    // enrollTable.appendChild(extPriceTD)
 
-    removeTD = document.createElement('td')
-    enrollTable.appendChild(removeTD)
-    removeBtn = document.createElement('button')
-    removeBtn.setAttribute('id','btn'+sectionNumber)
-    removeBtn.className = 'btn btn-primary btn-sm btnRemove'
-    removeBtn.onclick=removeEnrollmentRow
-    removeBtn.appendChild(document.createTextNode('REMOVE'))
-    removeTD.appendChild(removeBtn)
+    // removeTD = document.createElement('td')
+    // enrollTable.appendChild(removeTD)
+    // removeBtn = document.createElement('button')
+    // removeBtn.setAttribute('id','btn'+sectionNumber)
+    // removeBtn.className = 'btn btn-primary btn-sm btnRemove'
+    // removeBtn.onclick=removeEnrollmentRow
+    // removeBtn.appendChild(document.createTextNode('REMOVE'))
+    // removeTD.appendChild(removeBtn)
 
  }
 
@@ -188,27 +236,55 @@ $(document).ready(function(){
 //     row.parentNode.removeChild(row)
 // }
 
+function removeLineRtn(e) {
+    sectionNumber = e.target.id.slice(3,9)
+    console.log('sectionNumber - ',sectionNumber)
+    divToDelete = document.getElementById(sectionNumber)
+    divToDelete.remove()
+}    
     
-    
-function removeEnrollmentRow(e) {
-    enrollTable = document.getElementById('enrollment')
-    console.log('table - ',enrollTable)
-    // EVENT.TARGET IDENTIFIES THE REMOVE BUTTON THAT WAS PRESSED
-    btnID = e.target.id 
-    // GET SECTION NUMBER FROM BUTTON ID
-    console.log('btnID - ',btnID)
-    rowID = btnID.slice(3,9)
-    console.log('rowID - ',rowID)
+//function removeEnrollmentRow(e) {
+    //$('#A010-Z').remove(); 
+    //btn = e.target
+    //btnTD = e.target.parentElement
+    //closestTR = btnTD.closest('tr')
+    //console.log('closestTR - ',closestTR)
+    //parentTR = btnTD.parentElement
+    //console.log('parentTR - ',parentTR)
 
+
+    //console.log('removeEnrollmentRow rtn')
+    //console.log('this - ',this)
+    //this = e
+    //alert('Row ' + $(this).closest("tr").index());
+    //console.log('rowIndex - ',e.target.rowIndex)
+    //$(e.target).closest('tr').remove()
+
+    //enrollTable = document.getElementById('enrollment')
+    //enrollTable.deleteRow(e.target.rowIndex)
+    //enrollTable.deleteRow(1)
+
+    //console.log('table - ',enrollTable)
+    // EVENT.TARGET IDENTIFIES THE REMOVE BUTTON THAT WAS PRESSED
+    //btnID = e.target.id 
+    //$(btnID).closest('tr').remove()
+
+    // GET SECTION NUMBER FROM BUTTON ID
+    //console.log('btnID - ',btnID)
+    //rowID = btnID.slice(3,9)
+    //console.log('rowID - ',rowID)
+    
     // GET TR ELEMENT
-    rowToDelete = document.getElementById(rowID)
-    console.log('row to delete - ',rowToDelete)
+    //trRow = document.getElementById(rowID)
+    //console.log('row to delete - ',trRow)
+    //trRow.remove()
+
     // GET TR ELEMENT BY ID OF TR; RETRIEVE ROWINDEX FROM TR ELEMENT
-    rowNumber = document.getElementById(rowID).rowIndex
-    console.log('row index - ',rowNumber )
+    //rowNumber = document.getElementById(rowID).rowIndex
+    //console.log('row index - ',rowNumber )
 
     // DELETE ROW FROM TABLE USING ROWINDEX
 
-    enrollTable.deleteRow(rowToDelete)
+    //enrollTable.deleteRow(rowNumber)
     //rowToDelete.parentNode.removeChild(rowToDelete)
-}
+//}
