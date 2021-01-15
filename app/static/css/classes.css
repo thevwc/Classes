@@ -12,28 +12,34 @@ body {
     color: #2e354f;
 }
 
-input {
+table tr td {
+    padding:0px !important;
+}
+/* thead th {
+    position: sticky;
+    top: 0; 
+} */
+/* table tr:nth-child(even) {
+    border-bottom:2px solid maroon;
+} */
+/* input {
     font-size: 1rem;
     color:green;
     border:1px solid navy;
-}
+} */
 
-label {
+/* label {
     font-size: .75rem;
     color:black;
-}
+} */
 
 
 
 /* Typography */
 
-form {
+/* form {
     border:2px solid navy;
-}
-ul {
-    /*  1.5em = 150% */
-    font-size: .5rem;
-}
+} */
 
 h1,
 h2,
@@ -50,12 +56,12 @@ h2 {
     font-size: 2rem;
 }
 
-a {
+/* a {
     color:blue;
-}
-hr {
+} */
+/* hr {
     border:1px solid black;
-}
+} */
 
 /* button {
     width:80px;
@@ -80,11 +86,10 @@ hr {
                         "enrollArea         enrollArea"
                         "processArea        processArea";
         
-    border: 2px solid navy;
     margin: 0 auto;
     padding:0em;
-    background-color: lightgray;
-    
+    background-color: navy;
+    border:1px solid navy;
 } 
 .title {
     grid-area: titleArea;
@@ -114,8 +119,6 @@ hr {
     text-align: center;
     background-color:navy;
     color:white;
-    border-left:1px solid white;
-    border-right:1px solid white;
 }
 .selectMemberSection {
     grid-area: selectMemberArea;
@@ -123,7 +126,6 @@ hr {
     padding-top:.3em;
     text-align:center;
     background-color:navy;
-    border-top:1px solid white;
     color:white;
 }
 .memberNameSection {
@@ -142,17 +144,19 @@ hr {
 .coursesTakenSection {
     grid-area: coursesTakenArea;
     max-width: 100%;
-    overflow-x:scroll;
     padding-left:0em;
     padding-right:0em;
-    padding-bottom:3em;
-    background-color: navajowhite;
-    color:maroon;
+}
+.coursesTakenHdg {
+    background-color: navy;
+    color:white;
+    text-align:center;
+}
+.coursesTakenColHdg {
+    background-color: navy;
+    color:white;
 }
 
-.schedule {
-    font-size:.5rem;
-} 
 .filterSection {
     grid-area:filterArea;
     display:grid;
@@ -169,8 +173,8 @@ hr {
     padding-left:0em;
     text-align:left;
     background-color:navy;
-    border-top:1px solid white;
     color:white;
+    border-bottom:2px solid white;
 }
 
 .showOptions label {
@@ -184,8 +188,8 @@ hr {
     padding-top:.3em;
     padding-left:5.3em;
     background-color:navy;
-    border-top:1px solid white;
     color:white;
+    border-bottom:2px solid white;
 }
 .filter3Section {
     grid-area:filter3Area;
@@ -193,8 +197,8 @@ hr {
     padding-top:.5em;
     text-align:center;
     background-color:navy;
-    border-top:1px solid white;
     color:white;
+    border-bottom:2px solid white;
 }
 .courseOfferingsSection {
     grid-area:offeringsArea;
@@ -202,22 +206,37 @@ hr {
     background-color: lightgray;
     font-size:.5rem;
 }
-
+.courseOfferingsHdg {
+    background-color: navy;
+    color:white;
+    text-align:center;
+}
+.courseOfferingsColHdgs {
+    background-color: navy;
+    color:white;
+}
+.offerings {
+    font-size: .5rem;
+}
 .enrollSection {
     grid-area: enrollArea;
-    overflow-x:scroll;
     font-size:1rem;
 }
 .enrollHeading {
     background-color:navy;
     color:white;
+    text-align:center;
 }
 .enrollColHdgs {
     background-color: navy;
     color:white;
-    border-bottom: 1px solid white;
 }
-.enrollment {
+/* .enrollDetail {
+    background-color:lightgray;
+    color:blue;
+    overflow: scroll;
+} */
+/* .enrollment {
     background-color:lightblue;
     color:navy;
 }
@@ -225,7 +244,7 @@ hr {
     max-width: 45px;
     height:30px;
 
-}
+} */
 
 .processSection {
     grid-area: processArea;
@@ -236,7 +255,7 @@ hr {
     .parent {
         display:grid;
         width:100%;
-        grid-template-rows: 40px 40px 40px 200px 40px 150px 150px;
+        grid-template-rows: 40px 40px 40px 200px 40px 200px 200px 40px;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-areas:"titleArea          titleArea           versionArea         versionArea"          
                             "termArea           termArea            selectMemberArea    selectMemberArea" 
@@ -244,9 +263,10 @@ hr {
                             "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea "
                             "filterArea         filterArea          filterArea          filterArea"
                             "offeringsArea      offeringsArea       offeringsArea       offeringsArea"
-                            "enrollArea         enrollArea          enrollArea          enrollArea";
+                            "enrollArea         enrollArea          enrollArea          enrollArea"
+                            "processArea        processArea         processArea         processArea";
         font-size:1rem;
-        background-color:lightgreen;
+        background-color:navy;
     }
 
     .termSection {
@@ -254,7 +274,6 @@ hr {
         width:100%;
         padding-top:.25em;
         padding-left:1em;
-        border-top:1px solid white;
         text-align: left;
         background-color:navy;
         color:black;
@@ -264,14 +283,14 @@ hr {
         text-align:left;
     }
     .version {
-        text-align: right;
+        grid-area: versionArea;
+        text-align:center;
     }
     .selectMemberSection {
         grid-area: selectMemberArea;
         max-width:100%;
         padding-top:.3em;
         padding-right:1em;
-        border-top:1px solid white;
         text-align:right;
         background-color:navy;
         color:white;
@@ -286,25 +305,19 @@ hr {
     .coursesTakenSection {
         grid-area: coursesTakenArea;
         max-width: 100%;
-        overflow-x:scroll;
-        padding-left:0em;
-        padding-right:0em;
-        background-color: maroon;
-        font-size:.75rem;
-        color:navajowhite;
-        border:2px solid maroon;
+    }
+    .coursesTakenHdg {
+        background-color: navy;
+        color:white;
+        text-align:left;
+        
+    }
+    .coursesTakenColHdg {
+        background-color: navy;
+        color:white;
+        padding-left:15em;
     }
     
-    .coursesTakenSection table {
-        background-color: navajowhite;
-        color:maroon;
-    }
-    table th, td {
-        color:maroon;
-    }
-    .schedule{
-        font-size:.75rem;
-    }
     .filterSection {
         grid-area:filterArea;
         display:grid;
@@ -317,9 +330,9 @@ hr {
         padding-top:0em;
         padding-left:0em;
         background-color:navy;
-        border-top:1px solid white;
         color:white;
         font-size:.5rem;
+        border-bottom:2px solid white;
     }
     .filter2Section {
         grid-area:filter2Area;
@@ -327,8 +340,8 @@ hr {
         padding-top:0em;
         padding-left:0em;
         background-color:navy;
-        border-top:1px solid white;
         color:white;
+        border-bottom:2px solid white;
     }
     .filter3Section {
         grid-area:filter3Area;
@@ -337,8 +350,8 @@ hr {
         padding-right:.5em;
         text-align:center;
         background-color:navy;
-        border-top:1px solid white;
         color:white;
+        border-bottom:2px solid white;
     }
     .courseOfferingsSection {
         grid-area:offeringsArea;
@@ -347,11 +360,34 @@ hr {
         font-size:.75rem;
     }
     
+    .courseOfferingsHdg {
+        background-color: navy;
+        color:white;
+        text-align:left;
+    }
+    .courseOfferingsColHdgs {
+        background-color: navy;
+        color:white;
+    }
+    .offerings {
+        font-size: .75rem;
+    }
     .enrollSection {
         grid-area: enrollArea;
-        overflow:scroll;
         font-size:1rem;
     }
+    .enrollHeading {
+        background-color: navy;
+        color:white;
+        text-align:left;
+    }
+    .enrollColHdgs {
+        background-color: navy;
+        color:white;
+    }
+    /* .enrollDetail {
+        overflow: scroll;
+    } */
 }
 
 /* SPECIFICATIONS FOR iPad LANDSCAPE SCREENS */
@@ -362,41 +398,44 @@ hr {
     .parent {
         display:grid;
         width:95%;
-        grid-template-rows: 40px 40px fit-content(200px) 40px fit-content(200px) 150px 40px;
+        grid-template-rows: 40px 40px fit-content(150px) 60px fit-content(200px) fit-content(100px) 100px;
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-areas:"titleArea          termArea            selectMemberArea    versionArea"
+        grid-template-areas:"selectMemberArea   titleArea           titleArea           versionArea"
                             "memberNameArea     memberNameArea      memberNameArea      memberNameArea"                   
                             "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea "
                             "filterArea         filterArea          filterArea          filterArea"
                             "offeringsArea      offeringsArea       offeringsArea       offeringsArea"
                             "enrollArea         enrollArea          enrollArea          enrollArea"
                             "processArea        processArea         processArea         processArea";
-                        
-        border: 2px solid navy;
+        grid-area: 0;                
         margin: 0 auto;
-        background-color: lightgray;
+        background-color:white;
         
     } 
-    .termSection {
-        grid-area: termArea;
+    
+    .title {
+        grid-area: titleArea;
         width:100%;
-        padding-top:.25em;
-        padding-left:1em;
-        text-align: left;
+        padding-left:0em;
+        padding-top:.5em;
         background-color:navy;
-        color:black;
-        border:none;
-        
+        color:white;
+        font-size:.75rem;
+        text-align:center;
     }
+    .version {
+        grid-area: versionArea;
+        text-align:right;
+    }
+    
     .selectMemberSection {
         grid-area: selectMemberArea;
         max-width:100%;
         padding-top:.3em;
-        padding-right:1em;
-        text-align:right;
+        padding-left:3em;
+        text-align:left;
         background-color:navy;
         color:white;
-        border:none;
     }
     .memberNameSection {
         grid-area:memberNameArea;
@@ -408,40 +447,64 @@ hr {
     .coursesTakenSection {
         grid-area: coursesTakenArea;
         max-width: 100%;
-        overflow-x:scroll;
-        padding-left:0em;
-        padding-right:0em;
-        background-color: maroon;
+        background-color: lightgrey;
         font-size:1rem;
-        color:navajowhite;
-        border:2px solid maroon;
     }
     
-    .coursesTakenSection table {
-        background-color: navajowhite;
-        color:maroon;
+    .coursesTakenHdg {
+        background-color: navy;
+        color:white;
+        text-align:left;
+        height:40px;
+        padding-top:7px;
     }
-    table th, td {
-        color:maroon;
+    .coursesTakenColHdg {
+        background-color: navy;
+        color:white;
+        text-align: left;
+        padding-left:15em;
     }
-    .schedule{
-        font-size:1rem;
+    /* .coursesTakenColHdg div {
+        border:1px solid white;
+    } */
+    .coursesTakenDetail {
+        overflow-x:hidden;
+        overflow-y:auto;
+        background-color:lightgray;
+        color:navy;
+        height:200px;
+        padding-left:15em;
     }
+    
     .filterSection {
         grid-area:filterArea;
         display:grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-template-areas: "filter1Area   filter2Area     filter3Area";
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-areas: "filterTitleArea  filter1Area   filter2Area     filter3Area";
+        border-top:4px solid white;
+        border-bottom:4px solid white;
+    }
+    .filterTitle {
+        grid-area:filterTitleArea;
+        max-width:100%;
+        height:60px;
+        padding-top:2em;
+        padding-left:0em;
+        background-color:maroon;
+        color:white;
+        font-size:.5rem;
+        border-bottom:4px solid white;
     }
     .filter1Section {
         grid-area:filter1Area;
         max-width:100%;
-        padding-top:0em;
+        height:60px;
+        padding-top:2em;
         padding-left:0em;
-        background-color:navy;
-        border-top:1px solid white;
+        background-color:maroon;
         color:white;
         font-size:.5rem;
+        border-bottom:4px solid white;
     }
     /* #showAll:active {
         background-color: yellow;
@@ -450,33 +513,91 @@ hr {
     .filter2Section {
         grid-area:filter2Area;
         max-width:100%;
-        padding-top:0em;
+        padding-top:1em;
         padding-left:0em;
-        background-color:navy;
-        border-top:1px solid white;
+        background-color:maroon;
         color:white;
     }
     .filter3Section {
         grid-area:filter3Area;
         max-width:100%;
-        padding-top:0em;
+        padding-top:1em;
         padding-right:.5em;
         text-align:center;
-        background-color:navy;
-        border-top:1px solid white;
+        background-color:maroon;
         color:white;
+        border-bottom:2px solid white;
     }
     .courseOfferingsSection {
         grid-area:offeringsArea;
-        overflow:auto;
-        background-color: lightgray;
+        background-color: beige;
         font-size:1rem;
     }
     
+    .courseOfferingsHdg {
+        background-color:maroon;
+        color:white;
+        text-align:left;
+    }
+    .courseOfferingsColHdgs {
+        background-color: maroon;
+        color:white;
+    }
+    .courseOfferingsDetail {
+        background-color: beige;
+        color:maroon;
+        font-size: 1rem;
+    }
+    #courseOfferingsTable tbody {
+        overflow:auto;
+        height:100px;
+    }
     .enrollSection {
         grid-area: enrollArea;
-        overflow:scroll;
         font-size:1rem;
+        background-color: lightgrey;
+        max-width: 100%;
+        padding-left:0em;
+        padding-right:0em;
+        border:1px solid red;
+    }
+    .enrollHdg {
+        background-color: navy;
+        color:white;
+        text-align:left;
+        height:40px;
+        padding-top:7px;
+    }
+    .enrollColHdg {
+        background-color: navy;
+        color:white;
+        text-align: left;
+        padding-left:100px;
+        padding-left:100px;
+    }
+    .enrollDetail {
+        overflow-x:hidden;
+        overflow-y:auto;
+        background-color:lightgray;
+        color:navy;
+        height:150px;
+        padding-left:100px;
+        padding-left:100px;
+    }
+    /* .enrollTitle {
+        grid-area: enrollTitleArea;
+    }
+    .enrollTerm {
+        grid-area: enrollTermArea;
+        font-size:1.5rem;
+    } */
+    
+    .processSection {
+        grid-area: processArea;
+        background-color: beige;
+        color:green;
+        text-align:center;
+        border:1px solid navy;
     }
 }
 

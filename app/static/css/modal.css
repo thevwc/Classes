@@ -1,0 +1,80 @@
+
+/* MODAL FORM FOR SHOWING TODAYS MONITORS */
+#modal {
+  display:block;
+  width:100%;
+  color:blue;
+}
+.modal-content {
+  background-color:white;
+  color:brown;
+}
+.modal-header button {
+  float: right;
+  }
+.modal-body {
+  width:100%;
+}
+.modal-xl {
+  width: 95%;
+  max-width:1200px;
+}
+.modal-title {
+  width:100%;
+  text-align:left;
+  }
+  
+.modal-content form {
+  margin-left: 100px;
+  }
+
+.modal-col-hdgs {
+    display:grid;
+    grid-template-columns:40px 40px 110px 250px 80px 80px 150px 150px 100px 130px 55px;
+    text-align:center;
+  } 
+.modal-detail {
+  display:grid;
+  grid-template-columns:40px 40px 110px 250px 80px 80px 150px 150px 100px 130px 55px;
+  margin-right:2em;
+  border: 1px solid black;
+  text-align:center;
+}
+.modal-detail span {
+  border: 1px solid black;
+}
+.modal-footer {
+  margin:10px;
+  padding:0px;
+  }
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 42px;
+  font-weight: bold;
+  }
+.close:hover,
+.close:focus {
+  color:white;
+  text-decoration: none;
+  cursor: pointer;
+  }
+  
+
+
+
+.Name {
+  text-align:left !important;
+}
+.TrainingNeeded {
+  color:red;
+}
+.NoShow {
+  text-align:center;
+  border:1px solid black;
+}
+.RecordID {
+  background-color: yellow;
+  color:blue;
+}

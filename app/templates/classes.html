@@ -14,29 +14,6 @@
 <!-- <form id=waitListFormID method='POST' action="/updateWaitList">  -->
 
 <div class="parent">
-    
-    <div class="title">
-        <h4>CLASS SIGNUP</h4>
-    </div>
-
-    <div class="version">
-        <h6>ver. Jan 8, 2021</h6> 
-    </div> 
-
-    <div class="termSection"> 
-        <!-- <input type="text" id="termID" value={{term}}> -->
-        <div id="termID" style=display:none>{{term}}</div>
-        <!-- <span class="spanTerm">{{term}}</span> -->
-        <div class="selectTerm">
-            <select id="selectTermID" class='selectpicker form-control form-control-sm' data-width=150px title='Select a term ...' data-live-search=true data-live-search-style="contains" data-width='auto'>
-                    <option value="">Select a term ...</option>
-                {% for term in termArray %}
-                    <option  class="optName" value='{{term.termName}}'>{{ term.termName }}</option>
-                {% endfor %}
-            </select> 
-        </div>
-    </div>
-    
     <div class="selectMemberSection">
         <select id="selectMemberID" class='selectpicker form-control form-control-sm' data-width=300px title='Select a member ...' data-live-search=true data-live-search-style="contains" data-width='auto'>
             <option value="">Select a member ...</option>
@@ -44,49 +21,69 @@
                 <option  class="optName" value='{{nme}}'>{{ nme }}</option>
             {% endfor %}
         </select>
-    </div>    
-     
+    </div>  
+
+    <div class="title">
+        <h4>---------- CLASS SIGNUP ----------</h4>
+        <input id="memberID" type="text" value={{memberID}}>
+        <input id='staffID' type="hidden" value={{staffID}}>
+        <input id='isDBA' type="hidden" value={{isDBA}}>
+        <input id='isMgr' type="hidden" value={{isMgr}}>
+    </div>
+
+    <div class="version">
+        <div>
+            Staff - {{staffName}}&nbsp;&nbsp;&nbsp;&nbsp;ver. Jan 8, 2021
+        </div>
+    </div> 
+    
+
     <div class="memberNameSection">
         <h3>{{memberName}}</h3>  
     </div>
    
     <div class="coursesTakenSection">
-        <div>
-            <span>COURSES TAKEN</span>
+        <div class='coursesTakenHdg'>
+            <h4>COURSES COMPLETED</h4>
         </div>
-
-        <table class="schedule table table-sm table-striped">
-            <thead>
-                <tr>
-                    <th>Term</th>
-                    <th>Crse#</th>
-                    <th>Title</th>
-                    <th>Dates</th>
-                    <th>Instructor</th>
-                    <th>Receipt#</th>
-                    <th>Sets</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for sItem in scheduleDict %}
-                <tr>
-                    <td>{{sItem.term}}</td>
-                    <td>{{sItem.courseNum}}</td>
-                    <td>{{sItem.title}}</td>
-                    <td>{{sItem.dates}}</td>
-                    <td>{{sItem.instructor}}</td>
-                    <td>{{sItem.receipt}}</td>
-                    <td>{{sItem.sets}}</td>
-                    <td>
-                        <button class="dropClass btn btn-primary btn-sm">DROP</button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="coursesTakenColHdg">
+            <div class="row">
+                <div class="col-1">Crse#</div>
+                <div class="col-1">Term</div>
+                <div class="col-3">Title</div>
+                <div class="col-2">Dates</div>
+                <div class="col-2">Instructor</div>
+                
+            </div>
+        </div>
+        <div id='coursesTakenDetail' class="coursesTakenDetail">
+            {% for sItem in scheduleDict %}
+                <div class="row">
+                    <div class="col-1">{{sItem.courseNum}}</div>
+                    <div class="col-1">{{sItem.term}}</div>
+                    <div class="col-3">{{sItem.title}}</div>
+                    <div class="col-2">{{sItem.dates}}</div>
+                    <div class="col-2">{{sItem.instructor}}</div>
+                    
+                        <button
+                            id="{{sItem.enrollmentID}}" 
+                            class="dropClassBtn btn-outline btn-sm"
+                            onclick=removeEnrollmentRecord(this.id)>
+                            REMOVE
+                        </button>
+                    
+                </div>
+            {% endfor %}    
+        </div>
     </div>
     
     <div class="filterSection">
+        <div class="filterTitle">
+            <div class="courseOfferingsHdg">
+                <h4>CURRENT OFFERINGS</hr4>
+            </div>
+        </div>
+            
         <div class="filter1Section">
             <div class="showOptions btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
                 <label id='showAll' class="btn btn-secondary btn-sm" active style=margin-left:10px onclick=showAllClasses()>
@@ -112,12 +109,8 @@
     </div>
 
     <div class="courseOfferingsSection">
-        <div>
-            <span>CURRENT OFFERINGS</span>
-        </div>
-
-        <table class="offerings table table-sm table-striped">
-            <thead>
+        <table id="courseOfferingsTable" class="courseOfferingsTable table table-sm">
+            <thead class='courseOfferingsColHdgs'>
                 <tr>
                     <th>Section</th>
                     <th>Title</th>
@@ -129,65 +122,141 @@
                     <th>Fee</th>
                     <th>Supplies</th>
                     <th>Supply Fee</th>
-                    <th>full</th>
-                    <th>closed</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
-            <tbody id='offeringsTable'>
+            <tbody class='courseOfferingsDetail'>
                 {% for offering in offeringDict %}
-                <tr class=offeringRow>
-                    <td>{{offering.sectionName}}</td>
-                    <td>{{offering.title}}</td>
-                    <td>{{offering.instructorName}}</td>
-                    <td>{{offering.dates}}</td>
-                    <td>{{offering.capacity}}</td>
-                    <td>{{offering.seatsTaken}}</td>
-                    <td>{{offering.seatsAvailable}}</td>
-                    <td>
-                        {{"$%.2f"|format(offering.fee)}}
-                    </td>
-                    <td>{{offering.supplies}}</td>
-                    <td>{{"$%.2f"|format(offering.suppliesFee)}}</td>
-                    <td style=color:red>{{offering.fullMsg}}</td>
-                    <td style=color:red>{{offering.closedMsg}}</td>
-                    <td>
-                        {% if offering.fullMsg != 'FULL' and offering.closedMsg != 'CLOSED' %}
-                            <button type="button" class="enrollBtn btn btn-primary btn-sm btn-spacing" onclick="enrollInCourse(event)">ENROLL</button>
-                        {% endif %}
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{offering.prereqMsg}}</td>
-                    <td>{{offering.note}}</td>
-                </tr>
+                    <tr class="offeringRow {{offering.fullMsg}} {{offering.closedMsg}}" style="border-top:3px solid maroon">
+                        <td class='offeringSectionName'>{{offering.sectionName}}</td>
+                        <td class='offeringTitle'>{{offering.title}}</td>
+                        <td class='offeringInstructor'>{{offering.instructorName}}</td>
+                        <td>{{offering.dates}}</td>
+                        <td>{{offering.capacity}}</td>
+                        <td>{{offering.seatsTaken}}</td>
+                        <td>{{offering.seatsAvailable}}</td>
+                        <td>
+                            {{"$%.2f"|format(offering.fee)}}
+                        </td>
+                        <td>{{offering.supplies}}</td>
+                        <td>{{"$%.2f"|format(offering.suppliesFee)}}</td>
+                        <td style=color:red>{{offering.fullMsg}}</td>
+                        <td style=color:red>{{offering.closedMsg}}</td>
+                        <td>
+                            {% if offering.fullMsg != 'FULL' and offering.closedMsg != 'CLOSED' %}
+                                <button type="button" 
+                                    class="enrollBtn btn btn-primary btn-sm btn-spacing"
+                                    onclick="enrollInCourse(event)"
+                                    style=height:25px>
+                                    ENROLL
+                                </button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% if offering.prereq != '' or offering.notes != '' %}
+                        <tr class=" {{offering.fullMsg}} {{offering.closedMsg}}">
+                            {% if offering.notes != '' %}
+                                <td></td>
+                                <td style=color:black>{{offering.notes}}</td>
+                            {% endif %}
+                            {% if offering.prereq != '' %}
+                                <td style=color:red>Prerequisite -  {{offering.prereq}}</td>
+                            {% endif %}
+                        </tr>
+                    {% endif %}
+                    
                 {% endfor %}
             </tbody>
         </table>
     </div>
-     
+         
     <div class="enrollSection">
-        <div class='enrollHeading' style=text-align:center>
-            <h4>REGISTRATION</h4>
+        <div class='enrollHdg'>
+            <h4>
+                REGISTRATION - &nbsp;
+                <span id='termID'>{{term}}</span>
+            </h4>
         </div>
-        <div id='enrollment' class="enrollment">
-            <div class="row enrollColHdgs">
-                <div class="col-1">Course #</div>
-                <div class="col-2">Title</div>
+        <div class="enrollColHdg">
+            <div class="row">
+                <div class="col-1">Crse#</div>
+                <div class="col-3">Title</div>
                 <div class="col-2">Instructor</div>
-                <div class="col-1">Course Fee</div>
-                <div class="col-1">Supplies Fee</div>
-                <div class="col-1">Sets</div>
-                <div class="col-1">Ext Price</div>
-                <div class="col-1"> </div>
+                <div class="col-1" style=text-align:right>Course Fee</div>
+                <div class="col-1" style=text-align:right>Supplies Fee</div>
+                <div class="col-1" style=text-align:right>Ext Price</div>
+                <div class="col-1" style=text-align:center>Taxable</div>
+                <div class="col-1">Receipt#</div>
+                <div class="col-1"></div>
             </div>
-        <div id='enrollmentDetail'>
-
-        </div>    
+        </div>
+        <div id='enrollDetail' class="enrollDetail">
+            {% for e in enrolledDict %}
+                <div class="row">
+                    <div class="col-1">{{e.courseNum}}</div>
+                    <div class="col-3">{{e.title}}</div>
+                    <div class="col-2">{{e.instructor}}</div>
+                    <div class="col-1" style=text-align:right>{{"$%.2f"|format(e.courseFee)}}</div>
+                    <div class="col-1" style=text-align:right>{{"$%.2f"|format(e.suppliesFee)}}</div>
+                    <div class="col-1" style=text-align:right>{{"$%.2f"|format(e.extPrice)}}</div>
+                    <div class="col-1" style=text-align:center>
+                        {% if e.taxable == 'True' %}
+                            Yes
+                        {% else %}
+                            &nbsp;
+                        {% endif %}
+                    </div>
+                    <div class="col-1">
+                        <button id="{{e.enrollmentID}}" class="removeEnrollmentBtn btn btn-secondary btn-sm">
+                            REMOVE
+                        </button>
+                    </div>
+                </div>
+            {% endfor %}    
+        </div>
     </div>
+    
     <div class="processSection">
-        <button class="btn btn-primary">SUBMIT</button>
+        <button id='submitBtn' class="btn btn-primary">SUBMIT</button>
     </div>
 </div>
+
+<!-- -------------------- MODAL FORM FOR SHOWING COURSE NOTES --------------------- -->
+<div id="courseNotesModalID" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCourseTitle" ></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" >&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span>Message:</span><br>
+                <textarea id="offeringCourseNote" style=font-size:14px rows="10"" cols="90" ></textarea>
+                <br><br>
+                <input type="text" id="noteID">
+                <div class="modal-footer">
+                    <div class='footer-left-col'>
+                       
+                    </div> 
+                    <div class='footer-right-col'> 
+                        <button id='cancelCourseNotesID' type='button' class='btn btn-secondary btn-sm'>Close</button>
+                        <button id='processCourseNotesID' type="button" class="btn btn-primary btn-sm">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- -------------------- MODAL FORM FOR SHOWING MEMBERS IN A CLASS --------------------- -->
+
+<!-- -------------------- MODAL FORM FOR CHECKING PREREQUISITES --------------------- -->
+
 {% endblock %}
 
 {% block scripts %}
