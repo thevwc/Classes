@@ -572,8 +572,7 @@ h2 {
         background-color: navy;
         color:white;
         text-align: left;
-        padding-left:100px;
-        padding-left:100px;
+        padding-left:50px;
     }
     .enrollDetail {
         overflow-x:hidden;
@@ -581,8 +580,7 @@ h2 {
         background-color:lightgray;
         color:navy;
         height:150px;
-        padding-left:100px;
-        padding-left:100px;
+        padding-left:50px;
     }
     /* .enrollTitle {
         grid-area: enrollTitleArea;

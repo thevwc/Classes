@@ -49,7 +49,7 @@
         <div class="coursesTakenColHdg">
             <div class="row">
                 <div class="col-1">Crse#</div>
-                <div class="col-1">Term</div>
+                <div class="col-2">Term</div>
                 <div class="col-3">Title</div>
                 <div class="col-2">Dates</div>
                 <div class="col-2">Instructor</div>
@@ -58,16 +58,17 @@
         </div>
         <div id='coursesTakenDetail' class="coursesTakenDetail">
             {% for sItem in scheduleDict %}
-                <div class="row">
+                <div class="row" style="border-bottom:1px solid navy">
                     <div class="col-1">{{sItem.courseNum}}</div>
-                    <div class="col-1">{{sItem.term}}</div>
+                    <div class="col-2">{{sItem.term}}</div>
                     <div class="col-3">{{sItem.title}}</div>
                     <div class="col-2">{{sItem.dates}}</div>
                     <div class="col-2">{{sItem.instructor}}</div>
                     
                         <button
                             id="{{sItem.enrollmentID}}" 
-                            class="dropClassBtn btn-outline btn-sm"
+                            class="dropClassTakenBtn btn-outline btn-sm"
+                            style="height:25px"
                             onclick=removeEnrollmentRecord(this.id)>
                             REMOVE
                         </button>
@@ -194,7 +195,7 @@
         </div>
         <div id='enrollDetail' class="enrollDetail">
             {% for e in enrolledDict %}
-                <div class="row">
+                <div class="row" style="border-bottom:1px solid navy">
                     <div class="col-1">{{e.courseNum}}</div>
                     <div class="col-3">{{e.title}}</div>
                     <div class="col-2">{{e.instructor}}</div>
@@ -208,8 +209,20 @@
                             &nbsp;
                         {% endif %}
                     </div>
+                    <div class="col-1"
+                        {% if e.receipt == 'PENDNG' %}
+                            style="color:green"
+                        {% else %}
+                            style="color:navy"
+                        {% endif %}>
+                        {{e.receipt}}
+                    </div>
                     <div class="col-1">
-                        <button id="{{e.enrollmentID}}" class="removeEnrollmentBtn btn btn-secondary btn-sm">
+                        <button 
+                            id="{{e.enrollmentID}}" 
+                            class="removeEnrollmentBtn btn-outline btn-sm"
+                            style=height:25px;
+                            onclick=removeEnrollmentRecord(this.id)>
                             REMOVE
                         </button>
                     </div>
@@ -219,7 +232,22 @@
     </div>
     
     <div class="processSection">
-        <button id='submitBtn' class="btn btn-primary">SUBMIT</button>
+        <div class="row">
+            <div class="col">
+                <label>Enter the transaction number to be used for all 'PENDING' enrollments for the member with lightspeed ID xxxxxxx.</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label for="receiptID">Lightspeed transaction # (receipt) - </label>
+        <input id="receiptID" type="text">
+            </div>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-2">
+            <button id='lightspeedBtn' class="btn btn-primary">SUBMIT</button>
+        </div>
+        
     </div>
 </div>
 

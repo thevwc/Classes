@@ -50,7 +50,7 @@ def logChange(staffID,colName,memberID,newData,origData):
 @app.route("/classes/<staffID>/<villageID>/",defaults={'term':None})
 @app.route("/classes/<staffID>/<villageID>/<term>")
 def index(staffID,villageID,term):
-    print('staffID - ',staffID,'\nvillageID - ',villageID, '\nterm - ',term)
+    #print('staffID - ',staffID,'\nvillageID - ',villageID, '\nterm - ',term)
     # IS USER A STAFF MEMBER, DBA, OR MANAGER
     isDBA = 'False'
     isMgr = 'False'
@@ -258,7 +258,7 @@ def index(staffID,villageID,term):
                 'receipt':e.Receipt_Number
             }
             enrolledDict.append(enrolledItem)
-            print(enrolledItem)
+            #print(enrolledItem)
 
 
     else:
@@ -289,7 +289,7 @@ def index(staffID,villageID,term):
     try:
         offerings = db.engine.execute(sqlOfferings)
     except (SQLAlchemyError, DBAPIError) as e:
-        print('ERROR - ',e)
+        #print('ERROR - ',e)
         errorMsg = "ERROR retrieving offerings "
         flash(errorMsg,'danger')
         return 'ERROR in offering list build.'
@@ -359,8 +359,8 @@ def index(staffID,villageID,term):
     #  BUILD DICT OF CURRENT REGISTRATIONS
 
 
-    print('villageID - ',villageID)
-    print('term - ',term.upper())
+    #print('villageID - ',villageID)
+    #print('term - ',term.upper())
     return render_template("classes.html",memberID=villageID,memberArray=memberArray,\
     todaySTR=todaySTR,termArray=termArray,courseArray=courseArray,memberName=memberName,\
     scheduleDict=coursesTakenDict, offeringDict=offeringDict,term=term.upper(),staffID=staffID,\
@@ -405,10 +405,10 @@ def removeEnrollmentRecord():
 
 @app.route('/getCourseNotes')
 def getCourseNotes():
-    print('getCourseNotes')
+    #print('getCourseNotes')
     courseNumber = request.args.get('courseNumber')
     courseNote = db.session.query(Course.Course_Note).filter(Course.Course_Number == courseNumber).scalar()
-    print('courseNote - ',courseNote)
+    #print('courseNote - ',courseNote)
     return jsonify(courseNote=courseNote)
 
 @app.route('/addEnrollmentRecord')
@@ -442,32 +442,14 @@ def addEnrollmentRecord():
         return "SUCCESS"
 
     except (IntegrityError) as e:
-        print('..........IngegrityError -',e)
+        #print('..........IngegrityError -',e)
         db.session.rollback()
         errorMsg = "ERROR - Duplicate course."
         return (errorMsg)
 
     except (SQLAlchemyError, DBAPIError) as e:
         db.session.rollback()
-        print('..........ERROR - ',e)
+        #print('..........ERROR - ',e)
         errorMsg = "ERROR adding enrollment record. "
         flash(errorMsg,'danger')
         return errorMsg
-
-       
-    # sqlInsert = "INSERT INTO tblCourse_Enrollees (Course_Term, Course_Number, Section_ID, Member_ID, "
-    # sqlInsert += "Receipt_Number, Date_Enrolled, Registered_BY) "
-    # sqlInsert += "VALUES ('" + term + "', '" + courseNumber + "', '" + sectionID + "', '" 
-    # sqlInsert +=  villageID + "', '" 
-    # sqlInsert += "PNDNG"
-    # sqlInsert += "', '" + todaySTR + "', '" + staffID + "')"
-    # print('5. ',sqlInsert)
-
-    # try:
-    #     db.session.execute(sqlInsert)
-    # except (SQLAlchemyError, DBAPIError) as e:
-    #         print('ERROR - ',e)
-    #         errorMsg = "ERROR inserting enrollment "
-    #         flash(errorMsg,'danger')
-    #         return 'ERROR in enrollment add.'
-    # return 'SUCCESS'

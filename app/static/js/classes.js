@@ -21,7 +21,7 @@ const isMgr = document.getElementById('isMgr').value
 // CHECK FOR EITHER isDBA or isMgr
 if (isDBA !='True' && isMgr != 'True') {
     // SET MGR OPTIONS
-    for (let el of document.querySelectorAll('.dropClassBtn')) el.style.visibility = 'hidden';
+    for (let el of document.querySelectorAll('.dropClassTakenBtn')) el.style.visibility = 'hidden';
 }
 
 // WAS TERM PASSED IN?
@@ -69,11 +69,11 @@ document.getElementById("selectMemberID").addEventListener("click",memberSelecte
 //document.getElementsByClassName("dropClassBtn").addEventListener('click',removeCourseRtn)
 //document.getElementsByClassName("removeEnrollmentBtn").addEventListener('click',removeEnrollmentRtn)
 
-document.getElementById('coursesTakenDetail').addEventListener("click",removeCourseRtn)
+//document.getElementById('coursesTakenDetail').addEventListener("click",removeCourseRtn)
 //document.getElementById('enrollmentDetail').addEventListener('click',removeLineRtn)
 //document.getElementById('enrollmentDetail').addEventListener('change',setQtyRtn)
 document.getElementById('courseOfferingsTable').addEventListener('click',offeringClickRtn)
-document.getElementById('submitBtn').addEventListener('click',processRegistration)
+document.getElementById('lightspeedBtn').addEventListener('click',updateReceiptNumber)
 
 $("#selectCourseID").on("change", function() {
     courseData = this.value
@@ -244,20 +244,15 @@ $(document).ready(function(){
 // }
 
 // REMOVE A COURSE FROM THE COURSES TAKEN AREA
-function removeCourseRtn(e) {
-    console.log('old rtn')
-}
+// function removeCourseRtn(e) {
+//     console.log('old rtn')
+// }
 
-function removeEnrollmentRecord(e) {
-    alert('e - '+e)
-    console.log('removeCourseRtn')
-    if (!e.target.className.includes('dropClassBtn')){
-        return
-    }
+function removeEnrollmentRecord(enrollmentID) {
     $.ajax({
         url: "/removeEnrollmentRecord",
         type: "GET",
-        data:{recordID:e.target.id
+        data:{recordID:enrollmentID
           },
         success: function(data, textStatus, jqXHR)
         {
@@ -333,8 +328,8 @@ function offeringClickRtn(e) {
                     alert(msg)
                 }
             },
-            error: function(result){
-                alert("Error ..."+result)
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("Error getting course notes.\n"+errorThrown + '\n'+textStatus)
             }
         }) 
         n = document.getElementById('offeringCourseNote')
@@ -349,4 +344,25 @@ function offeringClickRtn(e) {
         console.log ('instructor clicked')
         // show list of students enrolled
     }
+}
+
+function updateReceiptNumber(e) {
+    console.log('e - '+ e.target)
+    console.log('updateReceiptNumber')
+    memberID = document.getElementById('memberID').value
+    $.ajax({
+        url : "/updateReceiptNumber",
+        type: "GET",
+        data : {
+            memberID:memberID,
+            },
+
+        success: function(data, textStatus, jqXHR)
+        {
+            alert('Transaction number complete.')
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("Error getting course notes.\n"+errorThrown + '\n'+textStatus)
+        }
+    })   
 }
