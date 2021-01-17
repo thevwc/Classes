@@ -2,18 +2,27 @@
 /* MODAL FORM FOR SHOWING TODAYS MONITORS */
 #modal {
   display:block;
-  width:100%;
+  width:60%;
   color:blue;
 }
 .modal-content {
-  background-color:white;
-  color:brown;
+  background-color:beige;
+  color:navy;
+  height:max-content;
+  border:3px solid lightgreen;
+}
+.modal-header {
+  background-color: navy;
+  color:white;
 }
 .modal-header button {
   float: right;
   }
 .modal-body {
   width:100%;
+  background-color: white;
+  color:maroon;
+  border:3px solid orange;
 }
 .modal-xl {
   width: 95%;
@@ -23,33 +32,57 @@
   width:100%;
   text-align:left;
   }
-  
-.modal-content form {
-  margin-left: 100px;
-  }
+.modal-body form {
+  width:60%;
+  height:min-content;
+  background-color: lightgrey;
+  color:navy;
+  border: 1px solid navy;
+  padding-left:5em;
+  padding-bottom:0em;
+  margin:0 auto;
+}
 
-.modal-col-hdgs {
-    display:grid;
-    grid-template-columns:40px 40px 110px 250px 80px 80px 150px 150px 100px 130px 55px;
-    text-align:center;
-  } 
-.modal-detail {
-  display:grid;
-  grid-template-columns:40px 40px 110px 250px 80px 80px 150px 150px 100px 130px 55px;
-  margin-right:2em;
-  border: 1px solid black;
-  text-align:center;
-}
-.modal-detail span {
-  border: 1px solid black;
-}
+/* .approvalOptions {
+  height:100px;
+  padding-left:0em;
+  border:1px solid red;
+
+} */
 .modal-footer {
-  margin:10px;
-  padding:0px;
+  height:50px;
+  margin:0px;
+  padding-top:0px;
+  padding-bottom:0px;
+  background-color: gray;
   }
+.footer-left-col {
+  width:100%;
+  text-align: right;
+  padding-top:0em;
+}
+.footer-right-col {
+  width:80%;
+  text-align: left;
+  padding-top:0em;
+}
+.footer-left-col button {
+  width:200px; 
+  height:30px;
+  font-size: 1rem;
+  text-align:center;
+  padding-right:0em;
+}
+.footer-right-col button {
+  width:200px;
+  height:30px; 
+  font-size: 1rem;
+  text-align:center;
+  padding-left:0em;
+}
 /* The Close Button */
 .close {
-  color: #aaaaaa;
+  color: white;
   float: right;
   font-size: 42px;
   font-weight: bold;
@@ -60,21 +93,29 @@
   text-decoration: none;
   cursor: pointer;
   }
+
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+  }
   
-
-
-
-.Name {
-  text-align:left !important;
-}
-.TrainingNeeded {
-  color:red;
-}
-.NoShow {
-  text-align:center;
-  border:1px solid black;
-}
-.RecordID {
-  background-color: yellow;
-  color:blue;
-}
+  /* .tooltip .tooltiptext { */
+  .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+  

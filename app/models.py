@@ -21,6 +21,8 @@ class ControlVariables(db.Model):
     Last_Acceptable_Monitor_Training_Date = db.Column(db.Date)
     AcceptingNewMembers = db.Column(db.Boolean)
     Current_Course_Term = db.Column(db.String(15))
+    Repeat_Classes_Allowed_Date = db.Column(db.Date)
+    More_Than_2_Classes_Allowed_Date = db.Column(db.Date)
     Dues_Account = db.Column(db.String(10))
     Initiation_Fee_Account = db.Column(db.String(10))
     WaitingListApplicantNote = db.Column(db.String(255))

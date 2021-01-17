@@ -50,6 +50,10 @@ def logChange(staffID,colName,memberID,newData,origData):
 @app.route("/classes/<staffID>/<villageID>/",defaults={'term':None})
 @app.route("/classes/<staffID>/<villageID>/<term>")
 def index(staffID,villageID,term):
+    # GET TODAY'S DATE
+    todays_date = date.today()
+    todaySTR = todays_date.strftime('%m-%d-%Y')
+
     #print('staffID - ',staffID,'\nvillageID - ',villageID, '\nterm - ',term)
     # IS USER A STAFF MEMBER, DBA, OR MANAGER
     isDBA = 'False'
@@ -64,15 +68,22 @@ def index(staffID,villageID,term):
             if member.Manager:
                 isMgr = 'True'
 
+    # GET CONTROL VARIABLES
+    controlVariables = db.session.query(ControlVariables).filter(ControlVariables.Shop_Number == 1).first()
+    term = controlVariables.Current_Course_Term
+    repeatClassesAllowedDate = controlVariables.Repeat_Classes_Allowed_Date
+    moreThan2ClassesAllowedDateDAT = controlVariables.More_Than_2_Classes_Allowed_Date
+    moreThan2ClassesAllowedDateSTR = moreThan2ClassesAllowedDateDAT.strftime('%m-%d-%Y')
+    if moreThan2ClassesAllowedDateDAT > todays_date:
+        moreThan2ClassesAllowed = 'False'
+    else:
+        moreThan2ClassesAllowed = 'True'
     
-    if (term == None):
-        term = db.session.query(ControlVariables.Current_Course_Term).filter(ControlVariables.Shop_Number == 1).scalar()
-    #print('2. villageID - ',villageID, '\nterm - ',term)
+    # SET VARIABLES INITIAL VALUES
+    certificationStatus = ''
+    enrollmentsThisTerm = 0
 
-    # GET TODAY'S DATE
-    todays_date = date.today()
-    todaySTR = todays_date.strftime('%m-%d-%Y')
-
+    
     # PREPARE LIST OF MEMBER NAMES AND VILLAGE IDs
     # BUILD ARRAY OF NAMES FOR DROPDOWN LIST OF MEMBERS
     memberArray=[]
@@ -129,6 +140,8 @@ def index(staffID,villageID,term):
     if villageID != None:
         
         # IF A VILLAGE ID WAS PASSED IN ...
+
+        # GET MEMBER DATA; NAME, # OF CLASSES, NEED CERTIFICATION
         member = db.session.query(Member).filter(Member.Member_ID == villageID).first()
         #print('Name - ',member.Last_Name)
         if member == None:
@@ -139,6 +152,20 @@ def index(staffID,villageID,term):
                 memberName += ' (' + member.Nickname + ')'
             memberName += ' ' + member.Last_Name
 
+        # CERTIFICATION STATUS
+        if member.Certified:
+            certificationStatus = 'Certified-RA'
+        else:
+            certificationStatus = 'Not certified'
+            if member.Certification_Training_Date:
+                certificationStatus = member.Certification_Training_Date.strftime('%m-%d-%Y')
+
+        # GET NUMBER OF CLASSES MEMBER IS CURRENTLY ENROLLED
+        enrollmentsThisTerm = db.session.query(func.count(CourseEnrollee.Member_ID))\
+            .filter(CourseEnrollee.Member_ID == villageID)\
+            .filter(CourseEnrollee.Course_Term == term)\
+            .scalar()
+        
         # DISPLAY THE COURSES TAKEN DATA FOR THAT VILLAGE ID
         # SQL APPROACH
         sql = "SELECT tblCourse_Enrollees.ID AS Enrollee_Record_ID, tblCourse_Enrollees.Course_Term AS Course_Term, "
@@ -275,10 +302,10 @@ def index(staffID,villageID,term):
     sqlOfferings = "SELECT top 20 o.ID as ID, o.Course_Term as term, "
     sqlOfferings += "o.Course_Number as courseNumber,o.Section_ID as sectionID, "
     sqlOfferings += "o.Section_Dates, o.Section_Dates_Note as datesNote, o.Section_Size, "
-    sqlOfferings += "o.Prerequisite_Course as prereq, "
     sqlOfferings += "o.Section_Supplies, o.Section_Supplies_Fee, "
     sqlOfferings += "o.Section_Closed_Date, o.Section_Start_Date, "
     sqlOfferings += "c.Course_Title as title, c.Course_Fee as courseFee, "
+    sqlOfferings += "c.Course_Prerequisite as prereq, "
     sqlOfferings += "m.First_Name + ' ' + m.Last_Name as instructorName "
     sqlOfferings += "FROM tblCourse_Offerings o "
     sqlOfferings += "LEFT JOIN tblCourses c ON c.Course_Number = o.Course_Number "
@@ -364,7 +391,9 @@ def index(staffID,villageID,term):
     return render_template("classes.html",memberID=villageID,memberArray=memberArray,\
     todaySTR=todaySTR,termArray=termArray,courseArray=courseArray,memberName=memberName,\
     scheduleDict=coursesTakenDict, offeringDict=offeringDict,term=term.upper(),staffID=staffID,\
-    staffName=staffName,isDBA=isDBA,isMgr=isMgr,enrolledDict=enrolledDict)
+    staffName=staffName,isDBA=isDBA,isMgr=isMgr,enrolledDict=enrolledDict,\
+    certificationStatus=certificationStatus,enrollmentsThisTerm=enrollmentsThisTerm,\
+    moreThan2ClassesAllowedDateSTR=moreThan2ClassesAllowedDateSTR,moreThan2ClassesAllowed=moreThan2ClassesAllowed)
 
 
     
@@ -403,13 +432,48 @@ def removeEnrollmentRecord():
             return "ERROR - enrollment delete failed."
     return "SUCCESS - enrollment record was removed."
 
+@app.route('/getCourseDescription')
+def getCourseDescription():
+    courseNumber = request.args.get('courseNumber')
+    courseDescription = db.session.query(Course.Course_Description).filter(Course.Course_Number == courseNumber).scalar()
+    return jsonify(courseDescription=courseDescription)
+
+
 @app.route('/getCourseNotes')
 def getCourseNotes():
-    #print('getCourseNotes')
     courseNumber = request.args.get('courseNumber')
     courseNote = db.session.query(Course.Course_Note).filter(Course.Course_Number == courseNumber).scalar()
-    #print('courseNote - ',courseNote)
     return jsonify(courseNote=courseNote)
+
+@app.route('/getCourseMembers')
+def getCourseMembers():
+    sectionNumber = request.args.get('sectionNumber')
+    courseNumber, sectionID = sectionNumber.split("-",1)
+    term = db.session.query(ControlVariables.Current_Course_Term).filter(ControlVariables.Shop_Number == 1).scalar()
+    
+    sql = "SELECT m.First_Name as firstName, m.Last_Name as lastName, m.NickName as nickName, m.Member_ID as memberID"
+    sql += " FROM tblCourse_Enrollees e"
+    sql += " LEFT JOIN tblMember_Data m ON e.Member_ID = m.Member_ID "
+    sql += "WHERE e.Course_Number = '" + courseNumber + "' "
+    sql += "AND e.Section_ID = '" + sectionID + "' "
+    sql += "AND e.Course_Term = '" + term + "' "
+    sql += "ORDER BY m.Last_Name, m.First_Name"
+    
+    enrollees = db.session.execute(sql)
+    if enrollees:
+        memberList = '<ul>'
+        for e in enrollees:
+            if e.lastName: 
+                memberName = e.firstName
+                if e.nickName:
+                    memberName += ' (' + e.nickName + ')'
+                memberName += ' ' + e.lastName + ' [' + e.memberID + ']'
+                memberList += '<li>' + memberName + '</li>'
+        memberList += '</ul>'
+    else:
+        memberList = 'No one enrolled.' 
+
+    return jsonify(memberList=memberList)
 
 @app.route('/addEnrollmentRecord')
 def addEnrollmentRecord():
