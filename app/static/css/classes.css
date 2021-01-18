@@ -84,7 +84,7 @@ h2 {
                         "filterArea         filterArea"
                         "offeringsArea      offeringsArea"
                         "enrollArea         enrollArea"
-                        "processArea        processArea";
+                        "lightSpeedArea        lightSpeedArea";
         
     margin: 0 auto;
     padding:0em;
@@ -247,7 +247,7 @@ h2 {
 } */
 
 .processSection {
-    grid-area: processArea;
+    grid-area: lightSpeedArea;
 }
 
 /* SPECIFICATIONS FOR iPad PORTRAIT SCREENS */
@@ -264,7 +264,7 @@ h2 {
                             "filterArea         filterArea          filterArea          filterArea"
                             "offeringsArea      offeringsArea       offeringsArea       offeringsArea"
                             "enrollArea         enrollArea          enrollArea          enrollArea"
-                            "processArea        processArea         processArea         processArea";
+                            "lightSpeedArea        lightSpeedArea         lightSpeedArea         lightSpeedArea";
         font-size:1rem;
         background-color:navy;
     }
@@ -398,7 +398,7 @@ h2 {
     .parent {
         display:grid;
         width:95%;
-        grid-template-rows: 40px 40px fit-content(150px) 60px fit-content(200px) fit-content(100px) 100px;
+        grid-template-rows: 40px 40px fit-content(150px) 60px fit-content(150px) fit-content(80px) fit-content(100px);
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-areas:"selectMemberArea   titleArea           titleArea           versionArea"
                             "memberNameArea     memberNameArea      memberNameArea      memberNameArea"                   
@@ -406,10 +406,10 @@ h2 {
                             "filterArea         filterArea          filterArea          filterArea"
                             "offeringsArea      offeringsArea       offeringsArea       offeringsArea"
                             "enrollArea         enrollArea          enrollArea          enrollArea"
-                            "processArea        processArea         processArea         processArea";
+                            "lightSpeedArea     lightSpeedArea      lightSpeedArea      lightSpeedArea";
         grid-area: 0;                
         margin: 0 auto;
-        background-color:white;
+        background-color:lightgray;
         
     } 
     
@@ -457,12 +457,13 @@ h2 {
         text-align:left;
         height:40px;
         padding-top:7px;
+        padding-left:1em;
     }
     .coursesTakenColHdg {
         background-color: navy;
         color:white;
         text-align: left;
-        padding-left:15em;
+        padding-left:0em;
     }
     /* .coursesTakenColHdg div {
         border:1px solid white;
@@ -472,8 +473,8 @@ h2 {
         overflow-y:auto;
         background-color:lightgray;
         color:navy;
-        height:200px;
-        padding-left:15em;
+        height:150px;
+        padding-left:0em;
     }
     
     .filterSection {
@@ -489,7 +490,7 @@ h2 {
         max-width:100%;
         height:60px;
         padding-top:2em;
-        padding-left:0em;
+        padding-left:1em;
         background-color:maroon;
         color:white;
         font-size:.5rem;
@@ -506,10 +507,7 @@ h2 {
         font-size:.5rem;
         border-bottom:4px solid white;
     }
-    /* #showAll:active {
-        background-color: yellow;
-        color:red;
-    } */
+    
     .filter2Section {
         grid-area:filter2Area;
         max-width:100%;
@@ -538,6 +536,7 @@ h2 {
         background-color:maroon;
         color:white;
         text-align:left;
+        padding-left:1em;
     }
     .courseOfferingsColHdgs {
         background-color: maroon;
@@ -559,7 +558,7 @@ h2 {
         max-width: 100%;
         padding-left:0em;
         padding-right:0em;
-        border:1px solid red;
+
     }
     .enrollHdg {
         background-color: navy;
@@ -567,6 +566,7 @@ h2 {
         text-align:left;
         height:40px;
         padding-top:7px;
+        padding-left:1em;
     }
     .enrollColHdg {
         background-color: navy;
@@ -590,14 +590,40 @@ h2 {
         font-size:1.5rem;
     } */
     
-    .processSection {
-        grid-area: processArea;
+    .lightSpeedSection {
+        grid-area: lightSpeedArea;
         background-color: beige;
         color:green;
-        text-align:center;
+        text-align:left;
         border:1px solid navy;
+        padding-top:0em;
+        padding-left:0em;
+    }
+    .lightSpeedHdg {
+        height:60px;
+        text-align: left;
+        background-color: navy;
+        color:white;
+        padding-top:1em;
+        padding-left:1em;
+    }
+    /* #lightSpeedFormID {
+        display:none;
+        background-color: green;
+        color:ivory;
+    } */
+    .lightSpeedForm {
+        display:none;
+        background-color: bisque;
+        color:brown;
+    }
+    #lightSpeedReceiptNumber {
+        border:2px solid brown;
+        background-color: bisque;
+        color:brown;
     }
 }
+
 
 
 /* SPECIFICATIONS FOR MONITOR  */

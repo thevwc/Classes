@@ -151,6 +151,7 @@ def index(staffID,villageID,term):
             if member.Nickname != None and member.Nickname != '':
                 memberName += ' (' + member.Nickname + ')'
             memberName += ' ' + member.Last_Name
+            lightSpeedID = '123456'
 
         # CERTIFICATION STATUS
         if member.Certified:
@@ -290,6 +291,7 @@ def index(staffID,villageID,term):
 
     else:
         memberName = ''
+        lightSpeedID = ''
         coursesTakenDict = []
         enrolledDict = []
     # END OF ROUTINE TO RETRIEVE COURSES ENROLLED IN BY AN INDIVIDUAL
@@ -393,7 +395,8 @@ def index(staffID,villageID,term):
     scheduleDict=coursesTakenDict, offeringDict=offeringDict,term=term.upper(),staffID=staffID,\
     staffName=staffName,isDBA=isDBA,isMgr=isMgr,enrolledDict=enrolledDict,\
     certificationStatus=certificationStatus,enrollmentsThisTerm=enrollmentsThisTerm,\
-    moreThan2ClassesAllowedDateSTR=moreThan2ClassesAllowedDateSTR,moreThan2ClassesAllowed=moreThan2ClassesAllowed)
+    moreThan2ClassesAllowedDateSTR=moreThan2ClassesAllowedDateSTR,moreThan2ClassesAllowed=moreThan2ClassesAllowed,\
+    lightSpeedID=lightSpeedID)
 
 
     
@@ -517,3 +520,43 @@ def addEnrollmentRecord():
         errorMsg = "ERROR adding enrollment record. "
         flash(errorMsg,'danger')
         return errorMsg
+
+@app.route("/updateReceiptNumber")
+def updateReceiptNumber():
+    memberID = request.args.get('memberID')
+    receiptNumber = request.args.get('receiptNumber')
+    print('memberID - ',memberID)
+    print('receiptNumber - ',receiptNumber)
+    print('updateReceiptNumber rtn')
+
+    # SQLALCHEMY APPROACH
+    # try:
+    #     db.session.query(CourseEnrollee)\
+    #         .filter(CourseEnrollee.Member_ID == memberID)\
+    #         .filter(CourseEnrollee.Receipt_Number == 'PENDNG')\
+    #         .update({CourseEnrollee.Receipt_Number:receiptNumber})
+    # except (SQLAlchemyError, DBAPIError) as e:
+    #      print('ERROR - ',e)
+    #      msg = "ERROR updating pending records."
+    #      return jsonify(msg=msg)
+    
+    # msg="SUCCESS updating pending records."
+    # return jsonify(msg=msg)
+
+    # RAW SQL APPROACH
+    sqlUpdate = "UPDATE tblCourse_Enrollees SET Receipt_Number = '" + receiptNumber + "' "
+    sqlUpdate += "WHERE Member_ID = '" + memberID + "' AND Receipt_Number = 'PENDNG'"
+    
+    print('...................................')
+    print(sqlUpdate)
+    print('...................................')
+    try:
+        db.session.execute(sqlUpdate)
+    except (SQLAlchemyError, DBAPIError) as e:
+        print('ERROR - ',e)
+        msg = "ERROR updating pending records."
+        return jsonify(msg=msg)
+
+    msg = "SUCCESS in updating pending records."
+    
+    return jsonify(msg=msg)

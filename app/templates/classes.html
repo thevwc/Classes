@@ -32,7 +32,7 @@
         <input id='isMgr' type="hidden" value={{isMgr}}>
         <input id='certificationStatus' type="hidden" value = {{certificationStatus}}>
         <input id='enrollmentsThisTerm' type="hidden" value = {{enrollmentsThisTerm}}>
-        <input id='moreThan2ClassesAllowedDate' type="hidden" value = {{moreThan2ClassesAllowedDateSTR}}>
+        <input id='moreThan2ClassesAllowedDate' type="text" value = {{moreThan2ClassesAllowedDateSTR}}>
         <input id='moreThan2ClassesAllowed' type="hidden" value = {{moreThan2ClassesAllowed}}>   
     </div>
 
@@ -53,6 +53,7 @@
         </div>
         <div class="coursesTakenColHdg">
             <div class="row">
+                <div class="col-1"></div>
                 <div class="col-1">Crse#</div>
                 <div class="col-2">Term</div>
                 <div class="col-3">Title</div>
@@ -64,6 +65,7 @@
         <div id='coursesTakenDetail' class="coursesTakenDetail">
             {% for sItem in scheduleDict %}
                 <div class="row" style="border-bottom:1px solid navy">
+                    <div class="col-1"></div>
                     <div class="col-1">{{sItem.courseNum}}</div>
                     <div class="col-2">{{sItem.term}}</div>
                     <div class="col-3">{{sItem.title}}</div>
@@ -86,7 +88,7 @@
     <div class="filterSection">
         <div class="filterTitle">
             <div class="courseOfferingsHdg">
-                <h4>CURRENT OFFERINGS</hr4>
+                <h4>CURRENT OFFERINGS</h4>
             </div>
         </div>
             
@@ -154,8 +156,8 @@
                         <td>
                             {% if offering.fullMsg != 'FULL' and offering.closedMsg != 'CLOSED' %}
                                 <button type="button" 
+                                    id="{{offering.sectionName}}"
                                     class="enrollBtn btn btn-primary btn-sm btn-spacing"
-                                    onclick="enrollInCourse(event)"
                                     style=display:none;height:25px>
                                     ENROLL
                                 </button>
@@ -236,23 +238,31 @@
         </div>
     </div>
     
-    <div class="processSection">
-        <div class="row">
-            <div class="col">
-                <label>Enter the transaction number to be used for all 'PENDING' enrollments for the member with lightspeed ID xxxxxxx.</label>
+    <div class="lightSpeedSection">
+        <div class='lightSpeedHdg'>
+            <h4>
+                RECORD PAYMENT
+            </h4>
+        </div>
+        <div id='lightSpeedFormID' class="lightSpeedForm">
+            <div class="row">
+                <div class="col">
+                    <label>
+                        &nbsp; Enter the transaction number to be used for all 'PENDING' enrollments for the member with lightspeed ID
+                        <span style=color:blue> {{lightSpeedID}} - </span>.</label>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-5">
-                <label for="receiptID">Lightspeed transaction # (receipt) - </label>
-        <input id="receiptID" type="text">
+            <div class="row" style=text-align:center>
+                <div class="col-3">
+                    <label for="receiptID">&nbsp;Lightspeed transaction # (receipt) - </label>
+                    <input id="lightSpeedReceiptNumber" type="text">
+                </div>
+            
+                <div class="col-2">
+                    <button id='lightspeedBtn' class="btn btn-primary btn-sm">UPDATE PENDING</button>
+                </div>
             </div>
-        </div>
-        <div class="col-1"></div>
-        <div class="col-2">
-            <button id='lightspeedBtn' class="btn btn-primary">SUBMIT</button>
-        </div>
-        
+        </div>   
     </div>
 </div>
 
@@ -356,6 +366,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalCoursePrereqTitle" >Prerequisite Requirements</h5>
+                <input type="hidden" id="modalSectionNumber">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" >&times;</span>
                 </button>
@@ -363,28 +374,38 @@
             <div class="modal-body">
                 <div id='prerequisites' contenteditable="true"></div>
                 <br><br>
-                <div id='approvalOptions' class='approvalOptions'>
+                <div id='approvalOptions'>
                     <form>
-                        <div class="radio">
-                            <label>Select the reason for approval ...</label>
-                        </div>
-                        <div class="radio">
-                            <label>&nbsp;<input type="radio" name="optradio" value='1'>Completed prerequisite course(s)</label>
-                        </div>
-                        <div class="radio">
-                            <label>&nbsp;<input type="radio" name="optradio" value='2'>Member is on instructor approval log</label>
-                        </div>
-                        <div class="radio">
-                            <label>&nbsp;<input type="radio" name="optradio" value='3'>Written/Verbal approval from instructor</label>
-                            </div> 
-                    </form>
+                        <div class="approvalOptions btn-group-vertical">
+                            <label for="">Select one of the following -</label>
+                
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="approvalOption" id="approvalOption1" value="Completed prerequisite course(s)">
+                                <label class="form-check-label" for="approvalOption1">
+                                    Completed prerequisite course(s)  
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="approvalOption" id="approvalOption2" value="Member is on instructor approval log">
+                                <label class="form-check-label" for="approvalOption2">
+                                    Member is on instructor approval log
+                                </label>
+                            </div>
+                            <div class="form-check disabled">
+                                <input class="form-check-input" type="radio" name="approvalOption" id="approvalOption3" value="Written/Verbal approval from instructor">
+                                <label class="form-check-label" for="approvalOption3">
+                                    Written/Verbal approval from instructor
+                                </label>
+                            </div>
+                        </div> 
+                    </form> 
                 </div>
                 <div class="modal-footer">
                     <div class='col-6 footer-left-col'>
                         <button id='lackPrerequisitesID' type='button' class='btn-danger '>Not Approved</button>   
                     </div> 
                     <div class='col-6 footer-right-col'> 
-                        <button id='metPrerequisitesID' type="button" disabled class="btn-success">Approved</button>
+                        <button id='metPrerequisitesID' type="button" disabled=true class="btn-success">Approved</button>
                     </div>
                 </div>
             </div>
@@ -397,11 +418,5 @@
 {% block scripts %}
     {{super()}}
     <script src="{{ url_for('static', filename='js/classes.js') }}"> </script>
-    moment.js
-    <!-- <script type="text/javascript">
-        $(document).ready(function(){
-        $('.selectpicker').selectpicker('refresh');
-       });
-    </script> -->
 {% endblock %}
         

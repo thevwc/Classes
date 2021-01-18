@@ -1,6 +1,3 @@
-
-// SET INTIAL VALUES 
-
 //GET STAFF ID
 // IS THERE A STAFF ID ON THE PAGE?
 staffID = document.getElementById('staffID').value
@@ -24,28 +21,18 @@ if (isDBA !='True' && isMgr != 'True') {
     for (let el of document.querySelectorAll('.dropClassTakenBtn')) el.style.visibility = 'hidden';
 }
 
-// WAS TERM PASSED IN?
+// GET TERM FROM PAGE
 term = document.getElementById('termID').innerHTML
 
 // SHOW ENROLL BUTTONS IF MEMBER HAS BEEN SELECTED
 memberID = document.getElementById('memberID').value
-if (memberID != ''){
+if (memberID != 'None' & memberID != ''){
     $(".enrollBtn").filter(function() {
         $(this).toggle()
     })
+    // SHOW LIGHTSPEED SECTION
+    document.getElementById('lightSpeedFormID').style.display="block";
 }
-
-
-// GET LAST USED MEMBER VALUE IF AVAILABLE
-// selectedMember = localStorage.getItem('memberSelected')
-// if (selectedMember != null & selectedMember != '') {
-//     // SET LIST OF MEMBERS TO LAST SELECTED MEMBER
-//     document.getElementById('selectMemberID').title = selectedMember
-// }
-// else{
-//     // CLEAR MEMBER VALUE''
-//     selectedMember = ''
-// }
 
 // SHOW ALL CLASSES
 
@@ -53,18 +40,17 @@ if (memberID != ''){
 selectedCourse = ''
 
 // DEFINE EVENT LISTENERS
-//document.getElementById("selectTermID").addEventListener("change",termSelectedRtn)
-//document.getElementById("selectTermID").addEventListener("click",termSelectedRtn)
 document.getElementById("selectMemberID").addEventListener("change",memberSelectedRtn)
 document.getElementById("selectMemberID").addEventListener("click",memberSelectedRtn)
-//document.getElementsByClassName("dropClassBtn").addEventListener('click',removeCourseRtn)
-//document.getElementsByClassName("removeEnrollmentBtn").addEventListener('click',removeEnrollmentRtn)
-
-//document.getElementById('coursesTakenDetail').addEventListener("click",removeCourseRtn)
-//document.getElementById('enrollmentDetail').addEventListener('click',removeLineRtn)
-//document.getElementById('enrollmentDetail').addEventListener('change',setQtyRtn)
 document.getElementById('courseOfferingsTable').addEventListener('click',offeringClickRtn)
 document.getElementById('lightspeedBtn').addEventListener('click',updateReceiptNumber)
+document.getElementById('lackPrerequisitesID').addEventListener('click',notApprovedRtn)
+document.getElementById('metPrerequisitesID').addEventListener('click',approvedRtn)
+
+$(".enrollBtn").click(function() {
+    sectionNumber = this.id
+    checkForPrerequisites(this.id)
+})
 
 $("#selectCourseID").on("change", function() {
     courseData = this.value
@@ -74,9 +60,10 @@ $("#selectCourseID").on("change", function() {
     })
  });
  
-$("#approvalOptions").on('click',function(){
-    alert('approvalOptions clicked')
+ $('.approvalOptions input[type=radio]').click(function(){
+    optionChoice = this.value
     document.getElementById('metPrerequisitesID').removeAttribute('disabled')
+    document.getElementById('lackPrerequisitesID').setAttribute('disabled',true) 
 })
 
 // FUNCTIONS 
@@ -92,13 +79,6 @@ function memberSelectedRtn() {
 
 }
 
-// function showOpenOnly() {
-//     $("#offeringsTable tr").filter(function() {
-//         $(this).toggle($(this).text().toLowerCase().indexOf('full') == -1)
-//         $(this).toggle($(this).text().toLowerCase().indexOf('closed') == -1)
-//     })
-// }
-
 function showOpenOnly() {
     $(".FULL, .CLOSED").filter(function() {
         $(this).toggle()
@@ -111,53 +91,65 @@ function showAllClasses() {
      })
  }    
 
- function enrollInCourse(event) {
-
-    // EVENT.TARGET IDENTIFIES THE ENROLL BUTTON THAT WAS PRESSED
-    btn = event.target
-    btnTD = event.target.parentElement
+ function checkForPrerequisites(sectionNumber) {
+    console.log('checkForPrerequisites rtn')
+    btn = document.getElementById(sectionNumber)
+    btnTD = btn.parentElement
     parentTR = btnTD.parentElement
     
     // GET ALL VALUES IN ROW
     tds = parentTR.getElementsByTagName("td");
-    sectionNumber = tds[0].innerHTML
     courseNumber = sectionNumber.slice(0,4)
-    document.getElementById('modalCoursePrereqTitle').innerHTML = "Prerequistites for " + courseNumber
+    courseTitle = tds[1].innerHTML
+    document.getElementById('modalCoursePrereqTitle').innerHTML = "Prerequistites for " + courseNumber + " (" + courseTitle + ")"
+    document.getElementById('modalSectionNumber').value = sectionNumber 
+    
     // CHECK FOR PREREQUISITES
     prereqID = 'p' + sectionNumber
-    console.log('prereqID - '+prereqID)
     prereq = document.getElementById(prereqID)
-    console.log('prereq - '+prereq)
     if (prereq != null) {
         prereqValue = prereq.innerHTML
-        console.log('prereqValue - '+prereqValue)
         if (prereqValue != '') {
             document.getElementById('prerequisites').innerHTML = prereqValue
             $('#coursePrereqModalID').modal('show')
         }
         return
     }
+    else {
+        enrollInCourse(sectionNumber)
+    }
+ }
+
+ function enrollInCourse(sectionNumber) {
+    // EVENT.TARGET IDENTIFIES THE ENROLL BUTTON THAT WAS PRESSED
+    btn = document.getElementById(sectionNumber)
+    btnTD = btn.parentElement
+    parentTR = btnTD.parentElement
     
+    // GET ALL VALUES IN ROW
+    tds = parentTR.getElementsByTagName("td");
+    sectionNumber = tds[0].innerHTML
+    courseNumber = sectionNumber.slice(0,4)
+    courseTitle = tds[1].innerHTML
+    document.getElementById('modalCoursePrereqTitle').innerHTML = "Prerequistites for " + courseNumber + " (" + courseTitle + ")"
+
+
     // HAS MEMBER MORE THAN ONE ENROLLMENT THIS TERM?
     enrollmentsThisTerm = document.getElementById('enrollmentsThisTerm').value
-    console.log('enrollmentsThisTerm - '+enrollmentsThisTerm)
-
+    
     // DATE WHEN MORE THAN 2 ENROLLMENTS ARE ALLOWED
     console.log('get moreThan2... date')
     moreThan2ClassesAllowedDate = new Date(document.getElementById('moreThan2ClassesAllowedDate').value)
     console.log('moreThan2ClassesAllowedDate - '+moreThan2ClassesAllowedDate)
 
-    currentDate = new Date(today)
+    currentDate = new Date()
     if (enrollmentsThisTerm == 2 & moreThan2ClassesAllowed == 'False') {
         alert("Member may not take more that 2 classes until "+ moreThan2ClassesAllowedDateSTR)
         return
     }
 
     // ADD TO tblCourse_Enrollees
-    console.log('addToEnrollment')
-    console.log('staffID - ',staffID)
     memberID = document.getElementById('memberID').value
-    console.log('memberID - ',memberID)
     $.ajax({
         url: "/addEnrollmentRecord",
         type: "GET",
@@ -173,51 +165,25 @@ function showAllClasses() {
                 return
             }
             location.reload()
-            // open modal, check prerequisites
-           
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
             alert("ERROR - " + textStatus + '\n'+errorThrown)
             
         }
+        
     })
+    
  }
 
-
-function termSelectedRtn() {
-    localStorage.setItem('term',this.value) 
-    termSelected = this.value
-    console.log('term selected - ',this.value)
-    link = '/classes/ /'+ termSelected
-    console.log('link - '+link)
-    window.location.href = link
-}
-
 // HIDE ROWS NOT MATCHING CRITERIA ENTERED
-$(document).ready(function(){
-      $("#myInput").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#courseOfferingsTable tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-      });
-    });
+ $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#courseOfferingsTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+ });
  
-// REMOVES A LINE FROM REGISTRATION AREA
-// function removeLineRtn(e) {
-//     if (e.target.type == 'submit'){
-//         sectionNumber = e.target.id.slice(3,9)
-//         divToDelete = document.getElementById(sectionNumber)
-//         divToDelete.remove()
-//     }
-// }
-
-// REMOVE A COURSE FROM THE COURSES TAKEN AREA
-// function removeCourseRtn(e) {
-//     console.log('old rtn')
-// }
-
 function removeEnrollmentRecord(enrollmentID) {
     $.ajax({
         url: "/removeEnrollmentRecord",
@@ -240,8 +206,7 @@ function removeEnrollmentRecord(enrollmentID) {
 function processRegistration(e) {
     console.log('processRegistration rtn')
     // GET SECTION NUMBERS AND MEMBER ID
-    // const enrollmentRows = document.getElementsByClassName('enrollmentDetail')
-    // console.log('# of rows - ',enrollmentRows.length)
+   
     const enrollmentLines = document.getElementsByClassName('enrollmentLine')
     console.log('# of lines - ',enrollmentLines.length)
     for (let i = 0; i< enrollmentLines.length; i++) {
@@ -254,17 +219,7 @@ function processRegistration(e) {
         // }
     };
 }
-        //parent = document.getElementById('enrollmentDetail')
-    
-    //var c = parent.childNodes;
-    //for (i = 0; i < c.length; i++) {
-    //    console.log('... i ... ' + i,c[i].type, c[i].className)
-        //console.log(c[i].innerHTML)
-   
-    //while (parent.firstchild
-    // CALL ROUTINE TO ADD RECORDS TO tblCourse_Enrollees
 
-    // PRINT CLASS SCHEDULE
 
 function offeringClickRtn(e) {
     if (e.target.className.includes('offeringSectionName')) {
@@ -376,30 +331,35 @@ function offeringClickRtn(e) {
 }
 
 function updateReceiptNumber(e) {
-    console.log('e - '+ e.target)
-    console.log('updateReceiptNumber')
     memberID = document.getElementById('memberID').value
+    receiptNumber = document.getElementById('lightSpeedReceiptNumber').value
+
     $.ajax({
         url : "/updateReceiptNumber",
         type: "GET",
         data : {
             memberID:memberID,
+            receiptNumber:receiptNumber,
             },
 
         success: function(data, textStatus, jqXHR)
         {
-            alert('Transaction number complete.')
+            alert(data.msg)
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert("Error getting course notes.\n"+errorThrown + '\n'+textStatus)
+            alert("Error getting pending records.\n"+errorThrown + '\n'+textStatus)
         }
     })   
 }
 
-$('#coursePrereqModalID').on('show.bs.modal', function () {
-    //document.getElementById('prerequisites').innerHTML = 'Prerequisite requirements will go here ...'
-    // courseNumber = document()
-    // document.getElementById("modalCoursePrereqTitle").value = prereqTitle
-})
 
+function notApprovedRtn() {
+    alert('Member was not approved to take course')
+    $('#coursePrereqModalID').modal('hide')
+}
 
+function approvedRtn() {
+    sectionNumber = document.getElementById('modalSectionNumber').value
+    $('#coursePrereqModalID').modal('hide')
+    enrollInCourse(sectionNumber)
+}

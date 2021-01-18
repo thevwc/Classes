@@ -9,7 +9,6 @@
   background-color:beige;
   color:navy;
   height:max-content;
-  border:3px solid lightgreen;
 }
 .modal-header {
   background-color: navy;
@@ -22,7 +21,6 @@
   width:100%;
   background-color: white;
   color:maroon;
-  border:3px solid orange;
 }
 .modal-xl {
   width: 95%;
@@ -33,22 +31,49 @@
   text-align:left;
   }
 .modal-body form {
-  width:60%;
-  height:min-content;
-  background-color: lightgrey;
-  color:navy;
-  border: 1px solid navy;
-  padding-left:5em;
-  padding-bottom:0em;
+  text-align: center;
   margin:0 auto;
 }
-
-/* .approvalOptions {
-  height:100px;
+ 
+.approvalOptions {
+  width:400px;
+  height:150px;
   padding-left:0em;
-  border:1px solid red;
+  background-color: lightgray;
+  border:1px solid navy;
+  padding-left:3em;
+} 
+input[type='radio']:after {
+	width: 15px;
+	height: 15px;
+	border-radius: 15px;
+	top: -2px;
+	left: -1px;
+	position: relative;
+	background-color: #d1d3d1;
+	content: '';
+	display: inline-block;
+	visibility: visible;
+	border: 2px solid white;
+}
+	
+input[type='radio']:checked:after {
+	width: 15px;
+	height: 15px;
+	border-radius: 15px;
+	top: -2px;
+	left: -1px;
+	position: relative;
+	background-color: #ffa500;
+	content: '';
+	display: inline-block;
+	visibility: visible;
+	border: 2px solid white;
+}
 
-} */
+
+
+
 .modal-footer {
   height:50px;
   margin:0px;
@@ -79,6 +104,10 @@
   font-size: 1rem;
   text-align:center;
   padding-left:0em;
+  color:white;
+}
+button:disabled {
+  color:gray !important;
 }
 /* The Close Button */
 .close {
