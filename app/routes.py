@@ -57,7 +57,6 @@ def index(staffID,villageID,term):
     todays_date = date.today()
     todaySTR = todays_date.strftime('%m-%d-%Y')
 
-    #print('staffID - ',staffID,'\nvillageID - ',villageID, '\nterm - ',term)
     # IS USER A STAFF MEMBER, DBA, OR MANAGER
     isDBA = 'False'
     isMgr = 'False'
@@ -90,24 +89,7 @@ def index(staffID,villageID,term):
     # PREPARE LIST OF MEMBER NAMES AND VILLAGE IDs
     # BUILD ARRAY OF NAMES FOR DROPDOWN LIST OF MEMBERS
     memberArray=[]
-
-    # print('begin test ...................')
-    #memberID = '484424'
-    #querystring = 'EXEC enrollments ' + str(memberID) + ',' + str(term)
-    # querystring = "EXEC enrollments 484424, 'Winter 2020'"
-    # print (querystring)
-    # sql = SQLQuery(querystring)
-    # result = db.engine.execute(sql)
-    # rows = []
-    # for row in result:
-    #     print(row)
-
-    # print('end of test ...................')
-
-    #sqlSelect = "SELECT Last_Name, First_Name, Nickname, Member_ID FROM tblMember_Data "
-    #sqlSelect += "ORDER BY Last_Name, First_Name "
     try:
-    #    nameList = db.engine.execute(sqlSelect)
         sp = "EXEC nameList"
         sql = SQLQuery(sp)
         nameList = db.engine.execute(sql)
@@ -145,9 +127,7 @@ def index(staffID,villageID,term):
         termArray.append(termItem)
 
     # BUILD COURSE LIST
-    # limit courseArray to the courses offered this term
     courseArray = []
-    #courses = db.session.query(Course).order_by(Course.Course_Number).all()
     
     # STORED PROCEDURE FOR GETTING COURSES OFFERED THIS TERM
     sp = "EXEC coursesThisTerm '" + term + "'"
@@ -169,7 +149,6 @@ def index(staffID,villageID,term):
 
         # GET MEMBER DATA; NAME, # OF CLASSES, NEED CERTIFICATION
         member = db.session.query(Member).filter(Member.Member_ID == villageID).first()
-        #print('Name - ',member.Last_Name)
         if member == None:
             memberName = ''
         else:
@@ -186,38 +165,9 @@ def index(staffID,villageID,term):
             certificationStatus = 'Not certified'
             if member.Certification_Training_Date:
                 certificationStatus = member.Certification_Training_Date.strftime('%m-%d-%Y')
-
-        # GET NUMBER OF CLASSES MEMBER IS CURRENTLY ENROLLED
-        # enrollmentsThisTerm = db.session.query(func.count(CourseEnrollee.Member_ID))\
-        #     .filter(CourseEnrollee.Member_ID == villageID)\
-        #     .filter(CourseEnrollee.Course_Term == term)\
-        #     .scalar()
         
         # DISPLAY THE COURSES TAKEN DATA FOR THAT VILLAGE ID
-        # SQL APPROACH
-        # sql = "SELECT tblCourse_Enrollees.ID AS Enrollee_Record_ID, tblCourse_Enrollees.Course_Term AS Course_Term, "
-        # sql += "tblCourse_Enrollees.Course_Number AS Course_Number, tblCourse_Enrollees.Date_Enrolled as DateEnrolled, "
-        # sql += "tblCourse_Enrollees.Section_ID, tblCourse_Enrollees.Supply_Sets, tblCourses.Course_Title AS Course_Title, "
-        # sql += "tblCourse_Enrollees.Member_ID AS Student_ID, tblMember_Data.Last_Name AS Student_Last_Name, "
-        # sql += "tblMember_Data.First_Name AS Student_First_Name, tblMember_Data.NickName as Student_NickName, "
-        # sql += "tblCourse_Offerings.Section_Dates as Section_Dates, tblCourse_Offerings.Section_Dates_Note as Section_Note, "
-        # sql += "tblMember_Data_1.Last_Name AS Instructor_Last_Name, "
-        # sql += "tblMember_Data_1.First_Name AS Instructor_First_Name, tblMember_Data_1.NickName AS Instructor_NickName, "
-        # sql += "tblCourse_Enrollees.Date_Enrolled AS Date_Enrolled, tblCourse_Enrollees.Receipt_Number AS Receipt_Number, "
-        # sql += "tblCourse_Offerings.Section_ID AS Section_ID, tblCourse_Offerings.Section_Dates_Note AS Section_Notes "
-        # sql += "FROM tblCourses INNER JOIN (((tblCourse_Enrollees INNER JOIN tblCourse_Offerings "
-        # sql += "ON (tblCourse_Offerings.Course_Number = tblCourse_Enrollees.Course_Number) "
-        # sql += "AND (tblCourse_Offerings.Course_Term = tblCourse_Enrollees.Course_Term) "
-        # sql += "AND (tblCourse_Enrollees.Section_ID = tblCourse_Offerings.Section_ID)) "
-        # sql += "LEFT JOIN tblMember_Data ON tblCourse_Enrollees.Member_ID = tblMember_Data.Member_ID) "
-        # sql += "LEFT JOIN tblMember_Data AS tblMember_Data_1 ON tblCourse_Offerings.Instructor_ID = tblMember_Data_1.Member_ID) "
-        # sql += "ON tblCourses.Course_Number = tblCourse_Offerings.Course_Number "
-        # sql += "WHERE tblCourse_Enrollees.Member_ID = '" + villageID + "' "
-        # sql += "AND tblCourse_Enrollees.Course_Term <> '" + term + "' "
-        # sql += "ORDER BY tblCourse_Enrollees.Course_Number, tblCourse_Enrollees.Section_ID, Course_Term desc "
-        # print(sql)
-        # coursesTaken = db.session.execute(sql)
-
+        
         sp = "EXEC coursesTaken '" + villageID + "', '" + term + "'"
         sql = SQLQuery(sp)
         coursesTaken = db.engine.execute(sql)
@@ -249,31 +199,6 @@ def index(staffID,villageID,term):
             coursesTakenDict.append(coursesTakenItem)
     
         # BUILD CURRENT REGISTRATION TABLE, i.e., ENROLLMENTS THIS TERM
-
-        # sql = "SELECT tblCourse_Enrollees.ID AS Enrollee_Record_ID, tblCourse_Enrollees.Course_Term AS Course_Term, "
-        # sql += "tblCourse_Enrollees.Course_Number AS Course_Number, tblCourse_Enrollees.Date_Enrolled as DateEnrolled, "
-        # sql += "tblCourse_Enrollees.Section_ID, tblCourse_Enrollees.Supply_Sets, tblCourses.Course_Title AS Course_Title, "
-        # sql += "tblCourses.Course_Fee as Course_Fee, tblCourses.Course_Supplies_Are_Taxable as Taxable, "
-        # sql += "tblCourse_Enrollees.Member_ID AS Student_ID, tblMember_Data.Last_Name AS Student_Last_Name, "
-        # sql += "tblMember_Data.First_Name AS Student_First_Name, tblMember_Data.NickName as Student_NickName, "
-        # sql += "tblCourse_Offerings.Section_Dates as Section_Dates, tblCourse_Offerings.Section_Dates_Note as Section_Note, "
-        # sql += "tblMember_Data_1.Last_Name AS Instructor_Last_Name, "
-        # sql += "tblMember_Data_1.First_Name AS Instructor_First_Name, tblMember_Data_1.NickName AS Instructor_NickName, "
-        # sql += "tblCourse_Enrollees.Date_Enrolled AS Date_Enrolled, tblCourse_Enrollees.Receipt_Number AS Receipt_Number, "
-        # sql += "tblCourse_Offerings.Section_ID AS Section_ID, tblCourse_Offerings.Section_Dates_Note AS Section_Notes, "
-        # sql += "tblCourse_Offerings.Section_Supplies_Fee as Supplies_Fee "
-        # sql += "FROM tblCourses INNER JOIN (((tblCourse_Enrollees INNER JOIN tblCourse_Offerings "
-        # sql += "ON (tblCourse_Offerings.Course_Number = tblCourse_Enrollees.Course_Number) "
-        # sql += "AND (tblCourse_Offerings.Course_Term = tblCourse_Enrollees.Course_Term) "
-        # sql += "AND (tblCourse_Enrollees.Section_ID = tblCourse_Offerings.Section_ID)) "
-        # sql += "LEFT JOIN tblMember_Data ON tblCourse_Enrollees.Member_ID = tblMember_Data.Member_ID) "
-        # sql += "LEFT JOIN tblMember_Data AS tblMember_Data_1 ON tblCourse_Offerings.Instructor_ID = tblMember_Data_1.Member_ID) "
-        # sql += "ON tblCourses.Course_Number = tblCourse_Offerings.Course_Number "
-        # sql += "WHERE tblCourse_Enrollees.Member_ID = '" + villageID + "' "
-        # sql += "AND tblCourse_Enrollees.Course_Term = '" + term + "' "
-        # sql += "ORDER BY tblCourse_Enrollees.Course_Number, tblCourse_Enrollees.Section_ID "
-        # #print(sql)
-        #enrolled = db.session.execute(sql)
         
         sp = "EXEC enrollments '" + villageID + "', '" + term + "'"
         sql = SQLQuery(sp)
@@ -325,29 +250,11 @@ def index(staffID,villageID,term):
     offeringDict = []
     offeringItems = []
 
-    # SQL STATEMENTS approach
-    # sqlOfferings = "SELECT o.ID as ID, o.Course_Term as term, "
-    # sqlOfferings += "o.Course_Number as courseNumber,o.Section_ID as sectionID, "
-    # sqlOfferings += "o.Section_Dates, o.Section_Dates_Note as datesNote, o.Section_Size, "
-    # sqlOfferings += "o.Section_Supplies, o.Section_Supplies_Fee, "
-    # sqlOfferings += "o.Section_Closed_Date, o.Section_Start_Date, "
-    # sqlOfferings += "c.Course_Title as title, c.Course_Fee as courseFee, "
-    # sqlOfferings += "c.Course_Prerequisite as prereq, "
-    # sqlOfferings += "m.First_Name + ' ' + m.Last_Name as instructorName "
-    # sqlOfferings += "FROM tblCourse_Offerings o "
-    # sqlOfferings += "LEFT JOIN tblCourses c ON c.Course_Number = o.Course_Number "
-    # sqlOfferings += "LEFT JOIN tblMember_Data m ON m.Member_ID = o.Instructor_ID "
-    # sqlOfferings += "WHERE o.Course_Term = '" + term + "' "
-    # sqlOfferings += "ORDER BY o.Course_Number, o.Section_ID"
-    
-    #print(sqlOfferings)
-
     try:
-        #offerings = db.engine.execute(sqlOfferings)
         sp = "EXEC offerings '" + term + "'"
         sql = SQLQuery(sp)
         offerings = db.engine.execute(sql)
-        print('time 7 - ',datetime.now())
+        
     except (SQLAlchemyError, DBAPIError) as e:
         errorMsg = "ERROR retrieving offerings "
         flash(errorMsg,'danger')
@@ -359,13 +266,6 @@ def index(staffID,villageID,term):
         for offering in offerings:
             # GET CLASS SIZE LIMIT
             capacity = offering.Section_Size
-
-            # GET COUNT OF SEATS TAKEN
-            # seatsTaken = db.session.query(func.count(CourseEnrollee.Member_ID))\
-            #     .filter(CourseEnrollee.Course_Term == term)\
-            #     .filter(CourseEnrollee.Course_Number == offering.courseNumber)\
-            #     .filter(CourseEnrollee.Section_ID == offering.sectionID)\
-            #     .scalar()
             
             seatsAvailable = capacity - offering.seatsTaken
             if (offering.Section_Closed_Date):
@@ -412,7 +312,6 @@ def index(staffID,villageID,term):
             }
             offeringDict.append(offeringItems)
             
-    print('time 8 - ',datetime.now())
     return render_template("classes.html",memberID=villageID,memberArray=memberArray,\
     todaySTR=todaySTR,termArray=termArray,courseArray=courseArray,memberName=memberName,\
     scheduleDict=coursesTakenDict, offeringDict=offeringDict,term=term.upper(),staffID=staffID,\
@@ -420,25 +319,6 @@ def index(staffID,villageID,term):
     certificationStatus=certificationStatus,enrollmentsThisTerm=enrollmentsThisTerm,\
     moreThan2ClassesAllowedDateSTR=moreThan2ClassesAllowedDateSTR,moreThan2ClassesAllowed=moreThan2ClassesAllowed,\
     lightSpeedID=lightSpeedID)
-
-# THE FOLLOWING IS NOT BEING USED
-# Finally solved my problem with the following function :
-
-def execute_stored_procedure(engine, procedure_name):
-    res = {}
-    connection = engine.raw_connection()
-    try:
-        cursor = connection.cursor()
-        cursor.execute("EXEC "+procedure_name)
-        cursor.close()
-        connection.commit()
-        res['status'] = 'OK'
-    except Exception as e:
-        res['status'] = 'ERROR'
-        res['error'] = e
-    finally:
-        connection.close() 
-    return res
 
 @app.route('/removeEnrollmentRecord')
 def removeEnrollmentRecord():
@@ -537,26 +417,19 @@ def updateReceiptNumber():
     memberID = request.args.get('memberID')
     receiptNumber = request.args.get('receiptNumber')
 
-    # SQLALCHEMY APPROACH
-    # try:
-    #     db.session.query(CourseEnrollee)\
-    #         .filter(CourseEnrollee.Member_ID == memberID)\
-    #         .filter(CourseEnrollee.Receipt_Number == 'PENDNG')\
-    #         .update({CourseEnrollee.Receipt_Number:receiptNumber})
-    # except (SQLAlchemyError, DBAPIError) as e:
-    #      print('ERROR - ',e)
-    #      msg = "ERROR updating pending records."
-    #      return jsonify(msg=msg)
-    
-    # msg="SUCCESS updating pending records."
-    # return jsonify(msg=msg)
-
     # RAW SQL APPROACH
-    sqlUpdate = "UPDATE tblCourse_Enrollees SET Receipt_Number = '" + receiptNumber + "' "
-    sqlUpdate += "WHERE Member_ID = '" + memberID + "' AND Receipt_Number = 'PENDNG'"
-    
+    # sqlUpdate = "UPDATE tblCourse_Enrollees SET Receipt_Number = '" + receiptNumber + "' "
+    # sqlUpdate += "WHERE Member_ID = '" + memberID + "' AND Receipt_Number = 'PENDNG'"
+    # print(sqlUpdate)
     try:
-        db.session.execute(sqlUpdate)
+        #db.session.execute(sqlUpdate)
+        sp = "EXEC updReceiptNumber '" + receiptNumber + "', '" + memberID + "'"
+        print('sp - ',sp)
+
+        sql = SQLQuery(sp)
+        result = db.engine.execute(sql)
+        print('result - ',result)
+
     except (SQLAlchemyError, DBAPIError) as e:
         msg = "ERROR updating pending records."
         return jsonify(msg=msg)

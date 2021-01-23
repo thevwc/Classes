@@ -92,7 +92,7 @@
             
         <div class="filter1Section">
             <div class="showOptions btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
-                <label id='showAll' class="btn btn-secondary btn-sm" active style=margin-left:10px onclick=showAllClasses()>
+                <label id='showAll' class="btn btn-secondary btn-sm" active  onclick=showAllClasses()>
                     <input type="radio" name="showOptions" autocomplete="off">SHOW ALL CLASSES
                 </label>
                 <label id='showOpen' class="btn btn-secondary btn-sm" style=margin-left:10px onclick=showOpenOnly()>
@@ -246,13 +246,13 @@
                 <div class="col">
                     <label>
                         &nbsp; Enter the transaction number to be used for all 'PENDING' enrollments for the member with lightspeed ID
-                        <span style=color:blue> {{lightSpeedID}} - </span>.</label>
+                        <span style=color:blue> {{lightSpeedID}}</span>.</label>
                 </div>
             </div>
-            <div class="row" style=text-align:center>
-                <div class="col-6">
-                    <label for="receiptID">&nbsp;Lightspeed transaction # (receipt) - </label>
-                    <input id="lightSpeedReceiptNumber" type="text">
+            <div class="row" style=text-align:left>
+                <div class="col-4">
+                    <label for="receiptID">&nbsp; Lightspeed transaction # (receipt) - </label>
+                    <input id="lightSpeedReceiptNumber" type="text" style=height:25px>
                 </div>
             
                 <div class="col-6">

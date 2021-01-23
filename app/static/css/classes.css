@@ -236,17 +236,15 @@ h2 {
 }
 .lightSpeedSection {
     grid-area: lightSpeedArea;
-    height:100px;
-    background-color: blue;
-    color:green;
+    height:105px;
     text-align:left;
-    border:1px solid yellow;
     padding-top:0em;
     padding-left:0em;
     font-size:.5rem;
+    border-bottom: 2px solid navy;
 }
 .lightSpeedHdg {
-    height:30px;
+    height:40px;
     text-align: center;
     background-color: navy;
     color:white;
@@ -256,14 +254,14 @@ h2 {
 
 .lightSpeedForm {
     display:none;
-    background-color: bisque;
-    color:brown;
+    background-color: beige;
+    color:maroon;
     font-size:.75rem;
 }
 #lightSpeedReceiptNumber {
-    border:2px solid brown;
-    background-color: bisque;
-    color:brown;
+    border:2px solid maroon;
+    background-color: beige;
+    color:maroon;
 }
 
 
@@ -310,146 +308,7 @@ h2 {
                             "filter1Area        filter1Area"
                             "filter2Area        filter3Area";
     }   
-/* 
-    .title {
-        text-align:left;
-    }
-    .version {
-        grid-area: versionArea;
-        text-align:center;
-    }
-    .selectMemberSection {
-        grid-area: selectMemberArea;
-        max-width:100%;
-        padding-top:.3em;
-        padding-right:1em;
-        text-align:left;
-        background-color:navy;
-        color:white;
-    }
-    .memberNameSection {
-        grid-area:memberNameArea;
-        text-align:center;
-        padding-top:.75em;
-        background-color: lightgray;
-        color:navy;
-    }
-    .coursesTakenSection {
-        grid-area: coursesTakenArea;
-        max-width: 100%;
-    }
-    .coursesTakenHdg {
-        background-color: navy;
-        color:white;
-        text-align:left;
-    }
-    .coursesTakenColHdg {
-        background-color: navy;
-        color:white;
-        padding-left:0em;
-        font-size:.75;
-    }
-    .coursesTakenDetail {
-        overflow-y:auto;
-        background-color:lightgray;
-        color:navy;
-        font-size:.75rem;
-        height:150px;
-        padding-left:0em;
-    }
-    .filterSection {
-        grid-area:filterArea;
-        display:grid;
-        grid-template-columns: 2fr 1fr 1fr;
-        grid-template-areas: "filter1Area   filter2Area     filter3Area";
-        border:2px solid orange;
-    }
-    .filterTitle {
-        grid-area:filterTitleArea;
-        max-width:100%;
-        height:40px;
-        padding-top:2em;
-        padding-left:1em;
-        background-color:maroon;
-        color:white;
-        font-size:.5rem;
-        border-bottom:4px solid white;
-    }  
-    .filter1Section {
-        grid-area:filter1Area;
-        max-width:100%;
-        padding-top:0em;
-        padding-left:0em;
-        background-color:maroon;
-        color:white;
-        font-size:.5rem;
-        border-bottom:2px solid white;
-    }
-
-    .showOptions label {
-        height:25px;
-        width: 100px;
-        margin-top:.3em;    
-    }
-    .filter2Section {
-        grid-area:filter2Area;
-        max-width:100%;
-        padding-top:0em;
-        padding-left:0em;
-        background-color:maroon;
-        color:white;
-        border-bottom:2px solid white;
-    }
-    .filter3Section {
-        grid-area:filter3Area;
-        max-width:100%;
-        padding-top:0em;
-        padding-right:.5em;
-        text-align:center;
-        background-color:maroon;
-        color:white;
-        border-bottom:2px solid white;
-    }
-    .courseOfferingsSection {
-        grid-area:offeringsArea;
-        max-width: 100%;
-        overflow-x:auto;
-        background-color: lightgray;
-        font-size:.75rem;
-    }
-    
-    .courseOfferingsHdg {
-        background-color: maroon;
-        color:white;
-        text-align:left;
-    }
-    .courseOfferingsColHdgs {
-        background-color: maroon;
-        color:white;
-    }
-    .courseOfferingsDetail {
-        overflow-y:auto;
-        background-color: beige;
-        color:maroon;
-        font-size: 1rem;
-    }
-    
-    .enrollSection {
-        grid-area: enrollArea;
-        font-size:1rem;
-    }
-    .enrollHeading {
-        background-color: navy;
-        color:white;
-        text-align:left;
-    }
-    .enrollColHdgs {
-        background-color: navy;
-        color:white;
-    }
-    */
 }
-/* SPECIFICATIONS FOR iPad LANDSCAPE SCREENS */
 
 
 /* SPECIFICATIONS FOR LAPTOP WITH MDP SCREENS */
@@ -457,7 +316,8 @@ h2 {
     .parent {
         display:grid;
         width:95%;
-        grid-template-rows: 40px 40px fit-content(150px) fit-content(80px) fit-content(150px) fit-content(200px) fit-content(100px);
+        grid-gap: 0em;;
+        grid-template-rows: 40px 40px fit-content(180px) fit-content(60px) fit-content(150px) fit-content(200px) fit-content(100px);
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-areas:"selectMemberArea   titleArea           titleArea           versionArea"
                             "memberNameArea     memberNameArea      memberNameArea      memberNameArea"                   
@@ -472,11 +332,17 @@ h2 {
         
     } 
 
+    .coursesTakenHdg {
+        padding-top:.3rem;
+    }
     .coursesTakenColHdg {
         font-size:1rem;
     }
     .coursesTakenDetail {
         font-size:1rem;
+    }
+    .courseOfferingsHdg {
+        padding-top:.3rem;
     }
     .courseOfferingsColHdgs {
         font-size: 1rem;
@@ -487,29 +353,42 @@ h2 {
     .filterSection {
         grid-area:filterArea;
         display:grid;
-        grid-template-rows: 80px 80px ;
+        grid-template-rows: 40px 40px ;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-areas: "filterTitleArea filterTitleArea filterTitleArea filterTitleArea "
                             "filter1Area filter1Area filter2Area filter3Area";
     } 
     
     .filterTitle {
-        background-color: lightblue;
+        padding-top:0rem;
+        background-color: maroon;
     }
     .filter1Section {
-        background-color: lightcoral;
+        padding-top:0.1em;
+        padding-left:1em;
+        text-align:left;
     }
     .filter2Section {
-        background-color: lightgreen;
+        padding-top:.2em;
+        
     }
     .filter3Section {
-        background-color: lightsalmon;
+        padding-top:.1em;
+       
+    }
+    .enrollSection {
+        height:200px;
+        
     }
     .enrollColHdgs {
         font-size: 1rem;
     }
     .enrollDetail {
+        height:150px;
         font-size: 1rem;
+    }
+    .courseOfferingsColHdgs {
+        position: sticky; top: 0; 
     }
 
     .lightSpeedSection {
@@ -521,203 +400,33 @@ h2 {
     #lightSpeedReceiptNumber {
         font-size: large;
     }
-/*     
-    .title {
-        grid-area: titleArea;
-        width:100%;
-        padding-left:0em;
-        padding-top:.5em;
-        background-color:navy;
-        color:white;
-        font-size:.75rem;
-        text-align:center;
-    }
-    .version {
-        grid-area: versionArea;
-        text-align:right;
-    }
-    
-    .selectMemberSection {
-        grid-area: selectMemberArea;
-        max-width:100%;
-        padding-top:.3em;
-        padding-left:3em;
-        text-align:left;
-        background-color:navy;
-        color:white;
-    }
-    .memberNameSection {
-        grid-area:memberNameArea;
-        text-align:center;
-        padding-top:.75em;
-        background-color: lightgray;
-        color:navy;
-    }
-    .coursesTakenSection {
-        grid-area: coursesTakenArea;
-        max-width: 100%;
-        background-color: lightgrey;
-        font-size:1rem;
-    }
-    
-    .coursesTakenHdg {
-        background-color: navy;
-        color:white;
-        text-align:left;
-        height:40px;
-        padding-top:7px;
-        padding-left:1em;
-    }
-    .coursesTakenColHdg {
-        background-color: navy;
-        color:white;
-        text-align: left;
-        padding-left:0em;
-    }
-    
-    .coursesTakenDetail {
-        overflow-x:hidden;
-        overflow-y:auto;
-        background-color:lightgray;
-        color:navy;
-        height:150px;
-        padding-left:0em;
-    }
-    
-    .filterSection {
-        grid-area:filterArea;
-        display:grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-areas: "filterTitleArea  filter1Area   filter2Area     filter3Area";
-        border-top:4px solid white;
-        border-bottom:4px solid white;
-    }
-    .filterTitle {
-        grid-area:filterTitleArea;
-        max-width:100%;
-        height:60px;
-        padding-top:2em;
-        padding-left:1em;
-        background-color:maroon;
-        color:white;
-        font-size:.5rem;
-        border-bottom:4px solid white;
-    }
-    .filter1Section {
-        grid-area:filter1Area;
-        max-width:100%;
-        height:60px;
-        padding-top:2em;
-        padding-left:0em;
-        background-color:maroon;
-        color:white;
-        font-size:.5rem;
-        border-bottom:4px solid white;
-    }
-    
-    .filter2Section {
-        grid-area:filter2Area;
-        max-width:100%;
-        padding-top:1em;
-        padding-left:0em;
-        background-color:maroon;
-        color:white;
-    }
-    .filter3Section {
-        grid-area:filter3Area;
-        max-width:100%;
-        padding-top:1em;
-        padding-right:.5em;
-        text-align:center;
-        background-color:maroon;
-        color:white;
-        border-bottom:2px solid white;
-    }
-    .courseOfferingsSection {
-        grid-area:offeringsArea;
-        background-color: beige;
-        font-size:1rem;
-    }
-    
-    .courseOfferingsHdg {
-        background-color:maroon;
-        color:white;
-        text-align:left;
-        padding-left:1em;
-    }
-    .courseOfferingsColHdgs {
-        background-color: maroon;
-        color:white;
-    }
-    .courseOfferingsDetail {
-        overflow-x:hidden;
-        overflow-y:auto;
-        background-color: beige;
-        color:maroon;
-        font-size: 1rem;
-    }
-   
-    .enrollSection {
-        grid-area: enrollArea;
-        overflow-x:auto;
-        font-size:1rem;
-        background-color: lightgrey;
-        max-width: 100%;
-        padding-left:0em;
-        padding-right:0em;
 
-    }
-    .enrollHdg {
-        background-color: navy;
-        color:white;
-        text-align:left;
-        height:40px;
-        padding-top:0px;
-        padding-left:1em;
-    }
-    .enrollColHdgs {
-        background-color: navy;
-        color:white;
-        text-align: left;
-        padding-left:50px;
-    }
-    .enrollDetail {
-        overflow-x:auto;
-        overflow-y:auto;
+}
+/* SPECIFICATIONS FOR LAPTOP WITH MDP SCREENS */
+@media (min-width: 1440px) {
+    .parent {
+        display:grid;
+        width:99%;
+        grid-gap: 0em;;
+        grid-template-rows: 40px 40px fit-content(250px) fit-content(60px) fit-content(200px) fit-content(50px) fit-content(100px);
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-areas:"selectMemberArea   titleArea           titleArea           versionArea"
+                            "memberNameArea     memberNameArea      memberNameArea      memberNameArea"                   
+                            "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea "
+                            "filterArea         filterArea          filterArea          filterArea"
+                            "offeringsArea      offeringsArea       offeringsArea       offeringsArea"
+                            "enrollArea         enrollArea          enrollArea          enrollArea"
+                            "lightSpeedArea     lightSpeedArea      lightSpeedArea      lightSpeedArea";
+        grid-area: 0;                
+        margin: 0 auto;
         background-color:lightgray;
-        color:navy;
-        height:150px;
-        padding-left:50px;
+        border:2px solid navy;
     } 
-    
-    
+
+    .enrollDetail {
+        height:150px;
+    }
     .lightSpeedSection {
-        grid-area: lightSpeedArea;
-        background-color: beige;
-        color:green;
-        text-align:left;
-        border:1px solid navy;
-        padding-top:0em;
-        padding-left:0em;
+        border-bottom:4px solid navy;
     }
-    .lightSpeedHdg {
-        height:60px;
-        text-align: left;
-        background-color: navy;
-        color:white;
-        padding-top:1em;
-        padding-left:1em;
-    }
-    
-    .lightSpeedForm {
-        display:none;
-        background-color: bisque;
-        color:brown;
-    }
-    #lightSpeedReceiptNumber {
-        border:2px solid brown;
-        background-color: bisque;
-        color:brown;
-    }
-    */
 }

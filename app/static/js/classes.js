@@ -52,6 +52,11 @@ $(".enrollBtn").click(function() {
     checkForPrerequisites(this.id)
 })
 
+// RESPOND TO CLICK ON OFFERING ROW WITH DROPDOWN LIST OF RTNS
+// $(".offeringRow").on("click", function() {
+//     console.log('this - ',this)
+// })
+
 $("#selectCourseID").on("change", function() {
     courseData = this.value
     selectedCourse = courseData.slice(0,4)
