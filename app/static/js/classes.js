@@ -44,18 +44,24 @@ document.getElementById("selectMemberID").addEventListener("change",memberSelect
 document.getElementById("selectMemberID").addEventListener("click",memberSelectedRtn)
 document.getElementById('courseOfferingsTable').addEventListener('click',offeringClickRtn)
 document.getElementById('lightspeedBtn').addEventListener('click',updateReceiptNumber)
-document.getElementById('lackPrerequisitesID').addEventListener('click',notApprovedRtn)
-document.getElementById('metPrerequisitesID').addEventListener('click',approvedRtn)
+//document.getElementById('lackPrerequisitesID').addEventListener('click',notApprovedRtn)
+document.getElementById('processPrerequisiteApprovalID').addEventListener('click',approvedRtn)
 
 $(".enrollBtn").click(function() {
+    moreThan2ClassesAllowed = document.getElementById('moreThan2ClassesAllowed').value
+    if (moreThan2ClassesAllowed != 'True'){
+        numberEnrolled = document.getElementById('enrollDetail').childElementCount
+        dateAllowed = document.getElementById('moreThan2ClassesAllowedDate').value
+        if (numberEnrolled > 1) {
+            modalAlert("ENROLLMENT","More than two classes are not allowed until "+dateAllowed + '.')
+            return
+        }
+    }
+    // PROCEDE TO CHECK PREREQUISITES    
+
     sectionNumber = this.id
     checkForPrerequisites(this.id)
 })
-
-// RESPOND TO CLICK ON OFFERING ROW WITH DROPDOWN LIST OF RTNS
-// $(".offeringRow").on("click", function() {
-//     console.log('this - ',this)
-// })
 
 $("#selectCourseID").on("change", function() {
     courseData = this.value
@@ -65,11 +71,11 @@ $("#selectCourseID").on("change", function() {
     })
  });
  
- $('.approvalOptions input[type=radio]').click(function(){
-    optionChoice = this.value
-    document.getElementById('metPrerequisitesID').removeAttribute('disabled')
-    document.getElementById('lackPrerequisitesID').setAttribute('disabled',true) 
-})
+//  $('.approvalOptions input[type=radio]').click(function(){
+//     optionChoice = this.value
+//     document.getElementById('metPrerequisitesID').removeAttribute('disabled')
+//     document.getElementById('lackPrerequisitesID').setAttribute('disabled',true) 
+// })
 
 // FUNCTIONS 
 function memberSelectedRtn() {
@@ -79,7 +85,7 @@ function memberSelectedRtn() {
     selectedMember= lastEight.slice(1,7)
 
     // GET MEMBER NAME AND COURSES TAKEN 
-    link = '/classes/' + selectedMember
+    link = '/classes/?villageID=' + selectedMember
     window.location.href = link
 
 }
@@ -125,7 +131,7 @@ function showAllClasses() {
     }
  }
 
- function enrollInCourse(sectionNumber) {
+ function enrollInCourse(sectionNumber,approval) {
     // EVENT.TARGET IDENTIFIES THE ENROLL BUTTON THAT WAS PRESSED
     btn = document.getElementById(sectionNumber)
     btnTD = btn.parentElement
@@ -184,7 +190,7 @@ function showAllClasses() {
 // HIDE ROWS NOT MATCHING CRITERIA ENTERED
  $("#myInput").on("keyup", function() {
     var value = $(this).val().toLowerCase();
-    $("#courseOfferingsTable tr").filter(function() {
+    $("#courseOfferingsDetail tr").filter(function() {
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
  });
@@ -358,13 +364,46 @@ function updateReceiptNumber(e) {
 }
 
 
-function notApprovedRtn() {
-    alert('Member was not approved to take course')
-    $('#coursePrereqModalID').modal('hide')
-}
+// function notApprovedRtn() {
+//     alert('Member was not approved to take course')
+//     $('#coursePrereqModalID').modal('hide')
+// }
 
-function approvedRtn() {
+function approvedRtn(e) {
+    itemSelected = document.getElementById('approvalSelected')
+    console.log('value - '+ itemSelected.value)
+    if (itemSelected.value == 0) {
+        msg='Member is not approved to take this course.'
+        modalAlert("Prerequisite",msg)
+        return
+    }
+    else {
+        msg = itemSelected.innerHTML
+        console.log('msg - '+msg)
+
+        // pass approval to ...
+        enrollInCourse(sectionNumber,approval)
+    }
+    console.log('e.target - '+e.target)
+    console.log('e.target.value - ' + e.target.value)
+    id = this.id
+    alert('id - ',id)
+    value = this.value
+    alert('value - ', value)
     sectionNumber = document.getElementById('modalSectionNumber').value
     $('#coursePrereqModalID').modal('hide')
-    enrollInCourse(sectionNumber)
+    
+    
+    
+}
+
+function modalAlert(title,msg) {
+	document.getElementById("modalTitle").innerHTML = title
+	document.getElementById("modalBody").innerHTML= msg
+	$('#myModalMsg').modal('show')
+}
+	
+function closeModal() {
+	$('#myModalMsg').modal('hide')
+	document.getElementById('memberInput').focus()
 }

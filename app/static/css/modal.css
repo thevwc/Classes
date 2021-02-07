@@ -37,12 +37,15 @@
  
 .approvalOptions {
   width:400px;
-  height:150px;
+  height:300px;
   padding-left:0em;
   background-color: lightgray;
   border:1px solid navy;
   padding-left:3em;
 } 
+.approvalText {
+  padding-left:0em;
+}
 input[type='radio']:after {
 	width: 15px;
 	height: 15px;

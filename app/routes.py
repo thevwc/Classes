@@ -20,39 +20,16 @@ from pytz import timezone
 from flask_mail import Mail, Message
 
 mail=Mail(app)
-def logChange(staffID,colName,memberID,newData,origData):
-    if staffID == None:
-        staffID = '111111'
-    if staffID == '':
-        staffID = '111111'
 
-    # Write data changes to tblMember_Data_Transactions
-    est = timezone('EST')
-    transactionDate = datetime.now(est)
-    newTransaction = MemberTransactions(
-        Transaction_Date = transactionDate,
-        Member_ID = memberID,
-        Staff_ID = staffID,
-        Original_Data = origData,
-        Current_Data = newData,
-        Data_Item = colName,
-        Action = 'UPDATE'
-    )
-    db.session.add(newTransaction)
-    return
-    db.session.commit()
 
-@app.route('/', defaults={'staffID':None,'villageID':None,'term':None})
-@app.route('/index/', defaults={'staffID':None,'villageID':None,'term':None})
-@app.route('/index//<villageID>/',defaults={'staffID':None,'term':None})
-@app.route('/index/<staffID>/<villageID>/',defaults={'term':None})
-@app.route("/classes",defaults={'staffID':None,'villageID':None,'term':None})
-@app.route("/classes/<staffID>/",defaults={'villageID':None,'term':None})
-@app.route("/classes//<villageID>/",defaults={'staffID':None,'term':None})
-@app.route("/classes//<villageID>/<term>",defaults={'staffID':None})
-@app.route("/classes/<staffID>/<villageID>/",defaults={'term':None})
-@app.route("/classes/<staffID>/<villageID>/<term>")
-def index(staffID,villageID,term):
+@app.route('/')
+@app.route('/index/')
+@app.route("/classes/")
+def index():
+    
+    villageID = request.args.get('villageID')
+    staffID = getStaffID()
+   
     # GET TODAY'S DATE
     todays_date = date.today()
     todaySTR = todays_date.strftime('%m-%d-%Y')
@@ -73,6 +50,7 @@ def index(staffID,villageID,term):
     # GET CONTROL VARIABLES
     controlVariables = db.session.query(ControlVariables).filter(ControlVariables.Shop_Number == 1).first()
     term = controlVariables.Current_Course_Term
+    
     repeatClassesAllowedDate = controlVariables.Repeat_Classes_Allowed_Date
     moreThan2ClassesAllowedDateDAT = controlVariables.More_Than_2_Classes_Allowed_Date
     moreThan2ClassesAllowedDateSTR = moreThan2ClassesAllowedDateDAT.strftime('%m-%d-%Y')
@@ -268,17 +246,21 @@ def index(staffID,villageID,term):
             capacity = offering.Section_Size
             
             seatsAvailable = capacity - offering.seatsTaken
-            if (offering.Section_Closed_Date):
-                statusClosed = 'CLOSED'
-            else:
-                statusClosed = ''
 
+            if offering.Section_Closed_Date == None: 
+                statusClosed = ''
+            else:
+                if (offering.Section_Closed_Date.date() >= todays_date):
+                    statusClosed = ''
+                else:
+                    statusClosed = 'CLOSED'
+            
             seatsAvailable = capacity - offering.seatsTaken
             if (seatsAvailable > 0):
                 statusFull = ''
             else:
                 statusFull = 'FULL'
-
+            
             fee = offering.courseFee
 
             if (offering.datesNote == None):
@@ -437,3 +419,52 @@ def updateReceiptNumber():
     msg = "SUCCESS in updating pending records."
     
     return jsonify(msg=msg)
+
+def logChange(colName,memberID,newData,origData):
+    if staffID == None:
+        staffID = '111111'
+    if staffID == '':
+        staffID = '111111'
+
+    # Write data changes to tblMember_Data_Transactions
+    est = timezone('EST')
+    transactionDate = datetime.now(est)
+    newTransaction = MemberTransactions(
+        Transaction_Date = transactionDate,
+        Member_ID = memberID,
+        Staff_ID = staffID,
+        Original_Data = origData,
+        Current_Data = newData,
+        Data_Item = colName,
+        Action = 'UPDATE'
+    )
+    db.session.add(newTransaction)
+    return
+    db.session.commit()
+
+def getStaffID():
+    if 'staffID' in session:
+        staffID = session['staffID']
+    else:
+        staffID = '604875'
+    return staffID
+
+def getShopID():
+    if 'shopID' in session:
+        shopID = session['shopID']
+    else:
+        # SET RA FOR TESTING; SEND FLASH ERROR MESSAGE FOR PRODUCTION
+        shopID = 'RA'
+        msg = "Missing location information; Rolling Acres assumed."
+        #flash(msg,"danger")
+    if shopID =='RA':
+        shopNumber = 1
+    else:
+        if shopID == 'BW':
+            shopNumber = 2
+        else:
+            msg = "The shopID of " + shopID + "is invalid, 'RA' assumed"
+            #flash (msg,'danger')
+            shopID == 'RA'
+            shopNumber = 1
+    return shopID    
