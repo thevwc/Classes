@@ -45,7 +45,7 @@ document.getElementById("selectMemberID").addEventListener("click",memberSelecte
 document.getElementById('courseOfferingsTable').addEventListener('click',offeringClickRtn)
 document.getElementById('lightspeedBtn').addEventListener('click',updateReceiptNumber)
 //document.getElementById('lackPrerequisitesID').addEventListener('click',notApprovedRtn)
-document.getElementById('processPrerequisiteApprovalID').addEventListener('click',approvedRtn)
+//document.getElementById('processPrerequisiteApprovalID').addEventListener('click',approvedRtn)
 
 $(".enrollBtn").click(function() {
     moreThan2ClassesAllowed = document.getElementById('moreThan2ClassesAllowed').value
@@ -115,20 +115,28 @@ function showAllClasses() {
     document.getElementById('modalCoursePrereqTitle').innerHTML = "Prerequistites for " + courseNumber + " (" + courseTitle + ")"
     document.getElementById('modalSectionNumber').value = sectionNumber 
     
-    // CHECK FOR PREREQUISITES
+    // CHECK IF THERE ARE PREREQUISITES
     prereqID = 'p' + sectionNumber
     prereq = document.getElementById(prereqID)
-    if (prereq != null) {
-        prereqValue = prereq.innerHTML
-        if (prereqValue != '') {
-            document.getElementById('prerequisites').innerHTML = prereqValue
-            $('#coursePrereqModalID').modal('show')
-        }
+    if (prereq == null){
+        // THERE ARE NO PREREQUISITES
+        enrollInCourse(sectionNumber)
         return
     }
-    else {
-        enrollInCourse(sectionNumber)
-    }
+    // HAS MEMBER MET PREREQUISITE REQUIREMENTS
+    $('#coursePrereqModalID').modal('show')
+    return
+
+        // prereqValue = prereq.innerHTML
+        // if (prereqValue != '') {
+        //     document.getElementById('prerequisites').innerHTML = prereqValue
+        //     
+        // }
+        // return
+   // }
+   // else {
+    //    enrollInCourse(sectionNumber)
+    //}
  }
 
  function enrollInCourse(sectionNumber,approval) {
@@ -167,7 +175,7 @@ function showAllClasses() {
         data:{term:term,
             sectionNumber:sectionNumber,
             villageID:memberID,
-            staffID:staffID
+            approval:approval
           },
         success: function(data, textStatus, jqXHR)
         {
@@ -369,33 +377,53 @@ function updateReceiptNumber(e) {
 //     $('#coursePrereqModalID').modal('hide')
 // }
 
-function approvedRtn(e) {
+$('#coursePrereqModalID').on('hide.bs.modal', function() {
     itemSelected = document.getElementById('approvalSelected')
-    console.log('value - '+ itemSelected.value)
-    if (itemSelected.value == 0) {
-        msg='Member is not approved to take this course.'
-        modalAlert("Prerequisite",msg)
+    if (itemSelected.value == 'NOT APPROVED') {
         return
     }
-    else {
-        msg = itemSelected.innerHTML
-        console.log('msg - '+msg)
-
-        // pass approval to ...
-        enrollInCourse(sectionNumber,approval)
+    if (itemSelected.value == 'Other'){
+        approvalText = document.getElementById('approvalText').value
     }
-    console.log('e.target - '+e.target)
-    console.log('e.target.value - ' + e.target.value)
-    id = this.id
-    alert('id - ',id)
-    value = this.value
-    alert('value - ', value)
-    sectionNumber = document.getElementById('modalSectionNumber').value
-    $('#coursePrereqModalID').modal('hide')
+    else {
+        approvalText = itemSelected.value
+        if (approvalText == null) {
+            alert('You must enter the reason for approval.')
+            return
+        }
+    }
+    enrollInCourse(sectionNumber,approvalText)
+})
+
+//// 
+   // 
+    
+  //  
+
+    // if (itemSelected.value == 0) {
+    //     msg='Member is not approved to take this course.'
+    //     modalAlert("Prerequisite",msg)
+    //     return
+    // }
+    // else {
+    //     msg = itemSelected.innerHTML
+    //     console.log('msg - '+msg)
+
+    //     // pass approval to ...
+    //     enrollInCourse(sectionNumber,approval)
+    // }
+    // // console.log('e.target - '+e.target)
+    // console.log('e.target.value - ' + e.target.value)
+    // id = this.id
+    // alert('id - ',id)
+    // value = this.value
+    // alert('value - ', value)
+    // sectionNumber = document.getElementById('modalSectionNumber').value
+    // $('#coursePrereqModalID').modal('hide')
     
     
     
-}
+//}
 
 function modalAlert(title,msg) {
 	document.getElementById("modalTitle").innerHTML = title

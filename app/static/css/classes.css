@@ -357,7 +357,7 @@ h2 {
         grid-area:filterArea;
         display:grid;
         grid-template-rows: 40px 50px ;
-        grid-template-columns: 1fr .5fr 1fr 2fr;
+        grid-template-columns: 1.5fr .5fr 1fr 2fr;
         grid-template-areas: "filterTitleArea filterTitleArea filterTitleArea filterTitleArea "
                             "filter1Area filter2Area filter3Area filter3Area";
         background-color: maroon;

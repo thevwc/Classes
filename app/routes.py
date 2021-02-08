@@ -366,7 +366,8 @@ def addEnrollmentRecord():
     term=db.session.query(ControlVariables.Current_Course_Term).filter(ControlVariables.Shop_Number==1).scalar()
     sectionNumber = request.args.get('sectionNumber')
     villageID = request.args.get('villageID')
-    staffID = request.args.get('staffID')
+    approval = request.args.get('approval')
+    staffID = getStaffID()
     courseNumber, sectionID = sectionNumber.split("-",1)
 
     newEnrollment = CourseEnrollee(
@@ -376,6 +377,7 @@ def addEnrollmentRecord():
             Member_ID = villageID,
             Receipt_Number = 'PENDNG',
             Date_Enrolled = todays_date,
+            Prerequisite_Met_By = approval,
             Registered_By = staffID
     )
     try:

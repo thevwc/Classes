@@ -39,7 +39,7 @@
 
     <div class="version">
         <div>
-            Staff - {{staffName}}&nbsp;&nbsp;&nbsp;&nbsp;ver. Feb 7, 2021
+            Staff - {{staffName}}&nbsp;&nbsp;&nbsp;&nbsp;ver. Feb 8, 2021
         </div>
     </div> 
     
@@ -387,67 +387,30 @@
                     <span aria-hidden="true" >&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div id='prerequisites' contenteditable="true"></div>
+            <div id='prerequisites' contenteditable="true"></div>
                 <br><br>
-                <div id='approvalOptions'>
-                    <form style=height:400px>
-                        <div class="approvalOptions btn-group-vertical">
-                            <!-- <select name="" id="approvalSelected">
-                                <option value="0">NOT APPROVED</option>
-                                <option value="1">Completed prerequisite course(s)</option>
-                                <option value="2">Member is on instructor approval log</option>
-                                <option value="3">Written/Verbal approval from instructor</option>
-                                <option value="4">Other</option>
-                            </select> -->
-                            <label for="">Select one of the following - </label>
-                            <div class="form-check">
-                                <input checked class="form-check-input" type="radio" name="approvalOption" id="approvalOption0" value="Not approved.">
-                                <label  class="form-check_label" for="approvalOption0">
-                                    NOT APPROVED
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="approvalOption" id="approvalOption1" value="Completed prerequisite course(s)">
-                                <label class="form-check-label" for="approvalOption1">
-                                    Completed prerequisite course(s)  
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="approvalOption" id="approvalOption2" value="Member is on instructor approval log">
-                                <label class="form-check-label" for="approvalOption2">
-                                    Member is on instructor approval log
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="approvalOption" id="approvalOption3" value="Written/Verbal approval from instructor">
-                                <label class="form-check-label" for="approvalOption3">
-                                    Written/Verbal approval from instructor
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="approvalOption" id="approvalOption4" value="Other">
-                                <label class="form-check-label" for="approvalOption4">
-                                    Other, describe below
-                                </label>
-                            </div>
-                            <div class='approvalText'>
-                                <textarea name="approvalText" id="approvalText" cols="40" rows="3"></textarea>
-                            </div>
-                            <br>
-                            
-                        </div> 
-                    </form> 
-                </div>
-                <div class="modal-footer" style=text-align:center>
-                    <!-- <div class='col-6 footer-left-col'>
-                        <button id='lackPrerequisitesID' type='button' class='btn-danger '>CANCEL</button>   
-                    </div>  -->
-                    <div class='col-12'> 
-                        <button id='processPrerequisiteApprovalID' type="button" class="btn-success">CONFIRM</button>
+            <form action="" style=height:400px>   
+                <div class="modal-body"></div>    
+                    <div id='approvalOptionSelected' class="approvalOptions btn-group-vertical">
+                        <select name="" id="approvalSelected">
+                            <option value="NOT APPROVED">NOT APPROVED</option>
+                            <option value="Completed prerequisite course(s)">Completed prerequisite course(s)</option>
+                            <option value="Member is on instructor approval log">Member is on instructor approval log</option>
+                            <option value="Written/Verbal approval from instructor">Written/Verbal approval from instructor</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    <div class='approvalText'>
+                        <textarea name="approvalText" id="approvalText" cols="40" rows="3"></textarea>
                     </div>
-                </div>
-            </div>
+                    <br>
+                    
+                </div> 
+                
+                <div class="modal-footer" style=text-align:center>
+                    <div class='col-12'> 
+                        <button id='processPrerequisiteApprovalID' type="button" data-dismiss="modal" class="btn-success">CONFIRM</button>
+                    </div>
+            </form> 
         </div>
     </div>
 </div>
