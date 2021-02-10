@@ -51,7 +51,13 @@ def index():
     controlVariables = db.session.query(ControlVariables).filter(ControlVariables.Shop_Number == 1).first()
     term = controlVariables.Current_Course_Term
     
-    repeatClassesAllowedDate = controlVariables.Repeat_Classes_Allowed_Date
+    repeatClassesAllowedDateDAT = controlVariables.Repeat_Classes_Allowed_Date
+    repeatClassesAllowedDateSTR = repeatClassesAllowedDateDAT.strftime('%m-%d-%Y')
+    if repeatClassesAllowedDateDAT > todays_date:
+        repeatClassesAllowed = 'False'
+    else:
+        repeatClassesAllowed = 'True'
+
     moreThan2ClassesAllowedDateDAT = controlVariables.More_Than_2_Classes_Allowed_Date
     moreThan2ClassesAllowedDateSTR = moreThan2ClassesAllowedDateDAT.strftime('%m-%d-%Y')
     if moreThan2ClassesAllowedDateDAT > todays_date:
@@ -293,13 +299,14 @@ def index():
                 'closedMsg':statusClosed
             }
             offeringDict.append(offeringItems)
-            
+    
     return render_template("classes.html",memberID=villageID,memberArray=memberArray,\
     todaySTR=todaySTR,termArray=termArray,courseArray=courseArray,memberName=memberName,\
     scheduleDict=coursesTakenDict, offeringDict=offeringDict,term=term.upper(),staffID=staffID,\
     staffName=staffName,isDBA=isDBA,isMgr=isMgr,enrolledDict=enrolledDict,\
     certificationStatus=certificationStatus,enrollmentsThisTerm=enrollmentsThisTerm,\
     moreThan2ClassesAllowedDateSTR=moreThan2ClassesAllowedDateSTR,moreThan2ClassesAllowed=moreThan2ClassesAllowed,\
+    repeatClassesAllowedDateSTR=repeatClassesAllowedDateSTR,repeatClassesAllowed=repeatClassesAllowed,\
     lightSpeedID=lightSpeedID)
 
 @app.route('/removeEnrollmentRecord')
@@ -342,6 +349,7 @@ def getCourseMembers():
     sql += "AND e.Section_ID = '" + sectionID + "' "
     sql += "AND e.Course_Term = '" + term + "' "
     sql += "ORDER BY m.Last_Name, m.First_Name"
+
     enrollees = db.session.execute(sql)
     if enrollees:
         memberList = '<ul>'

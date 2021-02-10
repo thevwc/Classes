@@ -1,12 +1,12 @@
 
-/* MODAL FORM FOR SHOWING TODAYS MONITORS */
+/* MODAL FORM FOR SHOWING PREREQUISITE APPROVAL */
 #modal {
   display:block;
   width:60%;
   color:blue;
 }
 .modal-content {
-  background-color:beige;
+  background-color:lightgray;
   color:navy;
   height:max-content;
 }
@@ -19,9 +19,10 @@
   }
 .modal-body {
   width:100%;
-  background-color: white;
-  color:maroon;
+  background-color: lightgray;
+  padding-left:0em;
 }
+
 .modal-xl {
   width: 95%;
   max-width:1200px;
@@ -30,22 +31,42 @@
   width:100%;
   text-align:left;
   }
+.modal-approval-body {
+    width:100%;
+    background-color: lightgray;
+    padding-left:11em;
+  }
 .modal-body form {
   text-align: center;
   margin:0 auto;
+  padding-left:10em;
+  background-color: lightgray;
 }
- 
+#approvalOptionSelected {
+  padding-left:2em;
+  height:150px;
+} 
 .approvalOptions {
   width:400px;
-  height:300px;
+  height:200px;
   padding-left:0em;
   background-color: lightgray;
   border:1px solid navy;
-  padding-left:3em;
+  padding-left:13em;
 } 
-.approvalText {
+#approvalText {
   padding-left:0em;
+  background-color: white;
+  color:blue;
 }
+.modal-approval-footer {
+  height:50px;
+  margin:0px;
+  padding-top:0px;
+  padding-bottom:0px;
+  background-color: navy;
+  }
+
 input[type='radio']:after {
 	width: 15px;
 	height: 15px;
@@ -73,9 +94,6 @@ input[type='radio']:checked:after {
 	visibility: visible;
 	border: 2px solid white;
 }
-
-
-
 
 .modal-footer {
   height:50px;
@@ -151,3 +169,6 @@ button:disabled {
     visibility: visible;
   }
   
+  .classMembers {
+    padding-left:5em;
+  }

@@ -1,15 +1,17 @@
 //GET STAFF ID
-// IS THERE A STAFF ID ON THE PAGE?
 staffID = document.getElementById('staffID').value
-if (staffID == 'None' | staffID == null | staffID == '') {
-    // IS THERE A STAFF ID STORED IN LOCALSTORAGE?
-    staffID = localStorage.getItem('staffID')
-    if (!staffID) {
-        // PROMPT FOR A STAFF ID
-        staffID = prompt("Staff ID - ")
-        localStorage.setItem('staffID',staffID)
-    }
-}
+
+// IS THERE A STAFF ID ON THE PAGE?
+// 
+// if (staffID == 'None' | staffID == null | staffID == '') {
+//     // IS THERE A STAFF ID STORED IN LOCALSTORAGE?
+//     staffID = localStorage.getItem('staffID')
+//     if (!staffID) {
+//         // PROMPT FOR A STAFF ID
+//         staffID = prompt("Staff ID - ")
+//         localStorage.setItem('staffID',staffID)
+//     }
+// }
 
 // GET isDBA
 const isDBA = document.getElementById('isDBA').value
@@ -22,7 +24,7 @@ if (isDBA !='True' && isMgr != 'True') {
 }
 
 // GET TERM FROM PAGE
-term = document.getElementById('termID').innerHTML
+term = document.getElementById('termID').value
 
 // SHOW ENROLL BUTTONS IF MEMBER HAS BEEN SELECTED
 memberID = document.getElementById('memberID').value
@@ -44,8 +46,6 @@ document.getElementById("selectMemberID").addEventListener("change",memberSelect
 document.getElementById("selectMemberID").addEventListener("click",memberSelectedRtn)
 document.getElementById('courseOfferingsTable').addEventListener('click',offeringClickRtn)
 document.getElementById('lightspeedBtn').addEventListener('click',updateReceiptNumber)
-//document.getElementById('lackPrerequisitesID').addEventListener('click',notApprovedRtn)
-//document.getElementById('processPrerequisiteApprovalID').addEventListener('click',approvedRtn)
 
 $(".enrollBtn").click(function() {
     moreThan2ClassesAllowed = document.getElementById('moreThan2ClassesAllowed').value
@@ -58,24 +58,18 @@ $(".enrollBtn").click(function() {
         }
     }
     // PROCEDE TO CHECK PREREQUISITES    
-
     sectionNumber = this.id
     checkForPrerequisites(this.id)
 })
 
+// modify this routine to only look at section name in first column
 $("#selectCourseID").on("change", function() {
     courseData = this.value
     selectedCourse = courseData.slice(0,4)
     $("#courseOfferingsTable tr").filter(function() {
-        $(this).toggle($(this).text().indexOf(selectedCourse) > -1)
+       $(this).toggle($(this).text().indexOf(selectedCourse) > -1)
     })
  });
- 
-//  $('.approvalOptions input[type=radio]').click(function(){
-//     optionChoice = this.value
-//     document.getElementById('metPrerequisitesID').removeAttribute('disabled')
-//     document.getElementById('lackPrerequisitesID').setAttribute('disabled',true) 
-// })
 
 // FUNCTIONS 
 function memberSelectedRtn() {
@@ -103,7 +97,6 @@ function showAllClasses() {
  }    
 
  function checkForPrerequisites(sectionNumber) {
-    console.log('checkForPrerequisites rtn')
     btn = document.getElementById(sectionNumber)
     btnTD = btn.parentElement
     parentTR = btnTD.parentElement
@@ -127,16 +120,6 @@ function showAllClasses() {
     $('#coursePrereqModalID').modal('show')
     return
 
-        // prereqValue = prereq.innerHTML
-        // if (prereqValue != '') {
-        //     document.getElementById('prerequisites').innerHTML = prereqValue
-        //     
-        // }
-        // return
-   // }
-   // else {
-    //    enrollInCourse(sectionNumber)
-    //}
  }
 
  function enrollInCourse(sectionNumber,approval) {
@@ -157,13 +140,10 @@ function showAllClasses() {
     enrollmentsThisTerm = document.getElementById('enrollmentsThisTerm').value
     
     // DATE WHEN MORE THAN 2 ENROLLMENTS ARE ALLOWED
-    console.log('get moreThan2... date')
     moreThan2ClassesAllowedDate = new Date(document.getElementById('moreThan2ClassesAllowedDate').value)
-    console.log('moreThan2ClassesAllowedDate - '+moreThan2ClassesAllowedDate)
-
     currentDate = new Date()
     if (enrollmentsThisTerm == 2 & moreThan2ClassesAllowed == 'False') {
-        alert("Member may not take more that 2 classes until "+ moreThan2ClassesAllowedDateSTR)
+        modalAlert("ENROLLMENT","Member may not take more that 2 classes until "+ moreThan2ClassesAllowedDateSTR)
         return
     }
 
@@ -180,14 +160,14 @@ function showAllClasses() {
         success: function(data, textStatus, jqXHR)
         {
             if (data.includes('Duplicate')){
-                alert(data)
+                modalAlert("ENROLLMENT",data)
                 return
             }
             location.reload()
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
-            alert("ERROR - " + textStatus + '\n'+errorThrown)
+            modalAlert("ENROLLMENT","ERROR - " + textStatus + '\n'+errorThrown)
             
         }
         
@@ -211,31 +191,23 @@ function removeEnrollmentRecord(enrollmentID) {
           },
         success: function(data, textStatus, jqXHR)
         {
-            alert('Enrollment record has been removed.')
+            modalAlert('ENROLLMENT','Enrollment record has been removed.')
+            // add wait ??
             location.reload()
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
-            alert('ERROR from remove EnrollmentRecord\n'+textStatus+'\n'+errorThrown)
+            modalAlert('ENROLLMENT','ERROR from remove EnrollmentRecord\n'+textStatus+'\n'+errorThrown)
         }
     })
 }
 
 
 function processRegistration(e) {
-    console.log('processRegistration rtn')
     // GET SECTION NUMBERS AND MEMBER ID
-   
     const enrollmentLines = document.getElementsByClassName('enrollmentLine')
-    console.log('# of lines - ',enrollmentLines.length)
     for (let i = 0; i< enrollmentLines.length; i++) {
         const elem = enrollmentLines[i]
-        console.log('row - ',enrollmentLines[i])
-        console.log('Course # - ',enrollmentLines[i].id)
-        // columns = enrollmentLines[i].childNodes
-        // for (j=0; j< c.length; j++) {
-        //     console.log(columns[j].innerHTML)
-        // }
     };
 }
 
@@ -265,11 +237,11 @@ function offeringClickRtn(e) {
                
                 if (data.msg) {
                     msg = data.msg
-                    alert(msg)
+                    modalAlert('COURSE DESCRIPTION',msg)
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert("Error getting course description.\n"+errorThrown + '\n'+textStatus)
+                modalAlert("COURSE DESCRIPTION","Error getting course description.\n"+errorThrown + '\n'+textStatus)
             }
         }) 
         $('#courseDescriptionModalID').modal('show')   
@@ -300,11 +272,11 @@ function offeringClickRtn(e) {
                
                 if (data.msg) {
                     msg = data.msg
-                    alert(msg)
+                    modalAlert('COURSE NOTES',msg)
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert("Error getting course notes.\n"+errorThrown + '\n'+textStatus)
+                modalAlert('COURSE NOTES',"Error getting course notes.\n"+errorThrown + '\n'+textStatus)
             }
         }) 
         $('#courseNotesModalID').modal('show')
@@ -313,7 +285,7 @@ function offeringClickRtn(e) {
     
     if (e.target.className.includes('offeringInstructor')) {
         // SHOW LIST OF MEMBERS ENROLLED
-        sectionNumber = e.target.previousElementSibling.previousElementSibling.innerHTML
+        sectionNumber = e.target.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML
         courseNumber = sectionNumber.slice(0,4)
         sectionID = sectionNumber.slice(5,6)
         courseTitle = e.target.previousElementSibling.innerHTML
@@ -338,11 +310,11 @@ function offeringClickRtn(e) {
                
                 if (data.msg) {
                     msg = data.msg
-                    alert(msg)
+                    modalAlert('COURSE MEMBERS',msg)
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert("Error getting course members.\n"+errorThrown + '\n'+textStatus)
+                modalAlert('COURSE MEMBERS',"Error getting course members.\n"+errorThrown + '\n'+textStatus)
             }
         })     
         $('#courseMembersModalID').modal('show')
@@ -363,68 +335,42 @@ function updateReceiptNumber(e) {
 
         success: function(data, textStatus, jqXHR)
         {
-            alert(data.msg)
+            modalAlert('UPDATE RECEIPT',data.msg)
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert("Error getting pending records.\n"+errorThrown + '\n'+textStatus)
+            modalAlert('UPDATE RECEIPT',"Error getting pending records.\n"+errorThrown + '\n'+textStatus)
         }
     })   
 }
-
-
-// function notApprovedRtn() {
-//     alert('Member was not approved to take course')
-//     $('#coursePrereqModalID').modal('hide')
+// $('#coursePrereqModalID').on('show.bs.modal'), function() {
+//     console.log('approval modal shown ...')
+//     //$("#approvalSelected option:selected").val('NOT APPROVED');
+//     document.getElementById('notApprovedID').setattribute("selected",true) 
 // }
 
 $('#coursePrereqModalID').on('hide.bs.modal', function() {
+    console.log('hide approval')
+
     itemSelected = document.getElementById('approvalSelected')
     if (itemSelected.value == 'NOT APPROVED') {
         return
     }
     if (itemSelected.value == 'Other'){
         approvalText = document.getElementById('approvalText').value
-    }
-    else {
-        approvalText = itemSelected.value
-        if (approvalText == null) {
-            alert('You must enter the reason for approval.')
+        if (approvalText == null | approvalText == ''){
+            modalAlert('PREREQUISITE APPROVAL','You must enter the reason for approval.')
             return
         }
     }
+    else {
+        approvalText = itemSelected.value
+    }
+    // RESET DEFAULT OPTION
+    itemSelected.value = 'NOT APPROVED'
+    // OK TO ENROLL IN COURSE
     enrollInCourse(sectionNumber,approvalText)
-})
-
-//// 
-   // 
-    
-  //  
-
-    // if (itemSelected.value == 0) {
-    //     msg='Member is not approved to take this course.'
-    //     modalAlert("Prerequisite",msg)
-    //     return
-    // }
-    // else {
-    //     msg = itemSelected.innerHTML
-    //     console.log('msg - '+msg)
-
-    //     // pass approval to ...
-    //     enrollInCourse(sectionNumber,approval)
-    // }
-    // // console.log('e.target - '+e.target)
-    // console.log('e.target.value - ' + e.target.value)
-    // id = this.id
-    // alert('id - ',id)
-    // value = this.value
-    // alert('value - ', value)
-    // sectionNumber = document.getElementById('modalSectionNumber').value
-    // $('#coursePrereqModalID').modal('hide')
-    
-    
-    
-//}
-
+})    
+ 
 function modalAlert(title,msg) {
 	document.getElementById("modalTitle").innerHTML = title
 	document.getElementById("modalBody").innerHTML= msg
@@ -433,5 +379,4 @@ function modalAlert(title,msg) {
 	
 function closeModal() {
 	$('#myModalMsg').modal('hide')
-	document.getElementById('memberInput').focus()
 }

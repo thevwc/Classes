@@ -17,32 +17,35 @@ table tr td {
 }
 
 /* Typography */
-
+/* 
 h1,
 h2,
 strong {
     font-weight: 900;
-}
+} */
 
-h1 {
+/* h1 {
     font-size: 3rem;
     margin-bottom: .5em;   /* = half of the font-size */
-}
+/*}
 
 h2 {
     font-size: 2rem;
-}
+} */
 
 /* Layout for iPhone (small devices) */
 .parent {
     display:grid;
     width:100%;
-    grid-template-rows: 40px 40px 40px 40px 140px 50px 60px 60px 100px fit-content(150px) 100px; 
-    grid-template-columns: minmax(0,1fr) minmax(0,1fr);
-    grid-template-areas:"titleArea          titleArea"
+    grid-template-rows: 40px 40px 40px 40px 40px 40px 40px 140px 50px 50px 60px fit-content(150px) 100px auto;
+    grid-template-columns:1fr 1fr;
+    grid-template-areas:"appTitleArea       appTitleArea"
+                        "staffNameArea      staffNameArea"
                         "versionArea        versionArea"
+                        "repeatDateArea     repeatDateArea"
+                        "moreThan2DateArea  moreThan2DateArea"
                         "selectMemberArea   selectMemberArea"
-                        "memberNameArea     memberNameArea" 
+                        "memberNameArea     memberNameArea"
                         "coursesTakenArea   coursesTakenArea"
                         "filterArea         filterArea"
                         "filterArea         filterArea"
@@ -53,30 +56,58 @@ h2 {
         
     margin: 0 auto;
     padding:0em;
-    background-color: white;
+    gap:0;
+    background-color: yellowgreen;
     border:1px solid navy;
 } 
-.title {
+/* .title {
     grid-area: titleArea;
     width:100%;
     padding-left:0em;
     padding-top:.5em;
     background-color:navy;
     color:white;
-    font-size:.75rem;
+    text-align:left;
+} */
+.appTitleSection {
+    grid-area: appTitleArea;
     text-align:center;
+    background-color: navy;
+    color:white;
+    border-bottom: 1px solid white;
+}
+.staffNameSection {
+    grid-area: staffNameArea;
+    text-align:center;
+    background-color: navy;
+    color:white;
+    border-bottom: 1px solid white;
 }
 
-.version {
+.versionSection {
     grid-area: versionArea;
     max-width:100%;
     text-align:center;
-    padding-top:.75em;
+    padding-top:.5em;
     padding-right:1em;
     background-color: navy;
     color:white;
+    border-bottom: 1px solid white;
 }
-
+.repeatDateSection {
+    grid-area:repeatDateArea;
+    text-align:center;
+    background-color: navy;
+    color:white;
+    padding-top:.5em;
+}
+.moreThan2DateSection {
+    grid-area:moreThan2DateArea;
+    text-align:center;
+    background-color: navy;
+    color:white;
+    padding-top:.5em;
+}
 .selectMemberSection {
     grid-area: selectMemberArea;
     max-width:100%;
@@ -87,11 +118,19 @@ h2 {
 }
 .memberNameSection {
     grid-area:memberNameArea;
+    height:40px;
     text-align:center;
-    padding-top:.75em;
+    padding-top:.2em;
     background-color: lightgray;
     color:navy;
-    font-size:.5rem;
+    font-size:1.25rem;
+    font-weight: 700;
+    border-bottom: 1px solid white;
+}
+
+.datesSection {
+    grid-area:datesArea;
+    display:grid;
 }
 
 .coursesTakenSection {
@@ -107,6 +146,7 @@ h2 {
     color:white;
     text-align:center;
     font-size:.5rem;
+    border-bottom: 1px solid blue;
 }
 .coursesTakenColHdg {
     background-color: navy;
@@ -126,7 +166,7 @@ h2 {
     grid-area:filterArea;
     display:grid;
     grid-template-rows: 30px 1fr 1fr 1fr;
-    grid-template-columns: 1fr;
+    grid-template-columns: 373px;
     grid-template-areas: "filterTitleArea"
                         "filter1Area"
                         "filter2Area"
@@ -134,14 +174,14 @@ h2 {
 } 
 .filterTitle {
     grid-area:filterTitleArea;
-    max-width:100%;
-    height:40px;
-    padding-top:1em;
+    text-align:center;
+    height:30px;
+    padding-top:.2em;
     padding-left:0em;
     background-color:maroon;
     color:white;
-    font-size:.5rem;
-    border-bottom:4px solid white;
+    font-size:1rem;
+    border-bottom:1px solid white;
 }  
 .filter1Section {
     grid-area:filter1Area;
@@ -156,21 +196,26 @@ h2 {
 
 .showOptions label {
     height:25px;
-    margin-top:.3em;
+    margin-top:.1em;
+    font-size:.75rem;
 }
 .filter2Section {
     grid-area:filter2Area;
+    text-align: center;
     max-width:100%;
-    padding-top:.5em;
-    padding-left:7em;
+    padding-top:.25em;
+    padding-left:4em;
     background-color:maroon;
     color:white;
     border-bottom:2px solid white;
 }
+.filter2Section input {
+    width:250px;
+}
 .filter3Section {
     grid-area:filter3Area;
     max-width:100%;
-    padding-top:.5em;
+    padding-top:.25em;
     text-align:center;
     background-color:maroon;
     color:white;
@@ -184,11 +229,11 @@ h2 {
     background-color: beige;
     font-size:.5rem;
 }
-.courseOfferingsHdg {
+/* .courseOfferingsHdg {
     background-color: maroon;
     color:white;
     text-align:center;
-}
+} */
 .courseOfferingsColHdgs {
     background-color: maroon;
     color:white;
@@ -238,7 +283,6 @@ h2 {
 }
 .lightSpeedSection {
     grid-area: lightSpeedArea;
-    height:105px;
     text-align:left;
     padding-top:0em;
     padding-left:0em;
@@ -248,8 +292,8 @@ h2 {
 .lightSpeedHdg {
     height:40px;
     text-align: center;
-    background-color: navy;
-    color:white;
+    background-color: maroon;
+    color:beige;
     padding-top:.5em;
     padding-left:0em;
 }
@@ -272,11 +316,11 @@ h2 {
     .parent {
         display:grid;
         width:100%;
-        grid-template-rows: 40px 40px 40px 200px 40px 40px 40px fit-content(200px) fit-content(200px) 40px;
+        grid-template-rows: 40px 40px 40px 200px 40px 40px 40px fit-content(200px) fit-content(250px) 40px;
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-areas:"titleArea          titleArea           versionArea         versionArea"          
-                            "selectMemberArea   selectMemberArea    selectMemberArea    selectMemberArea" 
-                            "memberNameArea     memberNameArea      memberNameArea      memberNameArea"                   
+        grid-template-areas:"appTitleArea           appTitleArea            staffNameArea       versionArea" 
+                            "repeatDateArea     repeatDateArea      moreThan2DateArea   moreThan2DateArea"         
+                            "selectMemberArea   selectMemberArea    memberNameArea      memberNameArea" 
                             "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea "
                             "filterArea         filterArea          filterArea          filterArea"
                             "filterArea         filterArea          filterArea          filterArea"
@@ -284,11 +328,46 @@ h2 {
                             "offeringsArea      offeringsArea       offeringsArea       offeringsArea"
                             "enrollArea         enrollArea          enrollArea          enrollArea"
                             "lightSpeedArea     lightSpeedArea      lightSpeedArea      lightSpeedArea";
-        font-size:1rem;
         background-color:lightgray;
-        border:1px solid white;
     }
 
+    .appTitleSection {
+        text-align:left;
+        font-size:1rem;
+        padding-top:.5em;
+    }
+    .staffNameSection {
+        text-align: right;
+        font-size:1rem;
+        padding-top:.5em;
+    }
+    .versionSection {
+        font-size:1rem;
+        padding-top:.5em;
+    }
+    .repeatDateSection {
+        border-bottom: 1px solid white;
+    }
+    .moreThan2DateSection {
+        border-bottom: 1px solid white;
+    }
+    .selectMemberSection {
+        text-align:left;
+        border-bottom: 1px solid white;
+        padding-left:1em;
+    }
+    .memberNameSection {
+        text-align: center;
+        height:40px;
+        font-size:1.25em;
+        padding-bottom:0em;
+        background-color:white;
+        color:navy;
+        border-bottom: 1px solid white;
+    }
+    .coursesTakenHdg {
+        font-size:1.5em;
+    }
     .coursesTakenColHdg {
         font-size:.75rem;
     }
@@ -296,6 +375,7 @@ h2 {
         font-size:.75rem;
     }
     .courseOfferingsColHdgs {
+        position: sticky; top: 0; 
         font-size: .75rem;
     }
     .courseOfferingsDetail {
@@ -310,6 +390,14 @@ h2 {
                             "filter1Area        filter1Area"
                             "filter2Area        filter3Area";
     }   
+    .filterTitle {
+        font-size:1.5rem;
+        padding-top:0em;
+    }
+    .lightSpeedHdg {
+        text-align: center;
+        border-bottom: 1px solid white;
+    }
 }
 
 
@@ -318,11 +406,12 @@ h2 {
     .parent {
         display:grid;
         width:95%;
-        grid-gap: 0em;;
-        grid-template-rows: 40px 40px fit-content(150px) fit-content(60px) fit-content(350px) fit-content(100px) fit-content(100px);
+        grid-gap: 0em;
+        grid-template-rows: 40px 40px fit-content(150px) fit-content(60px) fit-content(300px) fit-content(300px) fit-content(100px) 150px;
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-areas:"selectMemberArea   titleArea           titleArea           versionArea"
-                            "memberNameArea     memberNameArea      memberNameArea      memberNameArea"                   
+        grid-template-areas:"appTitleArea           appTitleArea            staffNameArea       versionArea"
+                            "repeatDateArea     repeatDateArea      moreThan2DateArea   moreThan2DateArea "
+                            "selectMemberArea   selectMemberArea    memberNameArea      memberNameArea" 
                             "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea "
                             "filterArea         filterArea          filterArea          filterArea"
                             "offeringsArea      offeringsArea       offeringsArea       offeringsArea"
@@ -333,7 +422,8 @@ h2 {
         background-color:lightgray;
         
     } 
-
+    
+    
     .coursesTakenHdg {
         padding-top:.3rem;
     }
@@ -343,30 +433,17 @@ h2 {
     .coursesTakenDetail {
         font-size:1rem;
     }
-    .courseOfferingsHdg {
-        padding-top:.3rem;
-    }
-    .courseOfferingsColHdgs {
-        font-size: 1rem;
-    }
-    .courseOfferingsDetail {
-        font-size: 1rem;
-
-    } 
+     
     .filterSection {
         grid-area:filterArea;
         display:grid;
         grid-template-rows: 40px 50px ;
-        grid-template-columns: 1.5fr .5fr 1fr 2fr;
+        grid-template-columns: 2fr .5fr 1fr 2fr;
         grid-template-areas: "filterTitleArea filterTitleArea filterTitleArea filterTitleArea "
                             "filter1Area filter2Area filter3Area filter3Area";
         background-color: maroon;
     } 
     
-    .filterTitle {
-        padding-top:0rem;
-        background-color: maroon;
-    }
     .filter1Section {
         padding-top:0.1em;
         padding-left:1em;
@@ -385,21 +462,29 @@ h2 {
         padding-left:2em;
         text-align:left;
     }
+    .courseOfferingsHdg {
+        padding-top:.3rem;
+    }
+    .courseOfferingsColHdgs {
+        position: sticky; top: 0; 
+        font-size: .75rem;
+    }
+    .courseOfferingsDetail {
+        font-size: .75rem;
+    }
+
     .enrollSection {
         height:150px;
         
     }
     .enrollColHdgs {
-        font-size: 1rem;
+        font-size: .75rem;
     }
     .enrollDetail {
         height:100px;
-        font-size: 1rem;
+        font-size: .75rem;
     }
-    .courseOfferingsColHdgs {
-        position: sticky; top: 0; 
-    }
-
+    
     .lightSpeedSection {
         font-size: 1rem;
     }
@@ -411,27 +496,48 @@ h2 {
     }
 
 }
-/* SPECIFICATIONS FOR LAPTOP WITH MDP SCREENS */
+/* SPECIFICATIONS FOR LARGE MONITORS */
 @media (min-width: 1440px) {
     .parent {
         display:grid;
-        width:99%;
+        width:95%;
         grid-gap: 0em;;
-        grid-template-rows: 40px 40px fit-content(150px) fit-content(60px) fit-content(350px) fit-content(50px) fit-content(100px);
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-areas:"selectMemberArea   titleArea           titleArea           versionArea"
-                            "memberNameArea     memberNameArea      memberNameArea      memberNameArea"                   
-                            "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea "
-                            "filterArea         filterArea          filterArea          filterArea"
-                            "offeringsArea      offeringsArea       offeringsArea       offeringsArea"
-                            "enrollArea         enrollArea          enrollArea          enrollArea"
-                            "lightSpeedArea     lightSpeedArea      lightSpeedArea      lightSpeedArea";
+        grid-template-rows: 40px 40px fit-content(150px) fit-content(60px) fit-content(300px) fit-content(50px) fit-content(150px);
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-areas:"appTitleArea           repeatDateArea      moreThan2DateArea   staffNameArea           versionArea"
+                            "selectMemberArea   selectMemberArea    memberNameArea      spaceArea               spaceArea"                                               
+                            "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea        coursesTakenArea "
+                            "filterArea         filterArea          filterArea          filterArea              filterArea"
+                            "offeringsArea      offeringsArea       offeringsArea       offeringsArea           offeringsArea"
+                            "enrollArea         enrollArea          enrollArea          enrollArea              enrollArea"
+                            "lightSpeedArea     lightSpeedArea      lightSpeedArea      lightSpeedArea          lightSpeedArea";
         grid-area: 0;                
         margin: 0 auto;
         background-color:lightgray;
         border:2px solid navy;
     } 
-
+    .staffNameSection {
+        text-align: right;
+    }
+    .versionSection {
+        padding-right:10em;
+    }
+    .selectMemberSection {
+        text-align:left;
+    }
+    .memberNameSection {
+        text-align:center;
+        font-size:1.5rem;
+        background-color: lightgray;
+        color:navy;
+    }
+    .spaceSection {
+        grid-area: spaceArea;
+        background-color: navy;
+        color:white;
+        border-bottom: 1px solid white;
+       
+    }
     .enrollDetail {
         height:100px;
     }

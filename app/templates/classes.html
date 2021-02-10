@@ -12,21 +12,50 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">   
 
 {% block app_content %}
-<!-- <form id=waitListFormID method='POST' action="/updateWaitList">  -->
 
 <div class="parent">
+    <div class="appTitleSection">
+        <label>CLASS SIGNUP</label>
+        
+    </div>
+    
+    <div class="staffNameSection">
+        Staff - {{staffName}}
+    </div>
+
+    <div class="versionSection">
+       ver. Feb 10, 2021
+    </div>
+
+    
+    <div class="repeatDateSection">
+        Repeat courses allowed after - {{repeatClassesAllowedDateSTR}}
+    </div>
+    <div class="moreThan2DateSection">
+        More than 2 courses allowed after - {{moreThan2ClassesAllowedDateSTR}}
+    </div> 
+   
     <div class="selectMemberSection">
         <select id="selectMemberID" class='selectpicker form-control form-control-sm' data-width=300px title='Select a member ...' data-live-search=true data-live-search-style="contains" data-width='auto'>
             <option value="">Select a member ...</option>
             {% for nme in memberArray %}
                 <option  class="optName" value='{{nme}}'>{{ nme }}</option>
             {% endfor %}
-        </select>
-        <label for="">    Term - {{term}}</label>
-    </div>  
+        </select> 
+    </div>
+    
+    <div class="memberNameSection">
+        {{memberName}} 
+    </div>
 
-    <div class="title">
-        <h4>---------- CLASS SIGNUP ----------</h4>
+    <div class="spaceSection">
+        <div>
+           &nbsp;
+        </div>
+    </div>
+
+    <div class="hiddenVariables">
+        <input id='termID' type="hidden" value = {{term}}>
         <input id="memberID" type="hidden" value={{memberID}}>
         <input id='staffID' type="hidden" value={{staffID}}>
         <input id='isDBA' type="hidden" value={{isDBA}}>
@@ -34,23 +63,14 @@
         <input id='certificationStatus' type="hidden" value = {{certificationStatus}}>
         <input id='enrollmentsThisTerm' type="hidden" value = {{enrollmentsThisTerm}}>
         <input id='moreThan2ClassesAllowedDate' type="hidden" value = {{moreThan2ClassesAllowedDateSTR}}>
-        <input id='moreThan2ClassesAllowed' type="hidden" value = {{moreThan2ClassesAllowed}}>   
+        <input id='moreThan2ClassesAllowed' type="hidden" value = {{moreThan2ClassesAllowed}}> 
+        <input id='repeateCoursesAllowedDate' type="hidden" value = {{repeatCoursesAllowedDateSTR}}>
+        <input id='repeateCoursesAllowed' type="hidden" value = {{repeatCoursesAllowed}}>   
     </div>
 
-    <div class="version">
-        <div>
-            Staff - {{staffName}}&nbsp;&nbsp;&nbsp;&nbsp;ver. Feb 8, 2021
-        </div>
-    </div> 
-    
-
-    <div class="memberNameSection">
-        <h3>{{memberName}}</h3>  
-    </div>
-   
     <div class="coursesTakenSection">
         <div class='coursesTakenHdg'>
-            <h4>COURSES COMPLETED</h4>
+            COURSES COMPLETED
         </div>
         <div class="coursesTakenColHdg">
             <div class="row">
@@ -86,11 +106,8 @@
     
     <div class="filterSection">
         <div class="filterTitle">
-            <div class="courseOfferingsHdg">
-                <h4>CURRENT OFFERINGS</h4>
-            </div>
+            CURRENT OFFERINGS
         </div>
-            
         <div class="filter1Section">
             <div class="showOptions btn-group btn-group-md btn-group-toggle" data-toggle="buttons">
                 <label id='showAll' class="btn btn-secondary btn-md" active  onclick=showAllClasses()>
@@ -103,11 +120,11 @@
         </div>   
 
         <div class="filter2Section">    
-            <input id= 'myInput' class='form-control form-control-md' type="text"  placeholder="Enter keywords ...">
+            <input id= 'myInput' class='form-control form-control-sm' type="text"  placeholder="Enter keywords ...">
         </div>
 
         <div class="filter3Section">   
-            <select id="selectCourseID" class='selectpicker form-control form-control-md'  title='Select a course ...' data-live-search=true data-live-search-style="contains" data-width='450px'>
+            <select id="selectCourseID" class='selectpicker form-control form-control-sm'  title='Select a course ...' data-live-search=true data-live-search-style="contains" data-width='250px'>
                 {% for course in courseArray %}
                     <option  class="optName" value='{{course}}'>{{ course }}</option>
                 {% endfor %}
@@ -195,7 +212,7 @@
             </tbody>
         </table>
     </div>
-         
+          
     <div class="enrollSection">
         <div class='enrollHdg'>
             <h4>
@@ -280,7 +297,7 @@
             </div>
         </div>   
     </div>
-</div>
+</div> 
 
 <!-- -------------------- MODAL FORM FOR SHOWING COURSE DESCRIPTION --------------------- -->
 <div id="courseDescriptionModalID" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -347,17 +364,21 @@
 
 <!-- -------------------- MODAL FORM FOR SHOWING MEMBERS IN A CLASS --------------------- -->
 <div id="courseMembersModalID" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalCourseMembersTitle" ></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" >&times;</span>
                 </button>
+                
             </div>
-            <div class="modal-body">
-                <span>Members enrolled:</span><br>
-                <div id='offeringCourseMembers' contenteditable="true"></div>
+            <div class="modal-body courseMembers">
+                
+                <div class="classMembers">
+                    <span>CLASS MEMBERS</span><br>
+                    <div id='offeringCourseMembers' contenteditable="true"></div>
+                </div>
                 <br><br>
                 
                 <div class="modal-footer">
@@ -380,6 +401,7 @@
 <div id="coursePrereqModalID" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
+            <form id='approvalForm' class='approvalForm' action="" style=height:400px>   
             <div class="modal-header">
                 <h5 class="modal-title" id="modalCoursePrereqTitle" >Prerequisite Requirements</h5>
                 <input type="hidden" id="modalSectionNumber">
@@ -387,30 +409,31 @@
                     <span aria-hidden="true" >&times;</span>
                 </button>
             </div>
-            <div id='prerequisites' contenteditable="true"></div>
+            
                 <br><br>
-            <form action="" style=height:400px>   
-                <div class="modal-body"></div>    
-                    <div id='approvalOptionSelected' class="approvalOptions btn-group-vertical">
-                        <select name="" id="approvalSelected">
-                            <option value="NOT APPROVED">NOT APPROVED</option>
-                            <option value="Completed prerequisite course(s)">Completed prerequisite course(s)</option>
-                            <option value="Member is on instructor approval log">Member is on instructor approval log</option>
-                            <option value="Written/Verbal approval from instructor">Written/Verbal approval from instructor</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    <div class='approvalText'>
-                        <textarea name="approvalText" id="approvalText" cols="40" rows="3"></textarea>
-                    </div>
-                    <br>
-                    
-                </div> 
+            <div class="modal-approval-body"> 
+                <div id='prerequisites' contenteditable="true"></div>
+                <div id='approvalOptionSelected' class="approvalOptions btn-group-vertical">
+                    <select name="" id="approvalSelected">
+                        <option id='notApprovedID' value="NOT APPROVED">NOT APPROVED</option>
+                        <option value="Completed prerequisite course(s)">Completed prerequisite course(s)</option>
+                        <option value="Member is on instructor approval log">Member is on instructor approval log</option>
+                        <option value="Written/Verbal approval from instructor">Written/Verbal approval from instructor</option>
+                        <option value="Other">Other</option>
+                    </select>
                 
-                <div class="modal-footer" style=text-align:center>
-                    <div class='col-12'> 
-                        <button id='processPrerequisiteApprovalID' type="button" data-dismiss="modal" class="btn-success">CONFIRM</button>
-                    </div>
-            </form> 
+                    <div class='approvalText'>
+                        <textarea name="approvalText" id="approvalText" cols="45" rows="3"></textarea>
+                    </div> 
+                </div>
+            </div> 
+                
+            <div class="modal-approval-footer" style=text-align:center>
+                <div class='col-12'> 
+                    <button id='processPrerequisiteApprovalID' for="approvalForm" style=padding-top:1em; type="button" data-dismiss="modal" class="btn-success btn-sm">CONFIRM</button>
+                </div>
+            </div>
+            </form>  
         </div>
     </div>
 </div>
