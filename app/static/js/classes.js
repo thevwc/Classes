@@ -66,10 +66,48 @@ $(".enrollBtn").click(function() {
 $("#selectCourseID").on("change", function() {
     courseData = this.value
     selectedCourse = courseData.slice(0,4)
-    $("#courseOfferingsTable tr").filter(function() {
-       $(this).toggle($(this).text().indexOf(selectedCourse) > -1)
-    })
- });
+    hideRows(selectedCourse)
+//    $("#courseOfferingsTable tr").filter(function() {
+       //$(this).toggle($(this).text().indexOf(selectedCourse) > -1)
+//        $(this).toggle($(this).find("td:eq(1)").text().indexOf(selectedCourse) > -1)
+//    })
+});
+
+ //document.getElementById('selectCourseID').on("change", myFunction())
+
+function hideRows(input) {
+    console.log('input - '+input)
+    var input, filter, table, tr, td, i, txtValue;
+    //input = document.getElementById("myInput");
+    //filter = input.value.toUpperCase();
+    filter = input.toUpperCase
+    console.log('filter - '+filter)
+
+    table = document.getElementById("courseOfferingsDetail");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        //btn = document.getElementById(sectionNumber)
+        //btnTD = btn.parentElement
+        //parentTR = btnTD.parentElement
+        //parentTR = tr[i].parentElement
+
+        sectionName = tr[i].firstElementChild
+        //console.log('sectionName - '+ sectionName.innerHTML)
+        filter = sectionName.innerHTML.slice(0,4)
+        td = tr[i].getElementsByTagName("td")[0];
+        console.log('filter - '+ filter)
+        //console.log('td innerHTML - '+ td.innerHTML)
+        console.log('cell - '+ td.innerHTML.slice(0,4))
+
+        if (td.innerHTML.slice(0,4) == filter ){
+            tr[i].style.display = "";
+            } 
+        else {
+                tr[i].style.display = "none";
+            }
+    }       
+    
+}
 
 // FUNCTIONS 
 function memberSelectedRtn() {
