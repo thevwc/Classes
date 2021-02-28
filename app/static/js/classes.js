@@ -66,22 +66,30 @@ $(".enrollBtn").click(function() {
 $("#selectCourseID").on("change", function() {
     courseData = this.value
     selectedCourse = courseData.slice(0,4)
-    hideRows(selectedCourse)
-//    $("#courseOfferingsTable tr").filter(function() {
-       //$(this).toggle($(this).text().indexOf(selectedCourse) > -1)
-//        $(this).toggle($(this).find("td:eq(1)").text().indexOf(selectedCourse) > -1)
-//    })
+
+    // keyword search -
+    //var value = $(this).val().toLowerCase();
+    //    $("#courseOfferingsDetail tr").filter(function() {
+    //      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    //    });
+
+
+    //hideRows(selectedCourse)
+    $("#courseOfferingsTable tr").filter(function() {
+        //$(this).toggle($(this).text().indexOf(selectedCourse) > -1)
+        $(this).toggle($(this).find("td:eq(0)").text().indexOf(selectedCourse) > -1)
+    })
 });
 
  //document.getElementById('selectCourseID').on("change", myFunction())
 
 function hideRows(input) {
-    console.log('input - '+input)
+    //console.log('input - '+input)
     var input, filter, table, tr, td, i, txtValue;
     //input = document.getElementById("myInput");
     //filter = input.value.toUpperCase();
     filter = input.toUpperCase
-    console.log('filter - '+filter)
+    //console.log('filter - '+filter)
 
     table = document.getElementById("courseOfferingsDetail");
     tr = table.getElementsByTagName("tr");
@@ -130,7 +138,9 @@ function showOpenOnly() {
 
 function showAllClasses() {
      $("#courseOfferingsTable tr").filter(function() {
-        $(this).toggle()
+        $(this).show()
+        //$(this).toggle()
+        document.getElementById("myInput").value = ''
      })
  }    
 

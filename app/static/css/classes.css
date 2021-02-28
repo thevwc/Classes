@@ -423,6 +423,41 @@ h2 {
         
     } 
     
+    .appTitleSection {
+        text-align:left;
+        font-size:1rem;
+        padding-top:.5em;
+    }
+    .staffNameSection {
+        text-align: right;
+        font-size:1rem;
+        padding-top:.5em;
+    }
+    .versionSection {
+        font-size:1rem;
+        padding-top:.5em;
+    }
+    .repeatDateSection {
+        border-bottom: 1px solid white;
+    }
+    .moreThan2DateSection {
+        border-bottom: 1px solid white;
+    }
+    .selectMemberSection {
+        text-align:left;
+        border-bottom: 1px solid white;
+        padding-left:1em;
+    }
+    .memberNameSection {
+        text-align: center;
+        height:40px;
+        font-size:1.25em;
+        padding-bottom:0em;
+        background-color:white;
+        color:navy;
+        border-bottom: 1px solid white;
+    }
+
     
     .coursesTakenHdg {
         padding-top:.3rem;
