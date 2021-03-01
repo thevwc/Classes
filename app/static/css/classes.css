@@ -33,6 +33,10 @@ h2 {
     font-size: 2rem;
 } */
 
+.tooltip-inner {
+    background-color:white;
+    color:navy;
+}
 /* Layout for iPhone (small devices) */
 .parent {
     display:grid;

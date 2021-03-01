@@ -415,13 +415,16 @@ def updateReceiptNumber():
     # print(sqlUpdate)
     try:
         #db.session.execute(sqlUpdate)
-        sp = "EXEC updReceiptNumber '" + receiptNumber + "', '" + memberID + "'"
-        print('sp - ',sp)
+        #sp = "EXEC updReceiptNumber '" + memberID + "', '" + receiptNumber + "'"
+        #print('sp - ',sp)
 
-        sql = SQLQuery(sp)
-        result = db.engine.execute(sql)
-        print('result - ',result)
-
+        #sql = SQLQuery(sp)
+        #result = db.engine.execute(sql)
+        #print('result - ',result)
+        sqlUpdate = "UPDATE tblCourse_Enrollees set Receipt_Number = '"
+        sqlUpdate += receiptNumber + "' where Member_ID = '" + memberID + "' and Receipt_Number = 'PENDNG'"
+        print('sqlUpdate - ',sqlUpdate)
+        db.session.execute(sqlUpdate)
     except (SQLAlchemyError, DBAPIError) as e:
         msg = "ERROR updating pending records."
         return jsonify(msg=msg)

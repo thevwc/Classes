@@ -24,7 +24,7 @@
     </div>
 
     <div class="versionSection">
-       ver. Feb 28, 2021
+       ver. Mar 1, 2021
     </div>
 
     
@@ -147,17 +147,31 @@
                     <th>Avail</th>
                     <th>Fee</th>
                     <th style=text-align:center>Supplies</th>
-                    <th>Supply Fee</th>
+                    <th>Fee</th>
                     <th></th>
                     <th></th>
                     <th></th>
                 </tr>
             </thead>
+            <div 
+                class="tooltip" 
+                role="tooltip">
+                <div 
+                    class="arrow">
+                </div>
+                <div class="tooltip-inner">
+
+                </div>
+            </div>
+            
             <tbody id='courseOfferingsDetail' class='courseOfferingsDetail'>
                 {% for offering in offeringDict %}
                     <tr class="{{offering.fullMsg}} {{offering.closedMsg}}" style="border-top:3px solid maroon">
-                        <td class='offeringSectionName'>{{offering.sectionName}}</td>
                         <td 
+                            data-toggle="tooltip" data-placement="top" title="Click for course description." 
+                            class='offeringSectionName'>{{offering.sectionName}}</td>
+                        <td 
+                            data-toggle="tooltip" data-placement="top" title="Click for course prerequisites." 
                             class='offeringTitle'
                             style='width:300px'>
                             {{offering.title}}
@@ -171,7 +185,10 @@
                             {% endif %} 
                         </td>
                         
-                        <td class='offeringInstructor'>{{offering.instructorName}}</td>
+                        <td 
+                            style='width:200px' 
+                            data-toggle="tooltip" data-placement="top" title="Click for class list." 
+                            class='offeringInstructor'>{{offering.instructorName}}</td>
                         <td
                             style=width:175px>
                             {{offering.dates}}

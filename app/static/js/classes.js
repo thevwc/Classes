@@ -1,3 +1,9 @@
+// INITIATE TOOLTIPS
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+
+
 //GET STAFF ID
 staffID = document.getElementById('staffID').value
 
@@ -48,6 +54,7 @@ document.getElementById('courseOfferingsTable').addEventListener('click',offerin
 document.getElementById('lightspeedBtn').addEventListener('click',updateReceiptNumber)
 
 $(".enrollBtn").click(function() {
+    console.log('enrollBtn clicked ...')
     moreThan2ClassesAllowed = document.getElementById('moreThan2ClassesAllowed').value
     if (moreThan2ClassesAllowed != 'True'){
         numberEnrolled = document.getElementById('enrollDetail').childElementCount
@@ -57,9 +64,23 @@ $(".enrollBtn").click(function() {
             return
         }
     }
-    // PROCEDE TO CHECK PREREQUISITES    
+    // PROCEDE TO CHECK PREREQUISITES 
+    alert('this.id - ' + this.id)
+     
     sectionNumber = this.id
-    checkForPrerequisites(this.id)
+    alert('sectionNumber - '+ sectionNumber)  
+
+    prereqID = 'p'+sectionNumber
+    console.log('prereqID - '+ prereqID)
+    prereq = document.getElementById(prereqID).innerHTML
+    console.log('prereq - '+ prereq)
+    if (prereq != null && prereq != '') {
+        checkForPrerequisites(this.id)
+    }
+    else {
+        // OK TO ENROLL IN COURSE
+        enrollInCourse(sectionNumber,'')
+    }
 })
 
 // modify this routine to only look at section name in first column
