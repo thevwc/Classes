@@ -64,7 +64,7 @@ $(".enrollBtn").click(function() {
             return
         }
     }
-    // PROCEDE TO CHECK PREREQUISITES 
+    // ARE THERE PREREQUISITES? 
     alert('this.id - ' + this.id)
      
     sectionNumber = this.id
@@ -73,12 +73,14 @@ $(".enrollBtn").click(function() {
     prereqID = 'p'+sectionNumber
     console.log('prereqID - '+ prereqID)
     prereq = document.getElementById(prereqID).innerHTML
-    console.log('prereq - '+ prereq)
+    console.log('prereq - |'+ prereq + '|')
     if (prereq != null && prereq != '') {
+        console.log('call checkForPrerequisites')
         checkForPrerequisites(this.id)
     }
     else {
         // OK TO ENROLL IN COURSE
+        console.log('skip check for prerequisites')
         enrollInCourse(sectionNumber,'')
     }
 })
@@ -177,15 +179,8 @@ function showAllClasses() {
     document.getElementById('modalCoursePrereqTitle').innerHTML = "Prerequistites for " + courseNumber + " (" + courseTitle + ")"
     document.getElementById('modalSectionNumber').value = sectionNumber 
     
-    // CHECK IF THERE ARE PREREQUISITES
-    prereqID = 'p' + sectionNumber
-    prereq = document.getElementById(prereqID)
-    if (prereq == null){
-        // THERE ARE NO PREREQUISITES
-        enrollInCourse(sectionNumber)
-        return
-    }
-    // HAS MEMBER MET PREREQUISITE REQUIREMENTS
+    // SHOW PREREQUISITES
+    // HAS MEMBER MET PREREQUISITE REQUIREMENTS?
     $('#coursePrereqModalID').modal('show')
     return
 

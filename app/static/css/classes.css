@@ -413,7 +413,7 @@ h2 {
         grid-gap: 0em;
         grid-template-rows: 40px 40px fit-content(150px) fit-content(60px) fit-content(300px) fit-content(300px) fit-content(100px) 150px;
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-areas:"appTitleArea           appTitleArea            staffNameArea       versionArea"
+        grid-template-areas:"appTitleArea       appTitleArea        staffNameArea       versionArea"
                             "repeatDateArea     repeatDateArea      moreThan2DateArea   moreThan2DateArea "
                             "selectMemberArea   selectMemberArea    memberNameArea      memberNameArea" 
                             "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea "
@@ -541,10 +541,11 @@ h2 {
         display:grid;
         width:95%;
         grid-gap: 0em;;
-        grid-template-rows: 40px 40px fit-content(150px) fit-content(60px) fit-content(300px) fit-content(50px) fit-content(150px);
+        grid-template-rows: 40px 40px 40px fit-content(150px) fit-content(60px) fit-content(300px) fit-content(50px) fit-content(150px);
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-        grid-template-areas:"appTitleArea           repeatDateArea      moreThan2DateArea   staffNameArea           versionArea"
-                            "selectMemberArea   selectMemberArea    memberNameArea      spaceArea               spaceArea"                                               
+        grid-template-areas:"appTitleArea       appTitleArea        staffNameArea       versionArea             versionArea"
+                            "repeatDateArea     repeatDateArea      repeatDateArea      moreThan2DateArea       moreThan2DateArea "                    
+                            "selectMemberArea   memberNameArea      memberNameArea      memberNameArea          memberNameArea"                                               
                             "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea        coursesTakenArea "
                             "filterArea         filterArea          filterArea          filterArea              filterArea"
                             "offeringsArea      offeringsArea       offeringsArea       offeringsArea           offeringsArea"
@@ -559,10 +560,18 @@ h2 {
         text-align: right;
     }
     .versionSection {
-        padding-right:10em;
+        padding-right:5em;
+        text-align:right;
+    }
+    
+    .repeatDateSection {
+        padding-left:5em;
+        border-bottom: 1px solid white;
+        text-align:left;
     }
     .selectMemberSection {
         text-align:left;
+        background-color: lightgray;
     }
     .memberNameSection {
         text-align:center;

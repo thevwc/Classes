@@ -274,11 +274,14 @@ def index():
             else:
                 datesNote = 'Meets - ' + offering.datesNote
 
-            if (offering.prereq == None):
-                prereq = ''
-            else:
-                prereq = offering.prereq
-
+            #   LOOK UP PREREQUISITE FOR COURSE
+            prerequisites = db.session.query(Course.Course_Prerequisite).filter(Course.Course_Number == offering.courseNumber).scalar()
+            print('prerequisites - |',prerequisites,'|')
+            if (prerequisites == None):
+                prerequisites = ''
+        
+            print(offering.courseNumber,prerequisites)
+            
 
             offeringItems = {
                 'sectionName':offering.courseNumber + '-' + offering.sectionID,
@@ -292,7 +295,7 @@ def index():
                 'seatsTaken':offering.seatsTaken,
                 'seatsAvailable':seatsAvailable,
                 'fee':fee,
-                'prereq':prereq,
+                'prereq':prerequisites,
                 'supplies':offering.Section_Supplies,
                 'suppliesFee':offering.Section_Supplies_Fee,
                 'fullMsg':statusFull,
