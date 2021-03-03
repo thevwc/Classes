@@ -276,12 +276,8 @@ def index():
 
             #   LOOK UP PREREQUISITE FOR COURSE
             prerequisites = db.session.query(Course.Course_Prerequisite).filter(Course.Course_Number == offering.courseNumber).scalar()
-            print('prerequisites - |',prerequisites,'|')
             if (prerequisites == None):
-                prerequisites = ''
-        
-            print(offering.courseNumber,prerequisites)
-            
+                prerequisites = ''          
 
             offeringItems = {
                 'sectionName':offering.courseNumber + '-' + offering.sectionID,
