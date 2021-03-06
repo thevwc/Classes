@@ -5,19 +5,8 @@ $(function () {
 
 
 //GET STAFF ID
-staffID = document.getElementById('staffID').value
+//staffID = document.getElementById('staffID').value
 
-// IS THERE A STAFF ID ON THE PAGE?
-// 
-// if (staffID == 'None' | staffID == null | staffID == '') {
-//     // IS THERE A STAFF ID STORED IN LOCALSTORAGE?
-//     staffID = localStorage.getItem('staffID')
-//     if (!staffID) {
-//         // PROMPT FOR A STAFF ID
-//         staffID = prompt("Staff ID - ")
-//         localStorage.setItem('staffID',staffID)
-//     }
-// }
 
 // GET isDBA
 const isDBA = document.getElementById('isDBA').value
@@ -90,45 +79,22 @@ $("#selectCourseID").on("change", function() {
     courseData = this.value
     selectedCourse = courseData.slice(0,4)
 
-    // keyword search -
-    //var value = $(this).val().toLowerCase();
-    //    $("#courseOfferingsDetail tr").filter(function() {
-    //      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    //    });
-
-
-    //hideRows(selectedCourse)
     $("#courseOfferingsTable tr").filter(function() {
         //$(this).toggle($(this).text().indexOf(selectedCourse) > -1)
         $(this).toggle($(this).find("td:eq(0)").text().indexOf(selectedCourse) > -1)
     })
 });
 
- //document.getElementById('selectCourseID').on("change", myFunction())
-
 function hideRows(input) {
-    //console.log('input - '+input)
     var input, filter, table, tr, td, i, txtValue;
-    //input = document.getElementById("myInput");
-    //filter = input.value.toUpperCase();
     filter = input.toUpperCase
-    //console.log('filter - '+filter)
-
+    
     table = document.getElementById("courseOfferingsDetail");
     tr = table.getElementsByTagName("tr");
     for (i = 0; i < tr.length; i++) {
-        //btn = document.getElementById(sectionNumber)
-        //btnTD = btn.parentElement
-        //parentTR = btnTD.parentElement
-        //parentTR = tr[i].parentElement
-
         sectionName = tr[i].firstElementChild
-        //console.log('sectionName - '+ sectionName.innerHTML)
         filter = sectionName.innerHTML.slice(0,4)
         td = tr[i].getElementsByTagName("td")[0];
-        console.log('filter - '+ filter)
-        //console.log('td innerHTML - '+ td.innerHTML)
-        console.log('cell - '+ td.innerHTML.slice(0,4))
 
         if (td.innerHTML.slice(0,4) == filter ){
             tr[i].style.display = "";
@@ -162,7 +128,6 @@ function showOpenOnly() {
 function showAllClasses() {
      $("#courseOfferingsTable tr").filter(function() {
         $(this).show()
-        //$(this).toggle()
         document.getElementById("myInput").value = ''
      })
  }    
@@ -352,8 +317,9 @@ function offeringClickRtn(e) {
         sectionNumber = e.target.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML
         courseNumber = sectionNumber.slice(0,4)
         sectionID = sectionNumber.slice(5,6)
-        courseTitle = e.target.previousElementSibling.innerHTML
-        document.getElementById('modalCourseMembersTitle').innerHTML = courseNumber + ' - ' + courseTitle
+        courseTitle = e.target.previousElementSibling.previousElementSibling.innerHTML
+        document.getElementById('modalCourseMembersTitle').innerHTML = 
+            sectionNumber.slice(0,6) + "<span style='white-space: pre-line'>" + courseTitle + "</span>"
        
         $.ajax({
             url : "/getCourseMembers",
@@ -406,15 +372,9 @@ function updateReceiptNumber(e) {
         }
     })   
 }
-// $('#coursePrereqModalID').on('show.bs.modal'), function() {
-//     console.log('approval modal shown ...')
-//     //$("#approvalSelected option:selected").val('NOT APPROVED');
-//     document.getElementById('notApprovedID').setattribute("selected",true) 
-// }
+
 
 $('#coursePrereqModalID').on('hide.bs.modal', function() {
-    console.log('hide approval')
-
     itemSelected = document.getElementById('approvalSelected')
     if (itemSelected.value == 'NOT APPROVED') {
         return

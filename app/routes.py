@@ -337,10 +337,10 @@ def getCourseNotes():
 
 @app.route('/getCourseMembers')
 def getCourseMembers():
-    sectionNumber = request.args.get('sectionNumber')
+    sectionNumber = request.args.get('sectionNumber')[0:6]
     courseNumber, sectionID = sectionNumber.split("-",1)
     term = db.session.query(ControlVariables.Current_Course_Term).filter(ControlVariables.Shop_Number == 1).scalar()
-    
+
     sql = "SELECT m.First_Name as firstName, m.Last_Name as lastName, m.NickName as nickName, m.Member_ID as memberID"
     sql += " FROM tblCourse_Enrollees e"
     sql += " LEFT JOIN tblMember_Data m ON e.Member_ID = m.Member_ID "
