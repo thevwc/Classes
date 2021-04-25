@@ -276,7 +276,7 @@ def index():
 
             #   LOOK UP PREREQUISITE FOR COURSE
             prerequisites = db.session.query(Course.Course_Prerequisite).filter(Course.Course_Number == offering.courseNumber).scalar()
-            if (prerequisites == None):
+            if (prerequisites == None) or prerequisites == '':
                 prerequisites = ''          
 
             offeringItems = {
@@ -372,36 +372,85 @@ def addEnrollmentRecord():
 
     term=db.session.query(ControlVariables.Current_Course_Term).filter(ControlVariables.Shop_Number==1).scalar()
     sectionNumber = request.args.get('sectionNumber')
+    sectionID = sectionNumber[-1]
     villageID = request.args.get('villageID')
     approval = request.args.get('approval')
     staffID = getStaffID()
     courseNumber, sectionID = sectionNumber.split("-",1)
+    print('term - ',term)
+    print('sectionNumber - |',sectionNumber,"|")
+    print('length of sectionNumber - ',len(sectionNumber))
+    print('villageID - ',villageID)
+    print('approval - ',approval)
+    print('length of approval - ',len(approval))
+    print('staffID - ',staffID)
+    print('courseNumber - ',courseNumber)
 
-    newEnrollment = CourseEnrollee(
-            Course_Term = term,
-            Course_Number = courseNumber,
-            Section_ID = sectionID,
-            Member_ID = villageID,
-            Receipt_Number = 'PENDNG',
-            Date_Enrolled = todays_date,
-            Prerequisite_Met_By = approval,
-            Registered_By = staffID
-    )
+    sqlInsert = "INSERT INTO tblCourse_Enrollees (Course_Term, Course_Number, "
+    sqlInsert += "Section_ID, Member_ID, Receipt_Number, Date_Enrolled, "
+    sqlInsert += "Prerequisite_Met_By, Registered_By) "
+    sqlInsert += "VALUES ('" + term + "', '" + courseNumber + "', '" + sectionID
+    sqlInsert += "', '" + villageID + "', 'PENDING','" + todaySTR 
+    sqlInsert += "','" + approval + "','" + staffID + "')"
+    print('.......................................')
+    print(sqlInsert)
+    print('.......................................')
     try:
-        db.session.add(newEnrollment)
+        db.session.execute(sqlInsert)
         db.session.commit()
-        return "SUCCESS"
-
-    except (IntegrityError) as e:
+        flash('Class added.','success')
+        return "Class added."
+    except (Exception) as e:
+        print('Exception - ',str(e))
         db.session.rollback()
-        errorMsg = "ERROR - Duplicate course."
-        return (errorMsg)
-
-    except (SQLAlchemyError, DBAPIError) as e:
-        db.session.rollback()
-        errorMsg = "ERROR adding enrollment record. "
+        errorMsg = 'ERROR - cannot add enrollment record.'
         flash(errorMsg,'danger')
         return errorMsg
+
+    
+    # newEnrollment = CourseEnrollee(
+    #         Course_Term = term,
+    #         Course_Number = courseNumber,
+    #         Section_ID = sectionID,
+    #         Member_ID = villageID,
+    #         Receipt_Number = 'PENDING',
+    #         Date_Enrolled = todaySTR,
+    #         Prerequisite_Met_By = approval,
+    #         Registered_By = staffID
+    # )
+    # try:
+    #     db.session.add(newEnrollment)
+    #     db.session.commit()
+    #     return "SUCCESS"
+
+    # except (IntegrityError) as e:
+    #     db.session.rollback()
+    #     print('IntegrityError e.orig - ',str(e.orig))
+    #     errorMsg = "ERROR - Duplicate course."
+    #     flash(errorMsg,'info')
+    #     return (errorMsg)
+
+    # except (SQLAlchemyError) as e:
+    #     db.session.rollback()
+    #     errorMsg = "ERROR adding enrollment record." 
+    #     print('SQLAlchemyError e.orig - ',str(e.orig),'e.params - ',str(e.params))
+    #     flash(errorMsg,'danger')
+    #     return errorMsg
+
+    # except (DBAPIError) as e:
+    #     db.session.rollback()
+    #     errorMsg = "ERROR adding enrollment record." 
+    #     print('DBAPIError e.orig - ',str(e.orig),'e.params - ',str(e.params))
+    #     flash(errorMsg,'danger')
+    #     return errorMsg
+
+    # except (Exception) as e:
+    #     print('Exception e.orig - ',str(e.orig))
+    #     db.session.rollback()
+    #     errorMsg = 'ERROR adding enrollment record.'
+    #     flash(errorMsg,'danger')
+    #     return errorMsg
+
 
 @app.route("/updateReceiptNumber")
 def updateReceiptNumber():
@@ -421,15 +470,13 @@ def updateReceiptNumber():
         #result = db.engine.execute(sql)
         #print('result - ',result)
         sqlUpdate = "UPDATE tblCourse_Enrollees set Receipt_Number = '"
-        sqlUpdate += receiptNumber + "' where Member_ID = '" + memberID + "' and Receipt_Number = 'PENDNG'"
+        sqlUpdate += receiptNumber + "' where Member_ID = '" + memberID + "' and Receipt_Number = 'PENDING'"
         print('sqlUpdate - ',sqlUpdate)
         db.session.execute(sqlUpdate)
+        msg = "SUCCESS in updating pending records."
     except (SQLAlchemyError, DBAPIError) as e:
         msg = "ERROR updating pending records."
-        return jsonify(msg=msg)
-
-    msg = "SUCCESS in updating pending records."
-    
+       
     return jsonify(msg=msg)
 
 def logChange(colName,memberID,newData,origData):
@@ -439,7 +486,7 @@ def logChange(colName,memberID,newData,origData):
         staffID = '111111'
 
     # Write data changes to tblMember_Data_Transactions
-    est = timezone('EST')
+    est = timezone('US/Eastern')
     transactionDate = datetime.now(est)
     newTransaction = MemberTransactions(
         Transaction_Date = transactionDate,

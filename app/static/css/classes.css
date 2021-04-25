@@ -41,10 +41,9 @@ h2 {
 .parent {
     display:grid;
     width:100%;
-    grid-template-rows: 40px 40px 40px 40px 40px 40px 40px 140px 50px 50px 60px fit-content(150px) 100px auto;
+    grid-template-rows: 40px 40px 40px 40px 40px 40px 140px 50px 50px 60px fit-content(150px) 100px auto;
     grid-template-columns:1fr 1fr;
     grid-template-areas:"appTitleArea       appTitleArea"
-                        "staffNameArea      staffNameArea"
                         "versionArea        versionArea"
                         "repeatDateArea     repeatDateArea"
                         "moreThan2DateArea  moreThan2DateArea"
@@ -80,13 +79,7 @@ h2 {
     color:white;
     border-bottom: 1px solid white;
 }
-.staffNameSection {
-    grid-area: staffNameArea;
-    text-align:center;
-    background-color: navy;
-    color:white;
-    border-bottom: 1px solid white;
-}
+
 
 .versionSection {
     grid-area: versionArea;
@@ -123,7 +116,7 @@ h2 {
 .memberNameSection {
     grid-area:memberNameArea;
     height:40px;
-    text-align:center;
+    text-align:left;
     padding-top:.2em;
     background-color: lightgray;
     color:navy;
@@ -296,7 +289,7 @@ h2 {
 .lightSpeedHdg {
     height:40px;
     text-align: center;
-    background-color: maroon;
+    background-color: lightgray;
     color:beige;
     padding-top:.5em;
     padding-left:0em;
@@ -322,7 +315,7 @@ h2 {
         width:100%;
         grid-template-rows: 40px 40px 40px 200px 40px 40px 40px fit-content(200px) fit-content(250px) 40px;
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-areas:"appTitleArea           appTitleArea            staffNameArea       versionArea" 
+        grid-template-areas:"appTitleArea           appTitleArea            versionArea       versionArea" 
                             "repeatDateArea     repeatDateArea      moreThan2DateArea   moreThan2DateArea"         
                             "selectMemberArea   selectMemberArea    memberNameArea      memberNameArea" 
                             "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea "
@@ -340,11 +333,7 @@ h2 {
         font-size:1rem;
         padding-top:.5em;
     }
-    .staffNameSection {
-        text-align: right;
-        font-size:1rem;
-        padding-top:.5em;
-    }
+    
     .versionSection {
         font-size:1rem;
         padding-top:.5em;
@@ -361,7 +350,7 @@ h2 {
         padding-left:1em;
     }
     .memberNameSection {
-        text-align: center;
+        text-align: left;
         height:40px;
         font-size:1.25em;
         padding-bottom:0em;
@@ -413,7 +402,7 @@ h2 {
         grid-gap: 0em;
         grid-template-rows: 40px 40px fit-content(150px) fit-content(60px) fit-content(300px) fit-content(300px) fit-content(100px) 150px;
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-areas:"appTitleArea       appTitleArea        staffNameArea       versionArea"
+        grid-template-areas:"appTitleArea       appTitleArea        versionArea         versionArea"
                             "repeatDateArea     repeatDateArea      moreThan2DateArea   moreThan2DateArea "
                             "selectMemberArea   selectMemberArea    memberNameArea      memberNameArea" 
                             "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea "
@@ -432,11 +421,7 @@ h2 {
         font-size:1rem;
         padding-top:.5em;
     }
-    .staffNameSection {
-        text-align: right;
-        font-size:1rem;
-        padding-top:.5em;
-    }
+    
     .versionSection {
         font-size:1rem;
         padding-top:.5em;
@@ -453,7 +438,7 @@ h2 {
         padding-left:1em;
     }
     .memberNameSection {
-        text-align: center;
+        text-align: left;
         height:40px;
         font-size:1.25em;
         padding-bottom:0em;
@@ -543,7 +528,7 @@ h2 {
         grid-gap: 0em;;
         grid-template-rows: 40px 40px 40px fit-content(150px) fit-content(60px) fit-content(300px) fit-content(50px) fit-content(150px);
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-        grid-template-areas:"appTitleArea       appTitleArea        staffNameArea       versionArea             versionArea"
+        grid-template-areas:"appTitleArea       appTitleArea        versionArea       versionArea             versionArea"
                             "repeatDateArea     repeatDateArea      repeatDateArea      moreThan2DateArea       moreThan2DateArea "                    
                             "selectMemberArea   memberNameArea      memberNameArea      memberNameArea          memberNameArea"                                               
                             "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea        coursesTakenArea "
@@ -556,9 +541,7 @@ h2 {
         background-color:lightgray;
         border:2px solid navy;
     } 
-    .staffNameSection {
-        text-align: right;
-    }
+    
     .versionSection {
         padding-right:5em;
         text-align:right;
@@ -574,7 +557,7 @@ h2 {
         background-color: lightgray;
     }
     .memberNameSection {
-        text-align:center;
+        text-align:left;
         font-size:1.5rem;
         background-color: lightgray;
         color:navy;

@@ -28,7 +28,7 @@ if (memberID != 'None' & memberID != ''){
         $(this).toggle()
     })
     // SHOW LIGHTSPEED SECTION
-    document.getElementById('lightSpeedFormID').style.display="block";
+    //document.getElementById('lightSpeedFormID').style.display="block";
 }
 
 // SHOW ALL CLASSES
@@ -54,17 +54,10 @@ $(".enrollBtn").click(function() {
         }
     }
     // ARE THERE PREREQUISITES? 
-    alert('this.id - ' + this.id)
-     
     sectionNumber = this.id
-    alert('sectionNumber - '+ sectionNumber)  
-
     prereqID = 'p'+sectionNumber
-    console.log('prereqID - '+ prereqID)
     prereq = document.getElementById(prereqID).innerHTML
-    console.log('prereq - |'+ prereq + '|')
-    if (prereq != null && prereq != '') {
-        console.log('call checkForPrerequisites')
+    if (prereq.includes('Prereq')){
         checkForPrerequisites(this.id)
     }
     else {
@@ -159,7 +152,7 @@ function showAllClasses() {
     
     // GET ALL VALUES IN ROW
     tds = parentTR.getElementsByTagName("td");
-    sectionNumber = tds[0].innerHTML
+    sectionNumber = tds[0].innerHTML.slice(0,6)
     courseNumber = sectionNumber.slice(0,4)
     courseTitle = tds[1].innerHTML
     document.getElementById('modalCoursePrereqTitle').innerHTML = "Prerequistites for " + courseNumber + " (" + courseTitle + ")"
@@ -353,8 +346,8 @@ function offeringClickRtn(e) {
 
 function updateReceiptNumber(e) {
     memberID = document.getElementById('memberID').value
-    receiptNumber = document.getElementById('lightSpeedReceiptNumber').value
-
+    //receiptNumber = document.getElementById('lightSpeedReceiptNumber').value
+    receiptNumber = 'Paid'
     $.ajax({
         url : "/updateReceiptNumber",
         type: "GET",
@@ -365,7 +358,17 @@ function updateReceiptNumber(e) {
 
         success: function(data, textStatus, jqXHR)
         {
-            modalAlert('UPDATE RECEIPT',data.msg)
+            msg = data.msg
+            
+            if (msg.slice(0,5) == 'ERROR'){
+                modalAlert('ERROR UPDATING RECEIPT STATUS',msg)
+            }
+            else {
+                modalAlert('RECEIPT STATUS',msg)
+                // refresh screen
+            }
+            
+
         },
         error: function (jqXHR, textStatus, errorThrown) {
             modalAlert('UPDATE RECEIPT',"Error getting pending records.\n"+errorThrown + '\n'+textStatus)
