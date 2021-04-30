@@ -347,7 +347,7 @@ function offeringClickRtn(e) {
 function updateReceiptNumber(e) {
     memberID = document.getElementById('memberID').value
     //receiptNumber = document.getElementById('lightSpeedReceiptNumber').value
-    receiptNumber = 'Paid'
+    receiptNumber = 'PAID'
     $.ajax({
         url : "/updateReceiptNumber",
         type: "GET",
@@ -365,7 +365,7 @@ function updateReceiptNumber(e) {
             }
             else {
                 modalAlert('RECEIPT STATUS',msg)
-                // refresh screen
+                location.reload()
             }
             
 
@@ -406,4 +406,11 @@ function modalAlert(title,msg) {
 	
 function closeModal() {
 	$('#myModalMsg').modal('hide')
+}
+
+
+function prtMemberSchedule(){
+    console.log ('prtMemberSchedule')
+    link = "/prtMemberSchedule/" + memberID 
+    window.location.href = link
 }

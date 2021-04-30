@@ -1,0 +1,51 @@
+<!-- rptWeeklyContacts.html -->
+{% extends 'base.html' %}
+
+{% block styles %}
+    {{super()}}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/rptMemberClassSchedule.css') }}">
+{% endblock %}
+
+{% block content %} 
+<div class='wholePage'>
+    <div class="pageButtons">
+        <button id="printPageButton" class='btn btn-primary btn-sm' style=margin-right:20px; onClick="window.print();">PRINT</button>
+        <button id="closePageButton" class='btn btn-secondary btn-sm' style=margin-right:20px; onclick="window.history.back()" >CLOSE</button>
+    </div> 
+    <br> <br>
+    
+    <div class="reportHdg">
+        <h1 class="text-center">THE VILLAGES WOODWORKERS CLUB</h1>
+        <br>
+        <h2 class="text-center">Class schedule for <span style=font-weight:bold>{{memberName}}</span></h2>
+        <h3 class="text-center">As of {{todaySTR}}</h3>
+    </div>
+    
+    <div>
+        <table style="display: inline block;">                   
+            <thead>
+                <tr>
+                    <th>Course #</th>
+                    <th>Title</th>
+                    <th>Dates</th>
+                    <th>Times</th>
+                    <th>Location</th>
+                </tr> 
+                <hr>
+            </thead> 
+            <tbody>    
+                {% for s in scheduleDict %}
+                    <tr>
+                        <td>{{s.courseNumber}}</td>
+                        <td>{{s.courseTitle}}</td>
+                        <td>{{s.courseDates}}</td>
+                        <td>{{s.courseTimes}}</td>
+                        <td>{{s.courseLocation}}</td>
+                    </tr> 
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>  
+    
+</div>
+{% endblock %} 

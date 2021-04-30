@@ -471,9 +471,8 @@ def updateReceiptNumber():
         #print('result - ',result)
         sqlUpdate = "UPDATE tblCourse_Enrollees set Receipt_Number = '"
         sqlUpdate += receiptNumber + "' where Member_ID = '" + memberID + "' and Receipt_Number = 'PENDING'"
-        print('sqlUpdate - ',sqlUpdate)
-        db.session.execute(sqlUpdate)
-        msg = "SUCCESS in updating pending records."
+        db.engine.execute(sqlUpdate)
+        msg = "Classes are now marked Paid."
     except (SQLAlchemyError, DBAPIError) as e:
         msg = "ERROR updating pending records."
        
@@ -527,3 +526,43 @@ def getShopID():
             shopID == 'RA'
             shopNumber = 1
     return shopID    
+
+
+@app.route("/prtMemberSchedule/<string:memberID>/",methods=["GET","POST"])
+def prtMemberSchedule(memberID):
+    todays_date = date.today()
+    todaySTR = todays_date.strftime('%m-%d-%Y')
+    term = db.session.query(ControlVariables.Current_Course_Term).filter(ControlVariables.Shop_Number == 1).scalar()
+    location = 'Rolling Acres'
+
+    # EXECUTE STORED PROCEDURE
+    sp = "EXEC memberClassSchedule '" + memberID + "', '" + term + "'"
+    sql = SQLQuery(sp)
+    classSchedule = db.engine.execute(sql)
+    
+    # BUILD MEMBER SCHEDULE ARRAY FOR CURRENT TERM
+    scheduleDict = []
+    scheduleItems = []
+    for c in classSchedule:
+        memberName = c.Student_First_Name + ' ' + c.Student_Last_Name
+        if (c.Instructor_Last_Name == None or c.Instructor_Last_Name == ''):
+            instructorName = ''
+        else:
+            if (c.Instructor_First_Name != ''):
+                instructorName = c.Instructor_First_Name + ' ' + c.Instructor_Last_Name
+            else:
+                instructorName = c.Instructor_Last_Name
+
+        scheduleItems = {
+                'sectionNumber':c.Course_Number + '-' + c.Section_ID,
+                'courseNumber':c.Course_Number,
+                'courseTitle':c.Course_Title,
+                'instructorName':instructorName,
+                'courseDates':c.Section_Dates,
+                'courseTimes':c.Section_Notes,
+                'courseLocation':location
+            }
+        scheduleDict.append(scheduleItems)
+
+    return render_template('rptMemberClassSchedule.html',\
+    scheduleDict=scheduleDict,memberName=memberName,todaySTR=todaySTR)
