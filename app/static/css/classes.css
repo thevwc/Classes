@@ -48,7 +48,7 @@ h2 {
                         "repeatDateArea     repeatDateArea"
                         "moreThan2DateArea  moreThan2DateArea"
                         "selectMemberArea   selectMemberArea"
-                        "memberNameArea     memberNameArea"
+                        "memberNameArea     prtBtnArea"
                         "coursesTakenArea   coursesTakenArea"
                         "filterArea         filterArea"
                         "filterArea         filterArea"
@@ -123,6 +123,12 @@ h2 {
     font-size:1.25rem;
     font-weight: 700;
     border-bottom: 1px solid white;
+}
+.prtBtnSection {
+    grid-area:prtBtnArea;
+    margin-left:200px;
+    
+    padding-top:.25em; 
 }
 
 .datesSection {
@@ -317,7 +323,7 @@ h2 {
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-areas:"appTitleArea           appTitleArea            versionArea       versionArea" 
                             "repeatDateArea     repeatDateArea      moreThan2DateArea   moreThan2DateArea"         
-                            "selectMemberArea   selectMemberArea    memberNameArea      memberNameArea" 
+                            "selectMemberArea   selectMemberArea    memberNameArea      prtBtnArea" 
                             "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea "
                             "filterArea         filterArea          filterArea          filterArea"
                             "filterArea         filterArea          filterArea          filterArea"
@@ -350,6 +356,7 @@ h2 {
         padding-left:1em;
     }
     .memberNameSection {
+        grid-area:memberNameArea;
         text-align: left;
         height:40px;
         font-size:1.25em;
@@ -404,7 +411,7 @@ h2 {
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-areas:"appTitleArea       appTitleArea        versionArea         versionArea"
                             "repeatDateArea     repeatDateArea      moreThan2DateArea   moreThan2DateArea "
-                            "selectMemberArea   selectMemberArea    memberNameArea      memberNameArea" 
+                            "selectMemberArea   selectMemberArea    memberNameArea      prtBtnArea" 
                             "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea "
                             "filterArea         filterArea          filterArea          filterArea"
                             "offeringsArea      offeringsArea       offeringsArea       offeringsArea"
@@ -438,6 +445,7 @@ h2 {
         padding-left:1em;
     }
     .memberNameSection {
+        grid-area:memberNameArea;
         text-align: left;
         height:40px;
         font-size:1.25em;
@@ -530,7 +538,7 @@ h2 {
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
         grid-template-areas:"appTitleArea       appTitleArea        versionArea       versionArea             versionArea"
                             "repeatDateArea     repeatDateArea      repeatDateArea      moreThan2DateArea       moreThan2DateArea "                    
-                            "selectMemberArea   memberNameArea      memberNameArea      memberNameArea          memberNameArea"                                               
+                            "selectMemberArea   memberNameArea      memberNameArea      memberNameArea          prtBtnArea"                                               
                             "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea        coursesTakenArea "
                             "filterArea         filterArea          filterArea          filterArea              filterArea"
                             "offeringsArea      offeringsArea       offeringsArea       offeringsArea           offeringsArea"
@@ -557,17 +565,14 @@ h2 {
         background-color: lightgray;
     }
     .memberNameSection {
+        grid-area:memberNameArea;
         text-align:left;
         font-size:1.5rem;
         background-color: lightgray;
         color:navy;
     }
-    .spaceSection {
-        grid-area: spaceArea;
-        background-color: navy;
-        color:white;
-        border-bottom: 1px solid white;
-       
+    #prtScheduleBtn {
+        grid-area:prtBtnArea;   
     }
     .enrollDetail {
         height:100px;

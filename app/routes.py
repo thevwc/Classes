@@ -152,7 +152,7 @@ def index():
         
         # DISPLAY THE COURSES TAKEN DATA FOR THAT VILLAGE ID
         
-        sp = "EXEC coursesTaken '" + villageID + "', '" + term + "'"
+        sp = "EXEC coursesTaken '" + villageID + "'" 
         sql = SQLQuery(sp)
         coursesTaken = db.engine.execute(sql)
 
@@ -377,14 +377,14 @@ def addEnrollmentRecord():
     approval = request.args.get('approval')
     staffID = getStaffID()
     courseNumber, sectionID = sectionNumber.split("-",1)
-    print('term - ',term)
-    print('sectionNumber - |',sectionNumber,"|")
-    print('length of sectionNumber - ',len(sectionNumber))
-    print('villageID - ',villageID)
-    print('approval - ',approval)
-    print('length of approval - ',len(approval))
-    print('staffID - ',staffID)
-    print('courseNumber - ',courseNumber)
+    # print('term - ',term)
+    # print('sectionNumber - |',sectionNumber,"|")
+    # print('length of sectionNumber - ',len(sectionNumber))
+    # print('villageID - ',villageID)
+    # print('approval - ',approval)
+    # print('length of approval - ',len(approval))
+    # print('staffID - ',staffID)
+    # print('courseNumber - ',courseNumber)
 
     sqlInsert = "INSERT INTO tblCourse_Enrollees (Course_Term, Course_Number, "
     sqlInsert += "Section_ID, Member_ID, Receipt_Number, Date_Enrolled, "
@@ -392,9 +392,9 @@ def addEnrollmentRecord():
     sqlInsert += "VALUES ('" + term + "', '" + courseNumber + "', '" + sectionID
     sqlInsert += "', '" + villageID + "', 'PENDING','" + todaySTR 
     sqlInsert += "','" + approval + "','" + staffID + "')"
-    print('.......................................')
-    print(sqlInsert)
-    print('.......................................')
+    # print('.......................................')
+    # print(sqlInsert)
+    # print('.......................................')
     try:
         db.session.execute(sqlInsert)
         db.session.commit()

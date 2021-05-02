@@ -27,6 +27,8 @@ if (memberID != 'None' & memberID != ''){
     $(".enrollBtn").filter(function() {
         $(this).toggle()
     })
+    document.getElementById('prtScheduleBtn').style.display="block"
+    console.log('after btn shown ')
     // SHOW LIGHTSPEED SECTION
     //document.getElementById('lightSpeedFormID').style.display="block";
 }
@@ -43,6 +45,7 @@ document.getElementById('courseOfferingsTable').addEventListener('click',offerin
 document.getElementById('lightspeedBtn').addEventListener('click',updateReceiptNumber)
 
 $(".enrollBtn").click(function() {
+    
     console.log('enrollBtn clicked ...')
     moreThan2ClassesAllowed = document.getElementById('moreThan2ClassesAllowed').value
     if (moreThan2ClassesAllowed != 'True'){
@@ -184,6 +187,9 @@ function showAllClasses() {
             if (data.includes('Duplicate')){
                 modalAlert("ENROLLMENT",data)
                 return
+            }
+            else {
+                document.getElementById('lightspeedBtn').style.display='block'
             }
             location.reload()
         },
