@@ -45,8 +45,8 @@ h2 {
     grid-template-columns:1fr 1fr;
     grid-template-areas:"appTitleArea       appTitleArea"
                         "versionArea        versionArea"
-                        "repeatDateArea     repeatDateArea"
-                        "moreThan2DateArea  moreThan2DateArea"
+                        "messageArea        messageArea"
+                        "messageArea        messageArea"
                         "selectMemberArea   selectMemberArea"
                         "memberNameArea     prtBtnArea"
                         "coursesTakenArea   coursesTakenArea"
@@ -91,20 +91,27 @@ h2 {
     color:white;
     border-bottom: 1px solid white;
 }
-.repeatDateSection {
-    grid-area:repeatDateArea;
+.messageSection {
+    grid-area:messageArea;
     text-align:center;
     background-color: navy;
     color:white;
     padding-top:.5em;
 }
-.moreThan2DateSection {
+.repeatMsg {
+    padding-right:30px;
+}
+.moreThanTwoMsg {
+    padding-right:1px;
+}
+/* .moreThan2DateSection {
     grid-area:moreThan2DateArea;
     text-align:center;
     background-color: navy;
     color:white;
-    padding-top:.5em;
-}
+    padding-top:.5em; 
+}*/
+
 .selectMemberSection {
     grid-area: selectMemberArea;
     max-width:100%;
@@ -126,8 +133,7 @@ h2 {
 }
 .prtBtnSection {
     grid-area:prtBtnArea;
-    margin-left:200px;
-    
+    margin-left:400px;
     padding-top:.25em; 
 }
 
@@ -139,10 +145,11 @@ h2 {
 .coursesTakenSection {
     grid-area: coursesTakenArea;
     overflow-x:auto;
+    overflow-y:visible;
     max-width: 100%;
     padding-left:0em;
     padding-right:0em;
-    background-color: navy;
+    background-color: lightgray;
 }
 .coursesTakenHdg {
     background-color: navy;
@@ -321,8 +328,7 @@ h2 {
         width:100%;
         grid-template-rows: 40px 40px 40px 200px 40px 40px 40px fit-content(200px) fit-content(250px) 40px;
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-areas:"appTitleArea           appTitleArea            versionArea       versionArea" 
-                            "repeatDateArea     repeatDateArea      moreThan2DateArea   moreThan2DateArea"         
+        grid-template-areas:"appTitleArea       messageArea         messageArea         versionArea"        
                             "selectMemberArea   selectMemberArea    memberNameArea      prtBtnArea" 
                             "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea "
                             "filterArea         filterArea          filterArea          filterArea"
@@ -405,18 +411,17 @@ h2 {
 @media (min-width: 1280px) {
     .parent {
         display:grid;
-        width:95%;
+        width:100%;
         grid-gap: 0em;
         grid-template-rows: 40px 40px fit-content(150px) fit-content(60px) fit-content(300px) fit-content(300px) fit-content(100px) 150px;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-areas:"appTitleArea       appTitleArea        versionArea         versionArea"
-                            "repeatDateArea     repeatDateArea      moreThan2DateArea   moreThan2DateArea "
-                            "selectMemberArea   selectMemberArea    memberNameArea      prtBtnArea" 
-                            "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea "
-                            "filterArea         filterArea          filterArea          filterArea"
-                            "offeringsArea      offeringsArea       offeringsArea       offeringsArea"
-                            "enrollArea         enrollArea          enrollArea          enrollArea"
-                            "lightSpeedArea     lightSpeedArea      lightSpeedArea      lightSpeedArea";
+        grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
+        grid-template-areas:"appTitleArea       messageArea         messageArea         messageArea         versionArea"
+                            "selectMemberArea   selectMemberArea    memberNameArea      memberNameArea      prtBtnArea" 
+                            "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea    coursesTakenArea "
+                            "filterArea         filterArea          filterArea          filterArea          filterArea"
+                            "offeringsArea      offeringsArea       offeringsArea       offeringsArea       offeringsArea"
+                            "enrollArea         enrollArea          enrollArea          enrollArea          enrollArea"
+                            "lightSpeedArea     lightSpeedArea      lightSpeedArea      lightSpeedArea      lightSpeedArea";
         grid-area: 0;                
         margin: 0 auto;
         background-color:lightgray;
@@ -534,11 +539,10 @@ h2 {
         display:grid;
         width:95%;
         grid-gap: 0em;;
-        grid-template-rows: 40px 40px 40px fit-content(150px) fit-content(60px) fit-content(300px) fit-content(50px) fit-content(150px);
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-        grid-template-areas:"appTitleArea       appTitleArea        versionArea       versionArea             versionArea"
-                            "repeatDateArea     repeatDateArea      repeatDateArea      moreThan2DateArea       moreThan2DateArea "                    
-                            "selectMemberArea   memberNameArea      memberNameArea      memberNameArea          prtBtnArea"                                               
+        grid-template-rows: 40px 40px fit-content(250px) fit-content(60px) fit-content(300px) fit-content(50px) fit-content(150px);
+        grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
+        grid-template-areas:"appTitleArea       messageArea         messageArea         messageArea             versionArea"
+                            "selectMemberArea   selectNameArea      memberNameArea      prtBtnArea          prtBtnArea"                                               
                             "coursesTakenArea   coursesTakenArea    coursesTakenArea    coursesTakenArea        coursesTakenArea "
                             "filterArea         filterArea          filterArea          filterArea              filterArea"
                             "offeringsArea      offeringsArea       offeringsArea       offeringsArea           offeringsArea"
@@ -566,13 +570,13 @@ h2 {
     }
     .memberNameSection {
         grid-area:memberNameArea;
-        text-align:left;
+        text-align:center;
         font-size:1.5rem;
-        background-color: lightgray;
+        background-color: white;
         color:navy;
     }
     #prtScheduleBtn {
-        grid-area:prtBtnArea;   
+        grid-area:prtBtnArea;  
     }
     .enrollDetail {
         height:100px;

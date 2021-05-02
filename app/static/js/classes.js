@@ -115,10 +115,17 @@ function memberSelectedRtn() {
 
 }
 
+// function showOpenOnly() {
+//     $(".FULL, .CLOSED").filter(function() {
+//         $(this).toggle()
+//     })
+// }
+
 function showOpenOnly() {
-    $(".FULL, .CLOSED").filter(function() {
-        $(this).toggle()
-    })
+    $("#courseOfferingsTable tr").show()
+    $("#courseOfferingsTable tr[class~='FULL']").hide()    
+    $("#courseOfferingsTable tr[class~='CLOSED']").hide()    
+    //$("#courseOfferingsTable tr[class !='FULL']".show())
 }
 
 function showAllClasses() {

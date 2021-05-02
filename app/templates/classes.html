@@ -28,11 +28,9 @@
     </div>
 
     
-    <div class="repeatDateSection">
-        Repeat courses allowed after - {{repeatClassesAllowedDateSTR}}
-    </div>
-    <div class="moreThan2DateSection">
-        More than 2 courses allowed after - {{moreThan2ClassesAllowedDateSTR}}
+    <div class="messageSection">
+        <span class='repeatMsg'>Repeat courses allowed after - {{repeatClassesAllowedDateSTR}}</span>
+        <span class='moreThanTwoMsg'>More than 2 courses allowed after - {{moreThan2ClassesAllowedDateSTR}}</span>
     </div> 
    
     <div class="selectMemberSection">
@@ -52,7 +50,7 @@
     </div>
 
     <div class="hiddenVariables">
-        <input id='termID' type="hidden" value = {{term}}>
+        <input id='termID' type="hidden" value = "{{term}}">
         <input id="memberID" type="hidden" value={{memberID}}>
         <input id='staffID' type="hidden" value={{staffID}}>
         <input id='isDBA' type="hidden" value={{isDBA}}>
@@ -81,7 +79,9 @@
         </div>
         <div id='coursesTakenDetail' class="coursesTakenDetail">
             {% for sItem in scheduleDict %}
-                <div class="row" style="border-bottom:1px solid navy">
+                <div class="row" 
+                style="border-bottom:1px solid navy"
+                >
                     <div class="col-1">{{sItem.courseNum}}</div>
                     <div class="col-2">{{sItem.term}}</div>
                     <div class="col-3">{{sItem.title}}</div>

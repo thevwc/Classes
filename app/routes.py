@@ -298,10 +298,10 @@ def index():
                 'closedMsg':statusClosed
             }
             offeringDict.append(offeringItems)
-    
+
     return render_template("classes.html",memberID=villageID,memberArray=memberArray,\
     todaySTR=todaySTR,termArray=termArray,courseArray=courseArray,memberName=memberName,\
-    scheduleDict=coursesTakenDict, offeringDict=offeringDict,term=term.upper(),staffID=staffID,\
+    scheduleDict=coursesTakenDict, offeringDict=offeringDict,term=term,staffID=staffID,\
     staffName=staffName,isDBA=isDBA,isMgr=isMgr,enrolledDict=enrolledDict,\
     certificationStatus=certificationStatus,enrollmentsThisTerm=enrollmentsThisTerm,\
     moreThan2ClassesAllowedDateSTR=moreThan2ClassesAllowedDateSTR,moreThan2ClassesAllowed=moreThan2ClassesAllowed,\
@@ -377,7 +377,7 @@ def addEnrollmentRecord():
     approval = request.args.get('approval')
     staffID = getStaffID()
     courseNumber, sectionID = sectionNumber.split("-",1)
-    # print('term - ',term)
+    #print('term - ',term)
     # print('sectionNumber - |',sectionNumber,"|")
     # print('length of sectionNumber - ',len(sectionNumber))
     # print('villageID - ',villageID)
