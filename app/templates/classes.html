@@ -24,7 +24,7 @@
     </div> -->
 
     <div class="versionSection">
-       ver. May 2, 2021
+       ver. May 8, 2021
     </div>
 
     
@@ -117,11 +117,11 @@
         </div>   
 
         <div class="filter2Section">    
-            <input id= 'myInput' class='form-control form-control-sm' type="text"  placeholder="Enter keywords ...">
+            <input id= 'keywordID' class='form-control form-control-sm' type="text"  placeholder="Enter keywords ...">
         </div>
 
         <div class="filter3Section">   
-            <select id="selectCourseID" class='selectpicker form-control form-control-sm'  title='Select a course ...' data-live-search=true data-live-search-style="contains" data-width='250px'>
+            <select id="selectCourseID" class='selectpicker form-control form-control-sm'  title='Select a course ...' data-live-search=true data-live-search-style="contains" data-width='450px'>
                 {% for course in courseArray %}
                     <option  class="optName" value='{{course}}'>{{ course }}</option>
                 {% endfor %}
@@ -290,7 +290,8 @@
     <div class="lightSpeedSection">
         <div class='lightSpeedHdg'>
             <div>
-                <button id='lightspeedBtn' class="btn btn-primary btn-sm">Click here when payment has been completed.</button>
+                <button id='lightspeedPrtBtn' onclick="prtEnrollmentReceipt()" class="btn btn-primary btn-sm">1. Print enrollment receipt.</button>
+                <button id='lightspeedPaidBtn' class="btn btn-primary btn-sm">2. Click here when payment has been completed.</button>
             </div>
             <!-- <h4>
                 RECORD PAYMENT

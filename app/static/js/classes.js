@@ -3,11 +3,6 @@ $(function () {
     $('[data-toggle="tooltip"]').tooltip()
   })
 
-
-//GET STAFF ID
-//staffID = document.getElementById('staffID').value
-
-
 // GET isDBA
 const isDBA = document.getElementById('isDBA').value
 // GET isMgr
@@ -28,7 +23,7 @@ if (memberID != 'None' & memberID != ''){
         $(this).toggle()
     })
     document.getElementById('prtScheduleBtn').style.display="block"
-    console.log('after btn shown ')
+    
     // SHOW LIGHTSPEED SECTION
     //document.getElementById('lightSpeedFormID').style.display="block";
 }
@@ -36,17 +31,17 @@ if (memberID != 'None' & memberID != ''){
 // SHOW ALL CLASSES
 
 // SET selectedCourse TO BLANK
-selectedCourse = ''
+//selectedCourse = ''
 
 // DEFINE EVENT LISTENERS
 document.getElementById("selectMemberID").addEventListener("change",memberSelectedRtn)
 document.getElementById("selectMemberID").addEventListener("click",memberSelectedRtn)
 document.getElementById('courseOfferingsTable').addEventListener('click',offeringClickRtn)
-document.getElementById('lightspeedBtn').addEventListener('click',updateReceiptNumber)
+document.getElementById('lightspeedPaidBtn').addEventListener('click',updateReceiptNumber)
 
 $(".enrollBtn").click(function() {
     
-    console.log('enrollBtn clicked ...')
+    //console.log('enrollBtn clicked ...')
     moreThan2ClassesAllowed = document.getElementById('moreThan2ClassesAllowed').value
     if (moreThan2ClassesAllowed != 'True'){
         numberEnrolled = document.getElementById('enrollDetail').childElementCount
@@ -72,6 +67,7 @@ $(".enrollBtn").click(function() {
 
 // modify this routine to only look at section name in first column
 $("#selectCourseID").on("change", function() {
+    clearKeywords()
     courseData = this.value
     selectedCourse = courseData.slice(0,4)
 
@@ -126,15 +122,29 @@ function showOpenOnly() {
     $("#courseOfferingsTable tr[class~='FULL']").hide()    
     $("#courseOfferingsTable tr[class~='CLOSED']").hide()    
     //$("#courseOfferingsTable tr[class !='FULL']".show())
+    clearKeywords()
+    clearSelectCourse()
 }
 
 function showAllClasses() {
      $("#courseOfferingsTable tr").filter(function() {
         $(this).show()
-        document.getElementById("myInput").value = ''
+        clearKeywords()
+        clearSelectCourse()
      })
  }    
 
+function clearKeywords() {
+    document.getElementById("keywordID").value = ''
+}
+
+function clearSelectCourse() {
+    $("#selectCourseID").val('default').selectpicker("refresh");
+
+    // selectCourse = document.getElementById('selectCourseID')
+    // console.log('selectCourse - '+selectCourse.value)
+    // selectCourse.value = ''
+}
  function checkForPrerequisites(sectionNumber) {
     btn = document.getElementById(sectionNumber)
     btnTD = btn.parentElement
@@ -211,7 +221,8 @@ function showAllClasses() {
  }
 
 // HIDE ROWS NOT MATCHING CRITERIA ENTERED
- $("#myInput").on("keyup", function() {
+ $("#keywordID").on("keyup", function() {
+    clearSelectCourse()
     var value = $(this).val().toLowerCase();
     $("#courseOfferingsDetail tr").filter(function() {
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
@@ -425,5 +436,11 @@ function closeModal() {
 function prtMemberSchedule(){
     console.log ('prtMemberSchedule')
     link = "/prtMemberSchedule/" + memberID 
+    window.location.href = link
+}
+
+function prtEnrollmentReceipt(){
+    console.log ('prtEnrollmentReceipt')
+    link = "/prtEnrollmentReceipt/" + memberID 
     window.location.href = link
 }
