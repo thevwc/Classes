@@ -1,6 +1,16 @@
 /* html {
     font-size:16px or font-size:62.5% or don't specify and let browser set base font  */
 
+.close {
+        color: #fff; 
+        opacity: 1;
+        
+}
+.times {
+    position: absolute;
+    top:0; right:1em;
+}
+
 *{ 
     box-sizing: border-box;
 }

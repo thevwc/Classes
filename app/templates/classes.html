@@ -18,13 +18,9 @@
         <label>CLASS SIGNUP</label>
         
     </div>
-    
-    <!-- <div class="staffNameSection">
-        Staff - {{staffName}}
-    </div> -->
 
     <div class="versionSection">
-       ver. May 8, 2021
+       ver. May 9, 2021
     </div>
 
     
@@ -74,6 +70,7 @@
                 <div class="col-3">Title</div>
                 <div class="col-2">Dates</div>
                 <div class="col-2">Instructor</div>
+                <div class="col-1">Receipt#</div>
                 <div class="col-1"></div>
             </div>
         </div>
@@ -87,6 +84,7 @@
                     <div class="col-3">{{sItem.title}}</div>
                     <div class="col-2">{{sItem.dates}}</div>
                     <div class="col-2">{{sItem.instructor}}</div>
+                    <div class="col-1">{{sItem.receipt}}</div>
                     <div class="col-1">
                         <button
                             id="{{sItem.enrollmentID}}" 
@@ -219,7 +217,7 @@
                                     id="{{offering.sectionName}}"
                                     class="enrollBtn btn btn-primary btn-sm"
                                     style=display:none;font-size:.75rem;height:23px>
-                                    ENROLL
+                                    1. ENROLL
                                 </button>
                             {% endif %}
                         </td>
@@ -290,8 +288,8 @@
     <div class="lightSpeedSection">
         <div class='lightSpeedHdg'>
             <div>
-                <button id='lightspeedPrtBtn' onclick="prtEnrollmentReceipt()" class="btn btn-primary btn-sm">1. Print enrollment receipt.</button>
-                <button id='lightspeedPaidBtn' class="btn btn-primary btn-sm">2. Click here when payment has been completed.</button>
+                <button id='lightspeedPrtBtn'  onclick="prtEnrollmentReceipt()" class="btn btn-primary btn-sm">2. Print enrollment receipt.</button>
+                <button id='lightspeedPaidBtn'  class="btn btn-primary btn-sm">3. Mark class(es) paid.</button>
             </div>
             <!-- <h4>
                 RECORD PAYMENT

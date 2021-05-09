@@ -40,8 +40,6 @@ document.getElementById('courseOfferingsTable').addEventListener('click',offerin
 document.getElementById('lightspeedPaidBtn').addEventListener('click',updateReceiptNumber)
 
 $(".enrollBtn").click(function() {
-    
-    //console.log('enrollBtn clicked ...')
     moreThan2ClassesAllowed = document.getElementById('moreThan2ClassesAllowed').value
     if (moreThan2ClassesAllowed != 'True'){
         numberEnrolled = document.getElementById('enrollDetail').childElementCount
@@ -60,9 +58,9 @@ $(".enrollBtn").click(function() {
     }
     else {
         // OK TO ENROLL IN COURSE
-        console.log('skip check for prerequisites')
         enrollInCourse(sectionNumber,'')
     }
+    //document.getElementById('lightspeedPrtBtn').removeAttribute('disabled')
 })
 
 // modify this routine to only look at section name in first column
@@ -104,6 +102,7 @@ function memberSelectedRtn() {
     localStorage.setItem('memberSelected',this.value) 
     lastEight = memberData.slice(-8)
     selectedMember= lastEight.slice(1,7)
+    //document.getElementById('lightspeedPrtBtn').removeAttribute('disabled')
 
     // GET MEMBER NAME AND COURSES TAKEN 
     link = '/classes/?villageID=' + selectedMember
@@ -111,17 +110,10 @@ function memberSelectedRtn() {
 
 }
 
-// function showOpenOnly() {
-//     $(".FULL, .CLOSED").filter(function() {
-//         $(this).toggle()
-//     })
-// }
-
 function showOpenOnly() {
     $("#courseOfferingsTable tr").show()
     $("#courseOfferingsTable tr[class~='FULL']").hide()    
     $("#courseOfferingsTable tr[class~='CLOSED']").hide()    
-    //$("#courseOfferingsTable tr[class !='FULL']".show())
     clearKeywords()
     clearSelectCourse()
 }
@@ -140,11 +132,8 @@ function clearKeywords() {
 
 function clearSelectCourse() {
     $("#selectCourseID").val('default').selectpicker("refresh");
-
-    // selectCourse = document.getElementById('selectCourseID')
-    // console.log('selectCourse - '+selectCourse.value)
-    // selectCourse.value = ''
 }
+
  function checkForPrerequisites(sectionNumber) {
     btn = document.getElementById(sectionNumber)
     btnTD = btn.parentElement
@@ -205,9 +194,10 @@ function clearSelectCourse() {
                 modalAlert("ENROLLMENT",data)
                 return
             }
-            else {
-                document.getElementById('lightspeedBtn').style.display='block'
-            }
+            // else {
+            //     document.getElementById('lightspeedPrtBtn').style.display='block'
+            //     document.getElementById('lightspeedPaidBtn').style.display='block'
+            // }
             location.reload()
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -434,13 +424,12 @@ function closeModal() {
 
 
 function prtMemberSchedule(){
-    console.log ('prtMemberSchedule')
     link = "/prtMemberSchedule/" + memberID 
     window.location.href = link
 }
 
 function prtEnrollmentReceipt(){
-    console.log ('prtEnrollmentReceipt')
+    //document.getElementById('lightspeedPaidBtn').removeAttribute('disabled')
     link = "/prtEnrollmentReceipt/" + memberID 
     window.location.href = link
 }

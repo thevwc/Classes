@@ -178,7 +178,8 @@ def index():
                 'title':c.Course_Title,
                 'dates':sectionDates,
                 'times':c.Section_Note,
-                'instructor':instructor
+                'instructor':instructor,
+                'receipt':c.Receipt_Number
             }
             coursesTakenDict.append(coursesTakenItem)
     
@@ -377,14 +378,17 @@ def addEnrollmentRecord():
     approval = request.args.get('approval')
     staffID = getStaffID()
     courseNumber, sectionID = sectionNumber.split("-",1)
-    #print('term - ',term)
-    # print('sectionNumber - |',sectionNumber,"|")
-    # print('length of sectionNumber - ',len(sectionNumber))
-    # print('villageID - ',villageID)
-    # print('approval - ',approval)
-    # print('length of approval - ',len(approval))
-    # print('staffID - ',staffID)
-    # print('courseNumber - ',courseNumber)
+
+    # IS THE MEMBER ALREADY ENROLLED IN THIS CLASS?
+    enrolled = db.session.query(CourseEnrollee)\
+        .filter(CourseEnrollee.Course_Term == term)\
+        .filter(CourseEnrollee.Course_Number == courseNumber)\
+        .filter(CourseEnrollee.Section_ID == sectionID)\
+        .filter(CourseEnrollee.Member_ID == villageID).first()
+    if (enrolled):
+        errorMsg = "The member is already enrolled in " + sectionNumber + "."
+        flash (errorMsg,'info')
+        return errorMsg
 
     sqlInsert = "INSERT INTO tblCourse_Enrollees (Course_Term, Course_Number, "
     sqlInsert += "Section_ID, Member_ID, Receipt_Number, Date_Enrolled, "
@@ -400,6 +404,12 @@ def addEnrollmentRecord():
         db.session.commit()
         flash('Class added.','success')
         return "Class added."
+    except (IntegrityError) as e:
+        db.session.rollback()
+        errorMsg = 'ERROR - Member already has this class.'
+        flash(errorMsg,'info')
+        return errorMsg
+
     except (Exception) as e:
         print('Exception - ',str(e))
         db.session.rollback()
@@ -454,21 +464,12 @@ def addEnrollmentRecord():
 
 @app.route("/updateReceiptNumber")
 def updateReceiptNumber():
+    print('updateReceiptNumber')
     memberID = request.args.get('memberID')
     receiptNumber = request.args.get('receiptNumber')
 
     # RAW SQL APPROACH
-    # sqlUpdate = "UPDATE tblCourse_Enrollees SET Receipt_Number = '" + receiptNumber + "' "
-    # sqlUpdate += "WHERE Member_ID = '" + memberID + "' AND Receipt_Number = 'PENDNG'"
-    # print(sqlUpdate)
     try:
-        #db.session.execute(sqlUpdate)
-        #sp = "EXEC updReceiptNumber '" + memberID + "', '" + receiptNumber + "'"
-        #print('sp - ',sp)
-
-        #sql = SQLQuery(sp)
-        #result = db.engine.execute(sql)
-        #print('result - ',result)
         sqlUpdate = "UPDATE tblCourse_Enrollees set Receipt_Number = '"
         sqlUpdate += receiptNumber + "' where Member_ID = '" + memberID + "' and Receipt_Number = 'PENDING'"
         db.engine.execute(sqlUpdate)
@@ -577,7 +578,7 @@ def prtEnrollmentReceipt(memberID):
 
     # EXECUTE STORED PROCEDURE
     #sp = "EXEC memberClassSchedule '" + memberID + "', '" + term + "'"
-    sp = "EXEC enrollmentReceipt " + memberID + "', '"
+    sp = "EXEC enrollmentReceipt " + memberID 
     sql = SQLQuery(sp)
     classSchedule = db.engine.execute(sql)
     
