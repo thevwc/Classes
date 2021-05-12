@@ -566,7 +566,7 @@ def prtMemberSchedule(memberID):
         scheduleDict.append(scheduleItems)
 
     return render_template('rptMemberClassSchedule.html',\
-    scheduleDict=scheduleDict,memberName=memberName,todaySTR=todaySTR)
+    scheduleDict=scheduleDict,memberName=memberName,todaySTR=todaySTR,term=term)
 
 
 @app.route("/prtEnrollmentReceipt/<string:memberID>/",methods=["GET","POST"])
