@@ -174,7 +174,7 @@ def index():
             coursesTakenItem = {
                 'enrollmentID':c.Enrollee_Record_ID,
                 'term':c.Course_Term,
-                'courseNum':c.Course_Number,
+                'courseNum':c.Course_Number + '-' + c.Section_ID,
                 'title':c.Course_Title,
                 'dates':sectionDates,
                 'times':c.Section_Note,
@@ -464,7 +464,6 @@ def addEnrollmentRecord():
 
 @app.route("/updateReceiptNumber")
 def updateReceiptNumber():
-    print('updateReceiptNumber')
     memberID = request.args.get('memberID')
     receiptNumber = request.args.get('receiptNumber')
 
@@ -486,7 +485,7 @@ def logChange(colName,memberID,newData,origData):
         staffID = '111111'
 
     # Write data changes to tblMember_Data_Transactions
-    est = timezone('US/Eastern')
+    est = timezone('America/New_York')
     transactionDate = datetime.now(est)
     newTransaction = MemberTransactions(
         Transaction_Date = transactionDate,
@@ -531,6 +530,7 @@ def getShopID():
 
 @app.route("/prtMemberSchedule/<string:memberID>/",methods=["GET","POST"])
 def prtMemberSchedule(memberID):
+    est = timezone('America/New_York')
     todays_date = date.today()
     todaySTR = todays_date.strftime('%m-%d-%Y')
     term = db.session.query(ControlVariables.Current_Course_Term).filter(ControlVariables.Shop_Number == 1).scalar()
