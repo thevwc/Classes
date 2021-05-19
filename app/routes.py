@@ -402,7 +402,7 @@ def addEnrollmentRecord():
     try:
         db.session.execute(sqlInsert)
         db.session.commit()
-        flash('Class added.','success')
+        #flash('Class added.','success')
         return "Class added."
     except (IntegrityError) as e:
         db.session.rollback()
@@ -571,6 +571,10 @@ def prtMemberSchedule(memberID):
 
 @app.route("/prtEnrollmentReceipt/<string:memberID>/",methods=["GET","POST"])
 def prtEnrollmentReceipt(memberID):
+    if (memberID == '' or memberID == None):
+        flash('There is no member selected.','success')
+        return redirect(url_for('index'))
+
     todays_date = date.today()
     todaySTR = todays_date.strftime('%m-%d-%Y')
     term = db.session.query(ControlVariables.Current_Course_Term).filter(ControlVariables.Shop_Number == 1).scalar()
@@ -581,7 +585,10 @@ def prtEnrollmentReceipt(memberID):
     sp = "EXEC enrollmentReceipt " + memberID 
     sql = SQLQuery(sp)
     classSchedule = db.engine.execute(sql)
-    
+    if (classSchedule == None):
+        flash('There are no unpaid enrollments','success')
+        return redirect(url_for('index'))
+
     # BUILD MEMBER SCHEDULE ARRAY FOR CURRENT TERM
     scheduleDict = []
     scheduleItems = []

@@ -20,7 +20,7 @@
     </div>
 
     <div class="versionSection">
-       ver. May 12, 2021
+       ver. May 18, 2021
     </div>
 
     
@@ -42,7 +42,7 @@
         {{memberName}} 
     </div>
     <div class="prtBtnSection">
-        <button id='prtScheduleBtn' onclick="prtMemberSchedule()" class="btn btn-primary btn-sm" style="display:none">Print Schedule</button>
+        <button id='prtScheduleBtn' onclick="prtMemberSchedule()" class="btn btn-primary btn-sm" style="display:none;width:150px">Print Schedule</button>
     </div>
 
     <div class="hiddenVariables">
@@ -216,7 +216,7 @@
                                 <button type="button" 
                                     id="{{offering.sectionName}}"
                                     class="enrollBtn btn btn-primary btn-sm"
-                                    style=display:none;font-size:.75rem;height:23px>
+                                    style=display:none;width:85px;font-size:.75rem;height:23px;padding:0px>
                                     1. ENROLL
                                 </button>
                             {% endif %}
@@ -289,7 +289,7 @@
         <div class='lightSpeedHdg'>
             <div>
                 <button id='lightspeedPrtBtn'  onclick="prtEnrollmentReceipt()" class="btn btn-primary btn-sm">2. Print today's enrollment.</button>
-                <button id='lightspeedPaidBtn'  class="btn btn-primary btn-sm">3. Mark class(es) paid.</button>
+                <button id='lightspeedPaidBtn' class="btn btn-primary btn-sm">3. Mark class(es) paid.</button>
             </div>
             <!-- <h4>
                 RECORD PAYMENT

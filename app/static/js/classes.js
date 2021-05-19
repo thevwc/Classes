@@ -28,10 +28,18 @@ if (memberID != 'None' & memberID != ''){
     //document.getElementById('lightSpeedFormID').style.display="block";
 }
 
-// SHOW ALL CLASSES
+enrollments = document.getElementById('enrollDetail')
+lightSpeedPrtBtn = document.getElementById('lightspeedPrtBtn')
+lightSpeedPaidBtn = document.getElementById('lightspeedPaidBtn')
 
-// SET selectedCourse TO BLANK
-//selectedCourse = ''
+if (enrollments.childElementCount > 0) {
+    lightSpeedPrtBtn.removeAttribute('disabled')
+    lightSpeedPaidBtn.removeAttribute('disabled')
+}
+else {
+    lightSpeedPrtBtn.setAttribute('disabled','disabled')
+    lightSpeedPaidBtn.setAttribute('disabled','disabled')
+}
 
 // DEFINE EVENT LISTENERS
 document.getElementById("selectMemberID").addEventListener("change",memberSelectedRtn)
@@ -60,7 +68,8 @@ $(".enrollBtn").click(function() {
         // OK TO ENROLL IN COURSE
         enrollInCourse(sectionNumber,'')
     }
-    //document.getElementById('lightspeedPrtBtn').removeAttribute('disabled')
+    // document.getElementById('lightspeedPrtBtn').removeAttribute('disabled')
+    // document.getElementById('lightspeedPaidBtn').removeAttribute('disabled')
 })
 
 // modify this routine to only look at section name in first column
@@ -429,7 +438,7 @@ function prtMemberSchedule(){
 }
 
 function prtEnrollmentReceipt(){
-    //document.getElementById('lightspeedPaidBtn').removeAttribute('disabled')
+    document.getElementById('lightspeedPaidBtn').setAttribute('disabled','disabled')
     link = "/prtEnrollmentReceipt/" + memberID 
     window.location.href = link
 }

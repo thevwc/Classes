@@ -143,8 +143,8 @@ h2 {
 }
 .prtBtnSection {
     grid-area:prtBtnArea;
-    margin-left:400px;
-    padding-top:.25em; 
+    margin-left:300px;
+    padding-top:.2em; 
 }
 
 .datesSection {
@@ -421,7 +421,7 @@ h2 {
 @media (min-width: 1280px) {
     .parent {
         display:grid;
-        width:100%;
+        width:75%;
         grid-gap: 0em;
         grid-template-rows: 40px 40px fit-content(150px) fit-content(60px) fit-content(300px) fit-content(300px) fit-content(100px) 150px;
         grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
@@ -547,7 +547,7 @@ h2 {
 @media (min-width: 1440px) {
     .parent {
         display:grid;
-        width:95%;
+        width:80%;
         grid-gap: 0em;;
         grid-template-rows: 40px 40px fit-content(250px) fit-content(60px) fit-content(300px) fit-content(50px) fit-content(150px);
         grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
