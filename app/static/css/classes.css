@@ -547,7 +547,7 @@ h2 {
 @media (min-width: 1440px) {
     .parent {
         display:grid;
-        width:80%;
+        width:100%;
         grid-gap: 0em;;
         grid-template-rows: 40px 40px fit-content(250px) fit-content(60px) fit-content(300px) fit-content(50px) fit-content(150px);
         grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
