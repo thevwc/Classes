@@ -32,14 +32,14 @@ enrollments = document.getElementById('enrollDetail')
 lightSpeedPrtBtn = document.getElementById('lightspeedPrtBtn')
 lightSpeedPaidBtn = document.getElementById('lightspeedPaidBtn')
 
-if (enrollments.childElementCount > 0) {
-    lightSpeedPrtBtn.removeAttribute('disabled')
-    lightSpeedPaidBtn.removeAttribute('disabled')
-}
-else {
-    lightSpeedPrtBtn.setAttribute('disabled','disabled')
-    lightSpeedPaidBtn.setAttribute('disabled','disabled')
-}
+// if (enrollments.childElementCount > 0) {
+//     lightSpeedPrtBtn.removeAttribute('disabled')
+//     lightSpeedPaidBtn.removeAttribute('disabled')
+// }
+// else {
+//     lightSpeedPrtBtn.setAttribute('disabled','disabled')
+//     lightSpeedPaidBtn.setAttribute('disabled','disabled')
+// }
 
 // DEFINE EVENT LISTENERS
 document.getElementById("selectMemberID").addEventListener("change",memberSelectedRtn)
@@ -438,7 +438,7 @@ function prtMemberSchedule(){
 }
 
 function prtEnrollmentReceipt(){
-    document.getElementById('lightspeedPaidBtn').setAttribute('disabled','disabled')
+    //document.getElementById('lightspeedPaidBtn').setAttribute('disabled','disabled')
     link = "/prtEnrollmentReceipt/" + memberID 
     window.location.href = link
 }
