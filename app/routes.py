@@ -184,7 +184,6 @@ def index():
             coursesTakenDict.append(coursesTakenItem)
     
         # BUILD CURRENT REGISTRATION TABLE, i.e., ENROLLMENTS THIS TERM
-        
         sp = "EXEC enrollments '" + villageID + "', '" + term + "'"
         sql = SQLQuery(sp)
         enrolled = db.engine.execute(sql)
@@ -299,6 +298,8 @@ def index():
                 'closedMsg':statusClosed
             }
             offeringDict.append(offeringItems)
+    
+    numberOfClasses = len(enrolledDict)
 
     return render_template("classes.html",memberID=villageID,memberArray=memberArray,\
     todaySTR=todaySTR,termArray=termArray,courseArray=courseArray,memberName=memberName,\
@@ -307,7 +308,7 @@ def index():
     certificationStatus=certificationStatus,enrollmentsThisTerm=enrollmentsThisTerm,\
     moreThan2ClassesAllowedDateSTR=moreThan2ClassesAllowedDateSTR,moreThan2ClassesAllowed=moreThan2ClassesAllowed,\
     repeatClassesAllowedDateSTR=repeatClassesAllowedDateSTR,repeatClassesAllowed=repeatClassesAllowed,\
-    lightSpeedID=lightSpeedID)
+    lightSpeedID=lightSpeedID,numberOfClasses=numberOfClasses)
 
 @app.route('/removeEnrollmentRecord')
 def removeEnrollmentRecord():
@@ -540,6 +541,9 @@ def prtMemberSchedule(memberID):
     sp = "EXEC memberClassSchedule '" + memberID + "', '" + term + "'"
     sql = SQLQuery(sp)
     classSchedule = db.engine.execute(sql)
+    if (classSchedule == None):
+        flash('Nothing scheduled.','info')
+        return redirect(url_for('index'))
     
     # BUILD MEMBER SCHEDULE ARRAY FOR CURRENT TERM
     scheduleDict = []
@@ -564,10 +568,13 @@ def prtMemberSchedule(memberID):
                 'courseLocation':location
             }
         scheduleDict.append(scheduleItems)
-
-    return render_template('rptMemberClassSchedule.html',\
-    scheduleDict=scheduleDict,memberName=memberName,todaySTR=todaySTR,term=term)
-
+    numberOfClasses = len(scheduleDict)
+    if (numberOfClasses > 0):
+        return render_template('rptMemberClassSchedule.html',\
+        scheduleDict=scheduleDict,memberName=memberName,todaySTR=todaySTR,term=term)
+    else:
+        flash('No current classes scheduled.','info')
+        return redirect(url_for('index'))
 
 @app.route("/prtEnrollmentReceipt/<string:memberID>/",methods=["GET","POST"])
 def prtEnrollmentReceipt(memberID):

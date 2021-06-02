@@ -22,6 +22,7 @@ if (memberID != 'None' & memberID != ''){
     $(".enrollBtn").filter(function() {
         $(this).toggle()
     })
+    numberOfClasses = document.getElementById('numberOfClasses').value 
     document.getElementById('prtScheduleBtn').style.display="block"
     
     // SHOW LIGHTSPEED SECTION
