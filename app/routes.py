@@ -397,9 +397,7 @@ def addEnrollmentRecord():
     sqlInsert += "VALUES ('" + term + "', '" + courseNumber + "', '" + sectionID
     sqlInsert += "', '" + villageID + "', 'PENDING','" + todaySTR 
     sqlInsert += "','" + approval + "','" + staffID + "')"
-    # print('.......................................')
-    # print(sqlInsert)
-    # print('.......................................')
+  
     try:
         db.session.execute(sqlInsert)
         db.session.commit()
@@ -412,55 +410,10 @@ def addEnrollmentRecord():
         return errorMsg
 
     except (Exception) as e:
-        print('Exception - ',str(e))
         db.session.rollback()
         errorMsg = 'ERROR - cannot add enrollment record.'
         flash(errorMsg,'danger')
         return errorMsg
-
-    
-    # newEnrollment = CourseEnrollee(
-    #         Course_Term = term,
-    #         Course_Number = courseNumber,
-    #         Section_ID = sectionID,
-    #         Member_ID = villageID,
-    #         Receipt_Number = 'PENDING',
-    #         Date_Enrolled = todaySTR,
-    #         Prerequisite_Met_By = approval,
-    #         Registered_By = staffID
-    # )
-    # try:
-    #     db.session.add(newEnrollment)
-    #     db.session.commit()
-    #     return "SUCCESS"
-
-    # except (IntegrityError) as e:
-    #     db.session.rollback()
-    #     print('IntegrityError e.orig - ',str(e.orig))
-    #     errorMsg = "ERROR - Duplicate course."
-    #     flash(errorMsg,'info')
-    #     return (errorMsg)
-
-    # except (SQLAlchemyError) as e:
-    #     db.session.rollback()
-    #     errorMsg = "ERROR adding enrollment record." 
-    #     print('SQLAlchemyError e.orig - ',str(e.orig),'e.params - ',str(e.params))
-    #     flash(errorMsg,'danger')
-    #     return errorMsg
-
-    # except (DBAPIError) as e:
-    #     db.session.rollback()
-    #     errorMsg = "ERROR adding enrollment record." 
-    #     print('DBAPIError e.orig - ',str(e.orig),'e.params - ',str(e.params))
-    #     flash(errorMsg,'danger')
-    #     return errorMsg
-
-    # except (Exception) as e:
-    #     print('Exception e.orig - ',str(e.orig))
-    #     db.session.rollback()
-    #     errorMsg = 'ERROR adding enrollment record.'
-    #     flash(errorMsg,'danger')
-    #     return errorMsg
 
 
 @app.route("/updateReceiptNumber")
@@ -593,12 +546,13 @@ def prtEnrollmentReceipt(memberID):
     sql = SQLQuery(sp)
     classSchedule = db.engine.execute(sql)
     if (classSchedule == None):
-        flash('There are no unpaid enrollments','success')
+        flash('There are no unpaid enrollments.','success')
         return redirect(url_for('index'))
 
     # BUILD MEMBER SCHEDULE ARRAY FOR CURRENT TERM
     scheduleDict = []
     scheduleItems = []
+    memberName = ''
     for c in classSchedule:
         memberName = c.Student_First_Name + ' ' + c.Student_Last_Name
         if (c.Instructor_Last_Name == None or c.Instructor_Last_Name == ''):
@@ -619,6 +573,10 @@ def prtEnrollmentReceipt(memberID):
                 'courseLocation':location
             }
         scheduleDict.append(scheduleItems)
+
+    if (len(scheduleDict) == 0):
+        flash('There are no unpaid enrollments to list.','success')
+        return redirect(url_for('index'))
 
     return render_template('rptEnrollmentReceipt.html',\
     scheduleDict=scheduleDict,memberName=memberName,todaySTR=todaySTR)
