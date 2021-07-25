@@ -20,7 +20,7 @@
     </div>
 
     <div class="versionSection">
-       ver. Jun 5, 2021
+       ver. Jul 25, 2021
     </div>
 
     
@@ -67,7 +67,8 @@
         <div class="coursesTakenColHdg">
             <div class="row">
                 <div class="col-1">Crse#</div>
-                <div class="col-2">Term</div>
+                <div class="col-1">Term</div>
+                <div class="col-1">Location</div>
                 <div class="col-3">Title</div>
                 <div class="col-2">Dates</div>
                 <div class="col-2">Instructor</div>
@@ -81,7 +82,8 @@
                 style="border-bottom:1px solid navy"
                 >
                     <div class="col-1">{{sItem.courseNum}}</div>
-                    <div class="col-2">{{sItem.term}}</div>
+                    <div class="col-1">{{sItem.term}} </div>
+                    <div class="col-1">{{sItem.location}}</div>
                     <div class="col-3">{{sItem.title}}</div>
                     <div class="col-2">{{sItem.dates}}</div>
                     <div class="col-2">{{sItem.instructor}}</div>
@@ -133,6 +135,7 @@
             <thead class='courseOfferingsColHdgs'>
                 <tr>
                     <th>Section</th>
+                    <th></th>
                     <th>Title</th>
                     <th></th>
                     <th>Instructor</th>
@@ -165,9 +168,9 @@
                     <tr class="{{offering.fullMsg}} {{offering.closedMsg}}" style="border-top:3px solid maroon">
                         <td 
                             data-toggle="tooltip" data-placement="top" title="Click for course description." 
-                            class='offeringSectionName'>{{offering.sectionName}}
+                            class='offeringSectionName' style=width:60px;>{{offering.sectionName}}
                         </td>
-
+                        <td>{{offering.location}}</td>
                         <td 
                             data-toggle="tooltip" data-placement="top" title="Click for course prerequisites." 
                             class='offeringTitle'
@@ -238,7 +241,8 @@
         <div class="enrollColHdgs">
             <div class="row">
                 <div class="col-1">Crse#</div>
-                <div class="col-3">Title</div>
+                <div class="col-1">Location</div>
+                <div class="col-2">Title</div>
                 <div class="col-2">Instructor</div>
                 <div class="col-1" style=text-align:right>Course Fee</div>
                 <div class="col-1" style=text-align:right>Supplies</div>
@@ -252,7 +256,8 @@
             {% for e in enrolledDict %}
                 <div class="row" style="border-bottom:1px solid navy">
                     <div class="col-1">{{e.courseNum}}</div>
-                    <div class="col-3">{{e.title}}</div>
+                    <div class="col-1">{{e.location}}</div>
+                    <div class="col-2">{{e.title}}</div>
                     <div class="col-2">{{e.instructor}}</div>
                     <div class="col-1" style=text-align:right>{{"$%.2f"|format(e.courseFee)}}</div>
                     <div class="col-1" style=text-align:right>{{"$%.2f"|format(e.suppliesFee)}}</div>

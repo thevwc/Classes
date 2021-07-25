@@ -173,7 +173,9 @@ function clearSelectCourse() {
     tds = parentTR.getElementsByTagName("td");
     sectionNumber = tds[0].innerHTML.slice(0,6)
     courseNumber = sectionNumber.slice(0,4)
-    courseTitle = tds[1].innerHTML
+    shopLocation = tds[1].innerHTML
+    courseTitle = tds[2].innerHTML
+    courseTitle = courseTitle.trim()
     document.getElementById('modalCoursePrereqTitle').innerHTML = "Prerequistites for " + courseNumber + " (" + courseTitle + ")"
 
 
@@ -189,12 +191,14 @@ function clearSelectCourse() {
     }
 
     // ADD TO tblCourse_Enrollees
+    console.log ('ADD TO tblCourse_Enrollees')
     memberID = document.getElementById('memberID').value
     $.ajax({
         url: "/addEnrollmentRecord",
         type: "GET",
         data:{term:term,
             sectionNumber:sectionNumber,
+            shopLocation:shopLocation,
             villageID:memberID,
             approval:approval
           },
@@ -204,10 +208,6 @@ function clearSelectCourse() {
                 modalAlert("ENROLLMENT",data)
                 return
             }
-            // else {
-            //     document.getElementById('lightspeedPrtBtn').style.display='block'
-            //     document.getElementById('lightspeedPaidBtn').style.display='block'
-            // }
             location.reload()
         },
         error: function (jqXHR, textStatus, errorThrown)

@@ -135,12 +135,13 @@ def index():
         member = db.session.query(Member).filter(Member.Member_ID == villageID).first()
         if member == None:
             memberName = ''
+            LightspeedID = ''
         else:
             memberName = member.First_Name
             if member.Nickname != None and member.Nickname != '':
                 memberName += ' (' + member.Nickname + ')'
             memberName += ' ' + member.Last_Name
-            lightSpeedID = '123456'
+            LightspeedID = member.LightspeedID
 
         # CERTIFICATION STATUS
         if member.Certified:
@@ -179,7 +180,8 @@ def index():
                 'dates':sectionDates,
                 'times':c.Section_Note,
                 'instructor':instructor,
-                'receipt':c.Receipt_Number
+                'receipt':c.Receipt_Number,
+                'location':c.Location
             }
             coursesTakenDict.append(coursesTakenItem)
     
@@ -211,6 +213,7 @@ def index():
             enrolledItem = {
                 'enrollmentID':e.Enrollee_Record_ID,
                 'term':e.Course_Term,
+                'location':e.Location,
                 'courseNum':e.Course_Number + e.Section_ID,
                 'title':e.Course_Title,
                 'instructor':instructor,
@@ -223,7 +226,7 @@ def index():
             enrolledDict.append(enrolledItem)
     else:
         memberName = ''
-        lightSpeedID = ''
+        LightspeedID = ''
         coursesTakenDict = []
         enrolledDict = []
     
@@ -248,6 +251,7 @@ def index():
         flash('There are no courses offerings for this term.','info')
     else:    
         for offering in offerings:
+
             # GET CLASS SIZE LIMIT
             capacity = offering.Section_Size
             
@@ -282,6 +286,7 @@ def index():
             offeringItems = {
                 'sectionName':offering.courseNumber + '-' + offering.sectionID,
                 'term':term,
+                'location':offering.location,
                 'courseNumber':offering.courseNumber,
                 'title':offering.title,
                 'instructorName':offering.instructorName,
@@ -308,7 +313,7 @@ def index():
     certificationStatus=certificationStatus,enrollmentsThisTerm=enrollmentsThisTerm,\
     moreThan2ClassesAllowedDateSTR=moreThan2ClassesAllowedDateSTR,moreThan2ClassesAllowed=moreThan2ClassesAllowed,\
     repeatClassesAllowedDateSTR=repeatClassesAllowedDateSTR,repeatClassesAllowed=repeatClassesAllowed,\
-    lightSpeedID=lightSpeedID,numberOfClasses=numberOfClasses)
+    LightspeedID=LightspeedID,numberOfClasses=numberOfClasses)
 
 @app.route('/removeEnrollmentRecord')
 def removeEnrollmentRecord():
@@ -374,11 +379,25 @@ def addEnrollmentRecord():
 
     term=db.session.query(ControlVariables.Current_Course_Term).filter(ControlVariables.Shop_Number==1).scalar()
     sectionNumber = request.args.get('sectionNumber')
+    shopLocation = request.args.get('shopLocation')
     sectionID = sectionNumber[-1]
     villageID = request.args.get('villageID')
     approval = request.args.get('approval')
     staffID = getStaffID()
     courseNumber, sectionID = sectionNumber.split("-",1)
+
+    # IS THE MEMBER CERTIFIED FOR THIS LOCATION?
+    member = db.session.query(Member).filter(Member.Member_ID == villageID).first()
+    if (shopLocation == 'RA' and member.Certified  == False):
+        errorMsg = "The member may not enroll as they are not certified for Rolling Acres. "
+        flash (errorMsg,'info')
+        return errorMsg
+    
+    if (shopLocation == 'BW' and member.Certified_2 == False):
+        errorMsg = "The member may not enroll as they are not certified for Brownwood. "
+        flash (errorMsg,'info')
+        return errorMsg
+
 
     # IS THE MEMBER ALREADY ENROLLED IN THIS CLASS?
     enrolled = db.session.query(CourseEnrollee)\
@@ -488,7 +507,7 @@ def prtMemberSchedule(memberID):
     todays_date = date.today()
     todaySTR = todays_date.strftime('%m-%d-%Y')
     term = db.session.query(ControlVariables.Current_Course_Term).filter(ControlVariables.Shop_Number == 1).scalar()
-    location = 'Rolling Acres'
+    shopLocation = 'Rolling Acres'
 
     # EXECUTE STORED PROCEDURE
     sp = "EXEC memberClassSchedule '" + memberID + "', '" + term + "'"
@@ -514,11 +533,12 @@ def prtMemberSchedule(memberID):
         scheduleItems = {
                 'sectionNumber':c.Course_Number + '-' + c.Section_ID,
                 'courseNumber':c.Course_Number,
+                'shopLocation':c.shopLocation,
                 'courseTitle':c.Course_Title,
                 'instructorName':instructorName,
                 'courseDates':c.Section_Dates,
                 'courseTimes':c.Section_Notes,
-                'courseLocation':location
+                'courseLocation':shopLocation
             }
         scheduleDict.append(scheduleItems)
     numberOfClasses = len(scheduleDict)
@@ -538,7 +558,7 @@ def prtEnrollmentReceipt(memberID):
     todays_date = date.today()
     todaySTR = todays_date.strftime('%m-%d-%Y')
     term = db.session.query(ControlVariables.Current_Course_Term).filter(ControlVariables.Shop_Number == 1).scalar()
-    location = 'Rolling Acres'
+    shopLocation = 'Rolling Acres'
 
     # EXECUTE STORED PROCEDURE
     #sp = "EXEC memberClassSchedule '" + memberID + "', '" + term + "'"

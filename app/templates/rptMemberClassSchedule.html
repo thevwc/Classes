@@ -26,6 +26,7 @@
             <thead>
                 <tr>
                     <th>Course #</th>
+                    <th>Location</th>
                     <th>Title</th>
                     <th>Dates</th>
                     <th>Times</th>
@@ -37,6 +38,7 @@
                 {% for s in scheduleDict %}
                     <tr>
                         <td>{{s.sectionNumber}}</td>
+                        <td>{{s.location}}</td>
                         <td>{{s.courseTitle}}</td>
                         <td>{{s.courseDates}}</td>
                         <td>{{s.courseTimes}}</td>
