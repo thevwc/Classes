@@ -507,7 +507,6 @@ def prtMemberSchedule(memberID):
     todays_date = date.today()
     todaySTR = todays_date.strftime('%m-%d-%Y')
     term = db.session.query(ControlVariables.Current_Course_Term).filter(ControlVariables.Shop_Number == 1).scalar()
-    shopLocation = 'Rolling Acres'
 
     # EXECUTE STORED PROCEDURE
     sp = "EXEC memberClassSchedule '" + memberID + "', '" + term + "'"
@@ -533,12 +532,11 @@ def prtMemberSchedule(memberID):
         scheduleItems = {
                 'sectionNumber':c.Course_Number + '-' + c.Section_ID,
                 'courseNumber':c.Course_Number,
-                'shopLocation':c.shopLocation,
                 'courseTitle':c.Course_Title,
                 'instructorName':instructorName,
                 'courseDates':c.Section_Dates,
                 'courseTimes':c.Section_Notes,
-                'courseLocation':shopLocation
+                'courseLocation':c.Location
             }
         scheduleDict.append(scheduleItems)
     numberOfClasses = len(scheduleDict)
@@ -558,7 +556,7 @@ def prtEnrollmentReceipt(memberID):
     todays_date = date.today()
     todaySTR = todays_date.strftime('%m-%d-%Y')
     term = db.session.query(ControlVariables.Current_Course_Term).filter(ControlVariables.Shop_Number == 1).scalar()
-    shopLocation = 'Rolling Acres'
+    #shopLocation = 'Rolling Acres'
 
     # EXECUTE STORED PROCEDURE
     #sp = "EXEC memberClassSchedule '" + memberID + "', '" + term + "'"
@@ -590,7 +588,7 @@ def prtEnrollmentReceipt(memberID):
                 'instructorName':instructorName,
                 'courseDates':c.Section_Dates,
                 'courseTimes':c.Section_Notes,
-                'courseLocation':location
+                'courseLocation':c.Location
             }
         scheduleDict.append(scheduleItems)
 

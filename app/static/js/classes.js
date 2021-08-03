@@ -295,7 +295,7 @@ function offeringClickRtn(e) {
 
 
     if (e.target.className.includes('offeringTitle')) {
-        sectionNumber = e.target.previousElementSibling.innerHTML
+        sectionNumber = e.target.previousElementSibling.previousElementSibling.innerHTML
         courseNumber = sectionNumber.slice(0,4)
         courseTitle = e.target.innerHTML
         document.getElementById('modalCourseNotesTitle').innerHTML = courseNumber + ' - ' + courseTitle
@@ -331,7 +331,7 @@ function offeringClickRtn(e) {
     
     if (e.target.className.includes('offeringInstructor')) {
         // SHOW LIST OF MEMBERS ENROLLED
-        sectionNumber = e.target.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML
+        sectionNumber = e.target.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML
         courseNumber = sectionNumber.slice(0,4)
         sectionID = sectionNumber.slice(5,6)
         courseTitle = e.target.previousElementSibling.previousElementSibling.innerHTML
