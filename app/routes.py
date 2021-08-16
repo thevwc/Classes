@@ -26,7 +26,6 @@ mail=Mail(app)
 @app.route('/index/')
 @app.route("/classes/")
 def index():
-    
     villageID = request.args.get('villageID')
     staffID = getStaffID()
    
@@ -142,6 +141,8 @@ def index():
                 memberName += ' (' + member.Nickname + ')'
             memberName += ' ' + member.Last_Name
             LightspeedID = member.LightspeedID
+            if LightspeedID == None:
+                LightspeedID = ''
 
         # CERTIFICATION STATUS
         if member.Certified:
@@ -201,9 +202,17 @@ def index():
                 if e.Instructor_NickName != None and e.Instructor_NickName != '':
                     instructor += " (" + e.Instructor_NickName + ")"
 
-            courseFee = e.Course_Fee
-            suppliesFee = e.Supplies_Fee
-            extPrice = e.Course_Fee + e.Supplies_Fee  
+            if e.Course_Fee != None:
+                courseFee = e.Course_Fee
+            else:
+                courseFee = 0
+               
+            if e.Supplies_Fee == None:
+                suppliesFee = 0
+            else:
+                suppliesFee = e.Supplies_Fee
+           
+            extPrice = e.Course_Fee + suppliesFee  
 
             if (e.Taxable):
                 taxable='True'
@@ -229,8 +238,8 @@ def index():
         LightspeedID = ''
         coursesTakenDict = []
         enrolledDict = []
-    
     enrollmentsThisTerm = len(enrolledDict)
+    
     # END OF ROUTINE TO RETRIEVE COURSES ENROLLED IN BY AN INDIVIDUAL
 
     # BUILD COURSE OFFERING ARRAY FOR A SPECIFIC TERM
@@ -251,7 +260,6 @@ def index():
         flash('There are no courses offerings for this term.','info')
     else:    
         for offering in offerings:
-
             # GET CLASS SIZE LIMIT
             capacity = offering.Section_Size
             
@@ -283,6 +291,11 @@ def index():
             if (prerequisites == None) or prerequisites == '':
                 prerequisites = ''          
 
+            if offering.Section_Supplies_Fee == None:
+                suppliesFee = 0
+            else:
+                suppliesFee = offering.Section_Supplies_Fee
+            
             offeringItems = {
                 'sectionName':offering.courseNumber + '-' + offering.sectionID,
                 'term':term,
@@ -298,22 +311,26 @@ def index():
                 'fee':fee,
                 'prereq':prerequisites,
                 'supplies':offering.Section_Supplies,
-                'suppliesFee':offering.Section_Supplies_Fee,
+                'suppliesFee':suppliesFee,
                 'fullMsg':statusFull,
                 'closedMsg':statusClosed
             }
             offeringDict.append(offeringItems)
+   
+    numberOfClassesEnrolled = len(enrolledDict)
     
-    numberOfClasses = len(enrolledDict)
-
-    return render_template("classes.html",memberID=villageID,memberArray=memberArray,\
-    todaySTR=todaySTR,termArray=termArray,courseArray=courseArray,memberName=memberName,\
-    scheduleDict=coursesTakenDict, offeringDict=offeringDict,term=term,staffID=staffID,\
-    staffName=staffName,isDBA=isDBA,isMgr=isMgr,enrolledDict=enrolledDict,\
-    certificationStatus=certificationStatus,enrollmentsThisTerm=enrollmentsThisTerm,\
-    moreThan2ClassesAllowedDateSTR=moreThan2ClassesAllowedDateSTR,moreThan2ClassesAllowed=moreThan2ClassesAllowed,\
-    repeatClassesAllowedDateSTR=repeatClassesAllowedDateSTR,repeatClassesAllowed=repeatClassesAllowed,\
-    LightspeedID=LightspeedID,numberOfClasses=numberOfClasses)
+    if numberOfClassesEnrolled != None:
+        return render_template("classes.html",memberID=villageID,memberArray=memberArray,\
+        todaySTR=todaySTR,termArray=termArray,courseArray=courseArray,memberName=memberName,\
+        scheduleDict=coursesTakenDict, offeringDict=offeringDict,term=term,staffID=staffID,\
+        staffName=staffName,isDBA=isDBA,isMgr=isMgr,enrolledDict=enrolledDict,\
+        certificationStatus=certificationStatus,enrollmentsThisTerm=enrollmentsThisTerm,\
+        moreThan2ClassesAllowedDateSTR=moreThan2ClassesAllowedDateSTR,moreThan2ClassesAllowed=moreThan2ClassesAllowed,\
+        repeatClassesAllowedDateSTR=repeatClassesAllowedDateSTR,repeatClassesAllowed=repeatClassesAllowed,\
+        LightspeedID=LightspeedID,numberOfClassesEnrolled=numberOfClassesEnrolled)
+    else:
+        flash ('No classes scheduled for '+term,'error')
+        return redirect(url_for('index'))
 
 @app.route('/removeEnrollmentRecord')
 def removeEnrollmentRecord():

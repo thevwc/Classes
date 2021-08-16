@@ -20,7 +20,7 @@
     </div>
 
     <div class="versionSection">
-       ver. Aug 3, 2021
+       ver. Aug 15, 2021
     </div>
 
     
@@ -46,7 +46,7 @@
     </div>
 
     <div class="hiddenVariables">
-        <input id='numberOfClasses' type="hidden" value = {{numberOfClasses}}>
+        <input id='numberOfClassesEnrolled' type="hidden" value = {{numberOfClassesEnrolled}}>
         <input id='termID' type="hidden" value = {{term}}>
         <input id="memberID" type="hidden" value={{memberID}}>
         <input id='staffID' type="hidden" value={{staffID}}>
@@ -210,8 +210,12 @@
                             {{"$%.2f"|format(offering.fee)}}
                         </td>
                         <td style=text-align:center>{{offering.supplies}}</td>
-                        <td>{{"$%.2f"|format(offering.suppliesFee)}}</td>
-                        
+                        {{ offering.suppliesFee}}
+                        {% if offering.suppliesFee != null %}
+                            <td>{{"$%.2f"|format(22)}}</td>
+                        else:
+                            <td></td>
+                        {% endif %}
                         <td style=color:red>{{offering.closedMsg}}</td>
                         <td style=color:red>{{offering.fullMsg}}</td>
 
