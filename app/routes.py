@@ -573,10 +573,8 @@ def prtEnrollmentReceipt(memberID):
     todays_date = date.today()
     todaySTR = todays_date.strftime('%m-%d-%Y')
     term = db.session.query(ControlVariables.Current_Course_Term).filter(ControlVariables.Shop_Number == 1).scalar()
-    #shopLocation = 'Rolling Acres'
 
     # EXECUTE STORED PROCEDURE
-    #sp = "EXEC memberClassSchedule '" + memberID + "', '" + term + "'"
     sp = "EXEC enrollmentReceipt " + memberID 
     sql = SQLQuery(sp)
     classSchedule = db.engine.execute(sql)

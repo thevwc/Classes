@@ -1,6 +1,3 @@
-/* html {
-    font-size:16px or font-size:62.5% or don't specify and let browser set base font  */
-
 .close {
         color: #fff; 
         opacity: 1;
@@ -25,23 +22,6 @@ body {
 table tr td {
     padding:0px !important;
 }
-
-/* Typography */
-/* 
-h1,
-h2,
-strong {
-    font-weight: 900;
-} */
-
-/* h1 {
-    font-size: 3rem;
-    margin-bottom: .5em;   /* = half of the font-size */
-/*}
-
-h2 {
-    font-size: 2rem;
-} */
 
 .tooltip-inner {
     background-color:white;
@@ -73,15 +53,7 @@ h2 {
     background-color: yellowgreen;
     border:1px solid navy;
 } 
-/* .title {
-    grid-area: titleArea;
-    width:100%;
-    padding-left:0em;
-    padding-top:.5em;
-    background-color:navy;
-    color:white;
-    text-align:left;
-} */
+
 .appTitleSection {
     grid-area: appTitleArea;
     text-align:center;
@@ -114,13 +86,6 @@ h2 {
 .moreThanTwoMsg {
     padding-right:1px;
 }
-/* .moreThan2DateSection {
-    grid-area:moreThan2DateArea;
-    text-align:center;
-    background-color: navy;
-    color:white;
-    padding-top:.5em; 
-}*/
 
 .selectMemberSection {
     grid-area: selectMemberArea;
@@ -244,21 +209,19 @@ h2 {
 .courseOfferingsSection {
     grid-area:offeringsArea;
     overflow-x:auto;
-    overflow-y:auto;
     max-width: 100%;
-    background-color: beige;
+    background-color: maroon;
+    color:maroon;
     font-size:.5rem;
 }
-/* .courseOfferingsHdg {
-    background-color: maroon;
-    color:white;
-    text-align:center;
-} */
+
 .courseOfferingsColHdgs {
+    margin-left:100px;
     background-color: maroon;
     color:white;
 }
 .courseOfferingsDetail {
+    margin:0 auto;
     overflow-x:auto;
     overflow-y:auto;
     background-color: beige;
@@ -513,10 +476,12 @@ h2 {
         padding-top:.3rem;
     }
     .courseOfferingsColHdgs {
+        margin-left:100px;
         position: sticky; top: 0; 
         font-size: .75rem;
     }
     .courseOfferingsDetail {
+        margin-left:100px;
         font-size: .75rem;
     }
 
@@ -563,7 +528,11 @@ h2 {
         background-color:lightgray;
         border:2px solid navy;
     } 
-    
+    .courseOfferingsTable {
+        width:95%;
+        margin:0 auto;
+    }
+
     .versionSection {
         padding-right:5em;
         text-align:right;

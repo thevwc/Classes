@@ -20,7 +20,7 @@
     </div>
 
     <div class="versionSection">
-       ver. Aug 15, 2021
+       ver. Oct 8, 2021
     </div>
 
     
@@ -129,10 +129,10 @@
             </select> 
         </div>
     </div>
-
+    
     <div class="courseOfferingsSection">
-        <table id="courseOfferingsTable" class="courseOfferingsTable table table-sm">
-            <thead class='courseOfferingsColHdgs'>
+        <table id="courseOfferingsTable" class="courseOfferingsTable">
+            <thead class="courseOfferingsColHdgs">
                 <tr>
                     <th>Section</th>
                     <th></th>
@@ -152,18 +152,8 @@
                     <th></th>
                 </tr>
             </thead>
-            <div 
-                class="tooltip" 
-                role="tooltip">
-                <div 
-                    class="arrow">
-                </div>
-                <div class="tooltip-inner">
-
-                </div>
-            </div>
             
-            <tbody id='courseOfferingsDetail' class='courseOfferingsDetail'>
+            <tbody id="courseOfferingsDetail" class="courseOfferingsDetail">
                 {% for offering in offeringDict %}
                     <tr class="{{offering.fullMsg}} {{offering.closedMsg}}" style="border-top:3px solid maroon">
                         <td 
@@ -212,7 +202,7 @@
                         <td style=text-align:center>{{offering.supplies}}</td>
                         {{ offering.suppliesFee}}
                         {% if offering.suppliesFee != null %}
-                            <td>{{"$%.2f"|format(22)}}</td>
+                            <td>{{"$%.2f"|format(offering.suppliesFee)}}</td>
                         else:
                             <td></td>
                         {% endif %}
@@ -301,30 +291,7 @@
                 <button id='lightspeedPrtBtn'  onclick="prtEnrollmentReceipt()" class="btn btn-primary btn-sm">2. Print today's enrollment.</button>
                 <button id='lightspeedPaidBtn' class="btn btn-primary btn-sm">3. Mark class(es) paid.</button>
             </div>
-            <!-- <h4>
-                RECORD PAYMENT
-            </h4> -->
-        </div>
-        <!-- <div id='lightSpeedFormID' class="lightSpeedForm"> -->
-            
-            <!-- <div class="row">
-                <div class="col">
-                    <label>
-                        &nbsp; Enter the transaction number to be used for all 'PENDING' enrollments for the member with lightspeed ID
-                        <span style=color:blue> {{lightSpeedID}}</span>.</label>
-                </div>
-            </div>
-            <div class="row" style=text-align:left>
-                <div class="col-4">
-                    <label for="receiptID">&nbsp; Lightspeed transaction # (receipt) - </label>
-                    <input id="lightSpeedReceiptNumber" type="text" style=height:25px>
-                </div>
-            
-                <div class="col-6">
-                    <button id='lightspeedBtn' class="btn btn-primary btn-sm">PAYMENT COMPLETED</button>
-                </div>
-            </div> 
-        </div>  --> 
+        </div> 
     </div>
 </div> 
 

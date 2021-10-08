@@ -33,15 +33,6 @@ enrollments = document.getElementById('enrollDetail')
 lightSpeedPrtBtn = document.getElementById('lightspeedPrtBtn')
 lightSpeedPaidBtn = document.getElementById('lightspeedPaidBtn')
 
-// if (enrollments.childElementCount > 0) {
-//     lightSpeedPrtBtn.removeAttribute('disabled')
-//     lightSpeedPaidBtn.removeAttribute('disabled')
-// }
-// else {
-//     lightSpeedPrtBtn.setAttribute('disabled','disabled')
-//     lightSpeedPaidBtn.setAttribute('disabled','disabled')
-// }
-
 // DEFINE EVENT LISTENERS
 document.getElementById("selectMemberID").addEventListener("change",memberSelectedRtn)
 document.getElementById("selectMemberID").addEventListener("click",memberSelectedRtn)
@@ -370,7 +361,6 @@ function offeringClickRtn(e) {
 
 function updateReceiptNumber(e) {
     memberID = document.getElementById('memberID').value
-    //receiptNumber = document.getElementById('lightSpeedReceiptNumber').value
     receiptNumber = 'PAID'
     $.ajax({
         url : "/updateReceiptNumber",
