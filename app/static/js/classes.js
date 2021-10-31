@@ -181,8 +181,37 @@ function clearSelectCourse() {
         return
     }
 
+    // IF THE DATE IS WHEN A CLASS MAY BE REPEATED ...
+    if (repeatClassesAllowed != 'True') {
+        hasTakenCourse = false
+        //console.log('----------------------------------------')
+        var coursesTaken = document.getElementsByClassName("courseNum");
+        //alert('type of - ',typeof(coursesTaken))
+        //console.log('coursesTaken - ',coursesTaken)
+        var i;
+        for (i = 0; i < coursesTaken.length; i++) {
+            console.log(coursesTaken[i])
+            if (coursesTaken[i] == courseNumber) {
+                hasTakenCourse = true
+            }    
+        }
+        if (hasTakenCourse != -1) {
+            repeatClassesAllowedDate = document.getElementById("repeatClassesAllowedDate").value
+            modalAlert("ENROLLMENT","Member may not repeat this class until " + repeatClassesAllowedDate)
+        }
+    }
+    
+    
+    
+    //if (repeatClassesAllowed ) {
+    //  is P011 in classesTakenForRepeat list?
+
+   
+
+   
+
     // ADD TO tblCourse_Enrollees
-    console.log ('ADD TO tblCourse_Enrollees')
+    //console.log ('ADD TO tblCourse_Enrollees')
     memberID = document.getElementById('memberID').value
     $.ajax({
         url: "/addEnrollmentRecord",

@@ -20,7 +20,7 @@
     </div>
 
     <div class="versionSection">
-       ver. Oct 24, 2021
+       ver. Oct 30, 2021
     </div>
 
     
@@ -56,10 +56,9 @@
         <input id='enrollmentsThisTerm' type="hidden" value = {{enrollmentsThisTerm}}>
         <input id='moreThan2ClassesAllowedDate' type="hidden" value = {{moreThan2ClassesAllowedDateSTR}}>
         <input id='moreThan2ClassesAllowed' type="hidden" value = {{moreThan2ClassesAllowed}}> 
-        <input id='repeateCoursesAllowedDate' type="hidden" value = {{repeatCoursesAllowedDateSTR}}>
-        <input id='repeateCoursesAllowed' type="hidden" value = {{repeatCoursesAllowed}}>   
+        <input id='repeatClassesAllowedDate' type="hidden" value = {{repeatClassesAllowedDateSTR}}>
+        <input id='repeatClassesAllowed' type="hidden" value = {{repeatClassesAllowed}}> 
     </div>
-
     <div class="coursesTakenSection">
         <div class='coursesTakenHdg'>
             COURSES COMPLETED
@@ -78,10 +77,8 @@
         </div>
         <div id='coursesTakenDetail' class="coursesTakenDetail">
             {% for sItem in scheduleDict %}
-                <div class="row" 
-                style="border-bottom:1px solid navy"
-                >
-                    <div class="col-1">{{sItem.courseNum}}</div>
+                <div class="row" style="border-bottom:1px solid navy">
+                    <div class="col-1 courseNum">{{sItem.courseNum}}</div>
                     <div class="col-1">{{sItem.term}} </div>
                     <div class="col-1">{{sItem.location}}</div>
                     <div class="col-3">{{sItem.title}}</div>

@@ -49,7 +49,6 @@ def index():
     # GET CONTROL VARIABLES
     controlVariables = db.session.query(ControlVariables).filter(ControlVariables.Shop_Number == 1).first()
     term = controlVariables.Current_Course_Term
-    
     repeatClassesAllowedDateDAT = controlVariables.Repeat_Classes_Allowed_Date
     repeatClassesAllowedDateSTR = repeatClassesAllowedDateDAT.strftime('%m-%d-%Y')
     if repeatClassesAllowedDateDAT > todays_date:
@@ -68,7 +67,6 @@ def index():
     certificationStatus = ''
     enrollmentsThisTerm = 0
 
-    
     # PREPARE LIST OF MEMBER NAMES AND VILLAGE IDs
     # BUILD ARRAY OF NAMES FOR DROPDOWN LIST OF MEMBERS
     memberArray=[]
@@ -153,14 +151,13 @@ def index():
                 certificationStatus = member.Certification_Training_Date.strftime('%m-%d-%Y')
         
         # DISPLAY THE COURSES TAKEN DATA FOR THAT VILLAGE ID
-        
         sp = "EXEC coursesTaken '" + villageID + "'" 
         sql = SQLQuery(sp)
         coursesTaken = db.engine.execute(sql)
 
         coursesTakenDict = []
         coursesTakenItem = []
-       
+        
         for c in coursesTaken:
             if c.Instructor_Last_Name == None or c.Instructor_Last_Name == '':
                 instructor = ''
@@ -185,7 +182,7 @@ def index():
                 'location':c.Location
             }
             coursesTakenDict.append(coursesTakenItem)
-    
+        
         # BUILD CURRENT REGISTRATION TABLE, i.e., ENROLLMENTS THIS TERM
         sp = "EXEC enrollments '" + villageID + "', '" + term + "'"
         sql = SQLQuery(sp)
@@ -193,8 +190,9 @@ def index():
         
         enrolledDict = []
         enrolledItem = []
-        
+       
         for e in enrolled:
+            print('e.Course_Number - ',e.Course_Number)
             if e.Instructor_Last_Name == None or e.Instructor_Last_Name == '':
                 instructor = ''
             else:
@@ -218,7 +216,7 @@ def index():
                 taxable='True'
             else:
                 taxable='False' 
-           
+            
             enrolledItem = {
                 'enrollmentID':e.Enrollee_Record_ID,
                 'term':e.Course_Term,
@@ -233,13 +231,14 @@ def index():
                 'receipt':e.Receipt_Number
             }
             enrolledDict.append(enrolledItem)
+            
     else:
         memberName = ''
         LightspeedID = ''
         coursesTakenDict = []
         enrolledDict = []
+        classesTakenForRepeat = []
     enrollmentsThisTerm = len(enrolledDict)
-    
     # END OF ROUTINE TO RETRIEVE COURSES ENROLLED IN BY AN INDIVIDUAL
 
     # BUILD COURSE OFFERING ARRAY FOR A SPECIFIC TERM
