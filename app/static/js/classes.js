@@ -198,6 +198,7 @@ function clearSelectCourse() {
         if (hasTakenCourse != -1) {
             repeatClassesAllowedDate = document.getElementById("repeatClassesAllowedDate").value
             modalAlert("ENROLLMENT","Member may not repeat this class until " + repeatClassesAllowedDate)
+            return 
         }
     }
     
