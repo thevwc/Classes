@@ -40,6 +40,10 @@ document.getElementById('courseOfferingsTable').addEventListener('click',offerin
 document.getElementById('lightspeedPaidBtn').addEventListener('click',updateReceiptNumber)
 
 $(".enrollBtn").click(function() {
+    sectionNumber = this.id
+    courseNumber = sectionNumber.slice(0,4)
+   
+    //How many classes has this member signed up for? 
     moreThan2ClassesAllowed = document.getElementById('moreThan2ClassesAllowed').value
     if (moreThan2ClassesAllowed != 'True'){
         numberEnrolled = document.getElementById('enrollDetail').childElementCount
@@ -49,8 +53,33 @@ $(".enrollBtn").click(function() {
             return
         }
     }
+
+    // Are members allowed to repeat classes at this time?
+    repeatClassesAllowed = document.getElementById('repeatClassesAllowed').value
+    
+    // IF THE DATE IS WHEN A CLASS MAY BE REPEATED ...
+    if (repeatClassesAllowed != 'True') {
+        hasTakenCourse = false
+        //Has this member already taken this class?
+        var coursesTaken = document.getElementsByClassName("courseNum");
+        var i;
+        for (i = 0; i < coursesTaken.length; i++) {
+            sectionTaken = coursesTaken[i].innerHTML
+            classTaken = sectionTaken.slice(0,4)
+            if (classTaken == courseNumber) {
+                hasTakenCourse = true
+            }    
+        }
+        
+        if (hasTakenCourse == true) {
+            repeatClassesAllowedDate = document.getElementById("repeatClassesAllowedDate").value
+            modalAlert("ENROLLMENT","Member may not repeat this class until " + repeatClassesAllowedDate)
+            return 
+        }
+    }
+
+
     // ARE THERE PREREQUISITES? 
-    sectionNumber = this.id
     prereqID = 'p'+sectionNumber
     prereq = document.getElementById(prereqID).innerHTML
     if (prereq.includes('Prereq')){
@@ -60,8 +89,7 @@ $(".enrollBtn").click(function() {
         // OK TO ENROLL IN COURSE
         enrollInCourse(sectionNumber,'')
     }
-    // document.getElementById('lightspeedPrtBtn').removeAttribute('disabled')
-    // document.getElementById('lightspeedPaidBtn').removeAttribute('disabled')
+    
 })
 
 // modify this routine to only look at section name in first column
@@ -181,38 +209,9 @@ function clearSelectCourse() {
         return
     }
 
-    // IF THE DATE IS WHEN A CLASS MAY BE REPEATED ...
-    if (repeatClassesAllowed != 'True') {
-        hasTakenCourse = false
-        //console.log('----------------------------------------')
-        var coursesTaken = document.getElementsByClassName("courseNum");
-        //alert('type of - ',typeof(coursesTaken))
-        //console.log('coursesTaken - ',coursesTaken)
-        var i;
-        for (i = 0; i < coursesTaken.length; i++) {
-            console.log(coursesTaken[i])
-            if (coursesTaken[i] == courseNumber) {
-                hasTakenCourse = true
-            }    
-        }
-        if (hasTakenCourse != -1) {
-            repeatClassesAllowedDate = document.getElementById("repeatClassesAllowedDate").value
-            modalAlert("ENROLLMENT","Member may not repeat this class until " + repeatClassesAllowedDate)
-            return 
-        }
-    }
     
-    
-    
-    //if (repeatClassesAllowed ) {
-    //  is P011 in classesTakenForRepeat list?
-
-   
-
-   
 
     // ADD TO tblCourse_Enrollees
-    //console.log ('ADD TO tblCourse_Enrollees')
     memberID = document.getElementById('memberID').value
     $.ajax({
         url: "/addEnrollmentRecord",
