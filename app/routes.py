@@ -192,7 +192,6 @@ def index():
         enrolledItem = []
        
         for e in enrolled:
-            print('e.Course_Number - ',e.Course_Number)
             if e.Instructor_Last_Name == None or e.Instructor_Last_Name == '':
                 instructor = ''
             else:
@@ -554,6 +553,9 @@ def prtMemberSchedule(memberID):
                 'courseTimes':c.Section_Notes,
                 'courseLocation':c.Location
             }
+        if c.Receipt_Number == 'PENDING':
+            msg = "Payment has not been processed for the class " + c.Course_Number + "-" + c.Section_ID 
+            flash (msg,"warning")
         scheduleDict.append(scheduleItems)
     numberOfClasses = len(scheduleDict)
     if (numberOfClasses > 0):
