@@ -85,11 +85,13 @@ def index():
     # NEED TO PLACE NAME IN AN ARRAY BECAUSE OF NEED TO CONCATENATE 
     for n in nameList:
         position += 1
-        name = n.Last_Name + ', ' + n.First_Name
-        if n.Nickname != None and n.Nickname != '':
-            name += ' (' + n.Nickname + ')'
-        name += ' [' + n.Member_ID + ']'
-        
+        if n.Last_Name != None and n.First_Name != None:
+            name = n.Last_Name + ', ' + n.First_Name
+            if (n.Nickname != None and n.Nickname != ''):
+                    name += ' (' + n.Nickname + ')'
+            name += ' [' + n.Member_ID + ']'
+        else:
+            name = 'Unknown'
         memberArray.append(name)
 
     # BUILD TERM ARRAY
@@ -412,6 +414,13 @@ def addEnrollmentRecord():
         errorMsg = "The member may not enroll as they are not certified for Brownwood. "
         flash (errorMsg,'info')
         return errorMsg
+
+    # Temporary code to handle unique situation
+    if (courseNumber == 'E511' or courseNumber == 'E601'):
+        if (member.Certified == False or member.Certified_2 == False):
+            errorMsg = "The member may not enroll as they are not certified for both locations. "
+            flash (errorMsg,'info')
+            return errorMsg
 
 
     # IS THE MEMBER ALREADY ENROLLED IN THIS CLASS?
